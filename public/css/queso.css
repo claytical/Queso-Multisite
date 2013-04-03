@@ -1,0 +1,6 @@
+td input.disabled {
+	display: none;
+}
+.nod_msg {
+	float: right;
+}
