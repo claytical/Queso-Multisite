@@ -104,7 +104,7 @@ class Post_Controller extends Base_Controller {
 	public function post_create() {
 		$rules = array(
     		'headline'  => 'required',
-    		'post'   => 'required');
+    		'body'   => 'required');
 		$v = Validator::make(array(Input::get('headline'), Input::get('body')), $rules);
 		if ($v->passes()) {
 			$post = Post::create(

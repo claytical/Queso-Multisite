@@ -12,9 +12,19 @@
     <![endif]-->
     
 {{ Asset::container('bootstrapper')->scripts(); }} 
-{{ Asset::container('ckeditor')->scripts(); }}
 <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
+<script type="text/javascript" src="{{ URL::to('js/visualize.jQuery.js') }}"></script>
+<script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.widgets.js') }}"></script>
+<script type="text/javascript" src="{{ URL::to('js/bootstrap-wysihtml5.js') }}"></script>
+<script type="text/javascript" src="{{ URL::to('js/bootstro.min.js') }}"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::to('css/bootstro.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize-light.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::to('css/tablesorter.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to_asset('chosen/chosen.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::to('css/queso.css') }}">
   </head>
 	<body>
 	<div class="navbar navbar-inverse navbar-fixed-top">

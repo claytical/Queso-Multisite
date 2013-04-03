@@ -1,57 +1,31 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Laravel: A Framework For Web Artisans</title>
-	<meta name="viewport" content="width=device-width">
-	{{ HTML::style('laravel/css/style.css') }}
-</head>
-<body>
-	<div class="wrapper">
-		<header>
-			<h1>Laravel</h1>
-			<h2>A Framework For Web Artisans</h2>
+@layout('layouts.notloggedin')
+@section('content')
+     <div class="hero-unit">
+        <h1>Welcome to Queso!</h1>
+        <p>Queso is a learning management system for gameful classrooms.  We help you take your existing classroom and reshape it using concepts from game design.</p>
+        <p><a href="{{URL::to('register/instructor')}}" class="btn btn-primary btn-large">Create a Course!</a></p>
+      </div>
+	  <div class="row-fluid">
+        <div class="span4">
+          <h2>Philosophy</h2>
+          <p>This is not about points, badges, and leaderboards.  This is about increasing student engagement through gameful design.</p>
+          <p><a href="http://conque.so/games-and-teaching-notes-for-a-manifesto/">Learn More</a></p>
+        </div>
+        <div class="span4">
+          <h2>Test Drive</h2>
+          <p>Curious what a Queso course looks like on the student end?  Try creating a student account and playing with our demo course.</p>
+          <p><a class="btn" href="http://class.conque.so/register?id=HahFhAymysba">Try It</a></p>
+       </div>
+        <div class="span4">
+          <h2>Get Involved</h2>
+          <p>Queso is an open source project and completely free.  We host your classes on our site for free.  If you know a bit of PHP, why not help out?</p>
+          <p><a class="btn" href="https://github.com/claytical/Queso-Multisite">Fork Us on Github</a></p>
+        </div>
+      </div>
 
-			<p class="intro-text" style="margin-top: 45px;">
-			</p>
-		</header>
-		<div role="main" class="main">
-			<div class="home">
-				<h2>Learn the terrain.</h2>
+      <hr>
 
-				<p>
-					You've landed yourself on our default home page. The route that
-					is generating this page lives at:
-				</p>
-
-				<pre>{{ path('app') }}routes.php</pre>
-
-				<p>And the view sitting before you can be found at:</p>
-
-				<pre>{{ path('app') }}views/home/index.blade.php</pre>
-
-				<h2>Grow in knowledge.</h2>
-
-				<p>
-					Learning to use Laravel is amazingly simple thanks to
-					its {{ HTML::link('docs', 'wonderful documentation') }}.
-				</p>
-
-				<h2>Create something beautiful.</h2>
-
-				<p>
-					Now that you're up and running, it's time to start creating!
-					Here are some links to help you get started:
-				</p>
-
-				<ul class="out-links">
-					<li><a href="http://laravel.com">Official Website</a></li>
-					<li><a href="http://forums.laravel.com">Laravel Forums</a></li>
-					<li><a href="http://github.com/laravel/laravel">GitHub Repository</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+      <footer>
+        <p>&copy; Company 2013</p>
+      </footer>
+@endsection
