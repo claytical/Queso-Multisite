@@ -20,6 +20,7 @@ $(function() {
 	$('table.chart').visualize({
 							type: 'area'
 						});
+	$('.slider').slider();
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
  		//mobile only js
  	}
@@ -29,16 +30,6 @@ $(function() {
 
 	}
 	
-	$('a.add-skill').click(function() {
-		$(this).parent().parent().append(newReward($(this).attr("rel")));
-		$('a.remove-skill').click(function() {
-		$(this).parent().parent().remove();
-		});
-	});
-
-	$('a.remove-skill').click(function() {
-		$(this).parent().parent().remove();
-	});
 
 	$('a.btn-remove-file').click(function() {
 		event.preventDefault();
@@ -61,12 +52,7 @@ $('#skills-select').chosen().change(function() {
 		$('#skills-select :selected').each(function(i, selected){ 
 			$('#quest-skills-rewards p').append(skillReward($(selected).text(), $(selected).val()));
 		});
-		$('a.add-skill').click(function() {
-			$(this).parent().parent().append(newReward($(this).attr("rel")));
-			$('a.remove-skill').click(function() {
-				$(this).parent().parent().remove();
-			});
-		});
+
 	}
 	else {
 		$('#quest-skills-rewards .controls').html("<p></p><p><strong>You can't assign rewards unless the quest has skills associated with it.</strong></p>");
@@ -123,10 +109,10 @@ jQuery(".pager .page").click(function() {
 function skillReward(name, id) {
 	var html = "<div class='controls'><h4>" + name + "</h4>";
 			html += "<div class='skill_reward form-inline'>";
-				html += "<div class='skill_rewards'><input required placeholder='Label' type='text' name='skill_reward["+id+"][label][]'> ";
-					html += "<input placeholder='Point Value' required type='text' name='skill_reward["+id+"][amount][]'/> ";
-					html +=	"<a class='btn add-skill' rel='"+id+"'><i class='icon-plus'> </i></a>";
-				html += "</div>";
+			html += "<input value='Minimum' type='hidden' name='skill_reward["+id+"][label][]'> ";
+			html += "<input placeholder='Minimum Point Value' required type='text' name='skill_reward["+id+"][amount][]'/> ";
+			html += "<input value='Maximum' type='hidden' name='skill_reward["+id+"][label][]'> ";
+			html += "<input placeholder='Maximum Point Value' required type='text' name='skill_reward["+id+"][amount][]'/> ";
 			html +=	"</div>";
 		html += "</div>";
 	return html;	
@@ -144,17 +130,6 @@ $(document).bind('change', function(e){
 $('.validated-submission').click(function() {
 	checkRequiredInputs();
 });
-
-function newReward(id) {
-	var	html = "<div class='skill_reward form-inline'>";
-			html += "<div class='skill_rewards'><input required placeholder='Label' type='text' name='skill_reward["+id+"][label][]'> ";
-				html += "<input placeholder='Point Value' required type='text' name='skill_reward["+id+"][amount][]'/> ";
-				html +=	"<a class='btn remove-skill'><i class='icon-remove'> </i></a>";
-			html += "</div>";
-
-		html +=	"</div>";		
-	return html;
-}
 
 function checkRequiredInputs() {
 	$('#alertModal').remove();

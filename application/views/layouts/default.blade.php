@@ -19,13 +19,14 @@
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.widgets.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/bootstrap-wysihtml5.js') }}"></script>
-<script type="text/javascript" src="{{ URL::to('js/bootstro.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::to('js/bootstrap-slider.js') }}"></script>
 
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/bootstro.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize-light.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/tablesorter.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to_asset('chosen/chosen.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ URL::to('css/slider.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/queso.css') }}">
 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">

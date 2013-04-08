@@ -40,8 +40,9 @@
 	    <?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-large'));?>
 	@foreach($data['rewards'] as $reward)
 		<div class="controls" style="margin-bottom: 10px">
-		<?php echo Form::label('reward', $reward->name, array('class' => 'control-label pull-left', 'style' => 'width:150px')); ?>
-		{{ Form::select('rewards['.$reward->id.']', $reward->rewards, '', array('class' => 'chzn-select', 'tabindex' => '-1')) }}
+		<?php echo Form::label('reward', $reward->name, array('class' => 'control-label', 'style' => '')); ?>
+		{{ Form::text('rewards['.$reward->id.']', '', array('data-slider-min' => $reward->rewards['Minimum'], 'data-slider-max' => $reward->rewards['Maximum'], 'data-slider-step' => 1, 'class' => 'slider'))}}
+
 		</div>		
 	@endforeach
 	</div>

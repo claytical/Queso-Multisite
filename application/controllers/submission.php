@@ -99,7 +99,7 @@ class Submission_Controller extends Base_Controller {
 							->get();
 		//add each reward value for the skill
 			foreach ($questSkills as $reward) {
-				$rewardOptions->rewards[$reward->amount] = $reward->label;
+				$rewardOptions->rewards[$reward->label] = $reward->amount;
 
 			}
 			$rewards[] = $rewardOptions;
@@ -150,7 +150,7 @@ class Submission_Controller extends Base_Controller {
 							->get();
 		//add each reward value for the skill
 			foreach ($questSkills as $reward) {
-				$rewardOptions->rewards[$reward->amount] = $reward->label;
+				$rewardOptions->rewards[$reward->label] = $reward->amount;
 
 			}
 			$rewards[] = $rewardOptions;

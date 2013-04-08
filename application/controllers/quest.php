@@ -283,8 +283,9 @@ class Quest_Controller extends Base_Controller {
 								  				->where('quest_id', '=', $id)
 								  				->where('skill_id', '=', $key)
 								  				->order_by('amount', 'asc')
-								  				->lists('label', 'amount'));
+								  				->lists('amount', 'label'));
 		}
+
 				
 		return View::make('quests.grade')
 			->with('data', $data);

@@ -54,7 +54,13 @@ View::composer('user.sidebar', function($view) {
 			$info->skills = Student::skill_levels(Session::get('uid'), Session::get('current_course'));
 			$info->current_level = Student::current_level(Session::get('uid'), Session::get('current_course'));
 			if(Course::is_instructor()) {
-				$info->is_instructor = TRUE;				
+				$info->is_instructor = TRUE;
+				$info->notices = User::find(Session::get('uid'))
+									->notices()
+									->where('group_id', '=', Session::get('current_course'))
+									->where('hidden', '=', 0)
+									->count();
+								
 				//admin only, for now its everywhere
 				$submissions = Group::find(Session::get('current_course'))
 							->submissions()
@@ -219,7 +225,7 @@ Route::get('admin/quest/trash/(:any)', array('uses' => 'quest@remove'));
 
 Route::filter('sentry', function()
 {
-	if (!Sentry::check()) return Redirect::to('login');
+	if (!Sentry::check()) return Redirect::to('home');
 });
 /*
 |--------------------------------------------------------------------------

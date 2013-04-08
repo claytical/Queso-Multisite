@@ -40,22 +40,15 @@
 		<p class="">Upon completing a quest, a student is rewarded with points in the skills associated with the quest.  When you grade an attempted quest, you'll be able to assign points per skill based upon the values you create here. Labels show up for you when grading a quest in a drop down list.  Students only see the amount of points rewarded.  <em>You must add skill point values in order to assign points to a quest.</em></p>
 			<div class="controls">
 			@foreach($quest->skills as $skill)
-			<h6>{{$skill['name']}}</h6>
-				<?php $counter = 0; ?>
-				@foreach($skill['rewards'] as $reward)
+			<h4>{{$skill['name']}}</h4>
 				<div class='skill_reward form-inline'>
-					<div class='skill_rewards'>
-						{{ Form::text('skill_reward['.$reward->skill_id.'][label][]', $reward->label, array('placeholder' => 'Label')); }}
-						{{ Form::text('skill_reward['.$reward->skill_id.'][amount][]', $reward->amount, array('placeholder' => 'Point Value')); }}
-						@if($counter == 0)
-							<a class='btn add-skill' rel='{{$reward->skill_id;}}'><i class='icon-plus'> </i></a>
-						@else
-							<a class='btn remove-skill'><i class='icon-remove'> </i></a>
-						@endif
-				<?php $counter++;?>
-					</div>
-				</div>
+				@foreach($skill['rewards'] as $reward)
+					{{ Form::label('reward_label', $reward->label, array('class' => 'control-label', 'style' => 'padding-right: 10px;padding-left:10px')); }}
+					{{ Form::hidden('skill_reward['.$reward->skill_id.'][label][]', $reward->label); }}
+					{{ Form::text('skill_reward['.$reward->skill_id.'][amount][]', $reward->amount, array('placeholder' => 'Point Value')); }}
 				@endforeach
+				</div>
+
 			@endforeach
 			</div>
 		<div class="form-actions">
