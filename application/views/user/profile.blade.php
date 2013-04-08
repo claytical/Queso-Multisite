@@ -40,22 +40,7 @@
 	              <thead>
 	                <tr>
 	                  <th>Quest</th>
-	                  <th>
-	                  	@if(count($data->categories) > 1)
-						<div class="btn-group pull-right">
-						  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-							Filter
-							<span class="caret"></span>
-						  </a>
-						  <ul class="dropdown-menu">
-							@foreach($data->categories as $category)
-								<li><a href='#' class="filter-button">{{$category}}</a></li>
-							@endforeach
-								<li class="divider"></li>
-						  		<li><a href='#' class='filter-reset'>None</a></li>
-						  </ul>
-						</div>                  
-	                  	@endif
+	                  <th>Skills Earned
 	                  </th>
 	                </tr>
 	              </thead>
@@ -63,16 +48,19 @@
 	            	@foreach($data->quests as $quest)
 	                <tr class="{{str_replace(' ', '', $quest['category'])}} quest">
 	                  <td>
-
-	                  	<span style="white-space:nowrap;">
-	                  	@if($quest['type'] == 1)
-	                  	{{$quest['name']}}
+	                  	<span style="white-space:nowrap;">						
+						@if ($quest['submission'])
+		                  	@if($quest['type'] == 2)
+		    	              	<a href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">
+							@endif
+	            	
+	            	      	@if($quest['type'] == 3)
+	                		  	<a href="{{URL::to('upload/revise/'.$quest['submission']->id)}}">
+							@endif
 						@endif
-	                  	@if($quest['type'] == 2)
-	                  	<a href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">{{$quest['name']}}</a>
-						@endif
-	                  	@if($quest['type'] == 3)
-	                  	<a href="{{URL::to('upload/revise/'.$quest['submission']->id)}}">{{$quest['name']}}</a>
+							{{$quest['name']}}						
+						@if ($quest['submission'])
+							</a>
 						@endif
 
 	                  	</span>

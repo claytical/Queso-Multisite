@@ -267,11 +267,13 @@ class Quest_Controller extends Base_Controller {
 	
 	public function get_grade($id) {
 		$data = new stdClass();
-		$data->quest = Quest::find($id);
+		$quest = Quest::find($id);
+		$data->quest = $quest;
+		$user_ids = $quest->users()->lists('id');
 		$data->students = Group::find(Session::get('current_course'))
 								->users()
 								->where('active', '=', 1)
-								->where_not_in('user_id', Quest::find($id)->users()->lists('id'))
+//								->where_not_in('user_id', $user_ids)
 								->order_by('username', 'asc')
 								->lists('username', 'id');
 		foreach($data->quest->skills()->lists('name', 'id') as $key => $skill) {
@@ -292,13 +294,27 @@ class Quest_Controller extends Base_Controller {
 	public function post_grade() {
 		//add to quest_user
 		foreach(Input::get('students') as $student) {
-			DB::table('quest_user')->insert(
-									array('quest_id' => Input::get('quest_id'),
-										  'user_id' => $student,
-										  'note' => Input::get('note'),
-										  'created_at' => DB::raw('NOW()'),
-										  'updated_at' => DB::raw('NOW()')
-										  ));
+			$quest = User::find($student)->quests()->where('quest_id', '=', Input::get('quest_id'))->first();
+			if ($quest) {
+				//update quest
+				DB::table('quest_user')
+					->where('quest_id', '=', Input::get('quest_id'))
+					->where('user_id', '=', $student)
+					->update(array('note' => Input::get('note'),
+								   'updated_at' => DB::raw('NOW()')));
+			}
+			else {
+			//insert new quest
+				DB::table('quest_user')->insert(
+										array('quest_id' => Input::get('quest_id'),
+											  'user_id' => $student,
+											  'note' => Input::get('note'),
+											  'created_at' => DB::raw('NOW()'),
+											  'updated_at' => DB::raw('NOW()')
+											  ));
+
+			}
+			
 			//add to skill_user
 			DB::table('skill_user')
 					->where('user_id', '=', $student)

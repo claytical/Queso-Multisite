@@ -1,6 +1,6 @@
 @layout('layouts.notloggedin')
 @section('content')
-<h1>Login</h1>
+<h2>Login</h2>
 <?php echo Form::open('login', 'POST', array('class' => 'well')); ?>
     <p>
         Don't have an account? <a href="{{URL::to('register')}}" class="">Register Now!</a>

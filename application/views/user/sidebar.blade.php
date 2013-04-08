@@ -34,8 +34,14 @@
 
 		@endif
 		@if($info && $info->setup_complete)
+			@if($info->notices > 0)
+				<a href="{{URL::to('notices')}}" class="btn btn-inverse btn-danger pull-right">
+					{{$info->notices}} <i class="icon-envelope icon-white"></i>
+				</a>
+			@endif
 
 			<h5>Instructor</h5>
+
 				<p><span class="badge badge-important">{{$info->ungraded}}</span> ungraded quests</p>
 		@endif
 	</div>

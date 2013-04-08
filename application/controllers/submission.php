@@ -188,7 +188,7 @@ class Submission_Controller extends Base_Controller {
 			$notice->title = $quest->name . " has been graded";
 			$notice->user_id = $file->user_id;
 			$notice->group_id = Session::get('current_course');			
-			$notice->url = "submission/upload/".$file->id;
+			$notice->url = "upload/revise/".$file->id;
 			$comment = Comment::create(
 							array($comment_submission_field => Input::get('submission_id'),
 								  'comment' => Input::get('notes'),
@@ -285,8 +285,8 @@ class Submission_Controller extends Base_Controller {
 		}
 		
 		foreach ($uploads as $upload) {
-			$newer_uploads = Upload::where('quest_id', '=', $submission->quest_id)
-						->where('user_id', '=', $submission->user_id)
+			$newer_uploads = Upload::where('quest_id', '=', $upload->quest_id)
+						->where('user_id', '=', $upload->user_id)
 						->where('revision', '>', 0)
 						->where('graded', '=', 1)
 						->count();

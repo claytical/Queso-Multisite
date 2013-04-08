@@ -13,7 +13,7 @@
 
 	<div class="control-group">	
 			<div class="controls">
-				    {{ Form::textarea('body', '', array('placeholder' => 'Post content goes here...', 'class' => 'wysiwyg-area', 'id' => 'post-content', 'required' => '', 'style' => 'width: 98%')); }}
+				    {{ Form::textarea('body', '', array('placeholder' => 'Post content goes here...', 'class' => 'wysiwyg-area', 'id' => 'post-content', 'style' => 'width: 98%')); }}
 			</div>
 	</div>
 	

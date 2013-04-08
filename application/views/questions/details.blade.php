@@ -28,7 +28,7 @@
 	
 	<div class="control-group">	
 			<div class="controls">
-				    {{ Form::textarea('answer', '', array('placeholder' => "Do you have anything to add?", 'class' => 'wysiwyg-area', 'id' => 'answer', 'required' => '', 'style' => 'width: 98%')); }}
+				    {{ Form::textarea('answer', '', array('placeholder' => "Do you have anything to add?", 'class' => 'wysiwyg-area', 'id' => 'answer', 'style' => 'width: 98%')); }}
 			</div>
 	</div>
 		

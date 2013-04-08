@@ -18,6 +18,7 @@
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.widgets.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/bootstrap-wysihtml5.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/bootstro.min.js') }}"></script>
+<link href='http://fonts.googleapis.com/css?family=Lato|Londrina+Solid|Londrina+Shadow' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/bootstro.min.css') }}">
@@ -25,9 +26,10 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/tablesorter.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to_asset('chosen/chosen.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/queso.css') }}">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
   </head>
 	<body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-fixed-top">
 		  <div class="navbar-inner">
 			<div class="container">
 			  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -37,8 +39,7 @@
 			  </button>
 			 
 			  <a class="brand" href="{{ URL::base() }}">Queso</a>
-			  <div class="nav-collapse collapse">
-			  </div><!--/.nav-collapse -->
+			  <a class="btn pull-right" href="{{URL::to('login')}}">Login</a>
 			</div>
 		  </div>
 		</div>

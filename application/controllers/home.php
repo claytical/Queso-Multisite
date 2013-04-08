@@ -32,20 +32,7 @@ class Home_Controller extends Base_Controller {
 
 	public function action_index()
 	{
-	if(Sentry::check()) {
-		if (Session::get('uid')) {
-			return Redirect::to('posts');
-		}
-		else {
-			Sentry::logout();			
-			return Redirect::to('login');
-
-		}
-
-	}
-	else {
-		return Redirect::to('login');
-		}
+		return View::make('home.home');
 	}
 
 }

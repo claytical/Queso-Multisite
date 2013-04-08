@@ -16,7 +16,7 @@ Attempting {{$quest->name}}
 	@endif
 
 	@if ($quest->type == 2)
-			    {{ Form::textarea('body', '', array('placeholder' => 'Ready when you are...', 'class' => 'wysiwyg-area', 'id' => 'submission-attempt', 'required' => '', 'style' => 'width: 98%')); }}
+			    {{ Form::textarea('body', '', array('placeholder' => 'Ready when you are...', 'class' => 'wysiwyg-area', 'id' => 'submission-attempt', 'style' => 'width: 98%')); }}
 	@endif
 	
 				</div>

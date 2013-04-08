@@ -30,14 +30,14 @@
 
 						@if($data->quest->type == 2)
 							<label class="checkbox">
-								{{ Form::checkbox('removeSubmission[]', $user['submission']->id);}}							
+								{{ Form::checkbox('removeSubmission[]', $user['id']);}}							
 								<a href="{{ URL::to('admin/submission/grade/'.$user['submission']->id)}}">{{$user['username']}}</a>
 							</label>
 						@endif
 						
 						@if($data->quest->type == 3)
 							<label class="checkbox">
-							{{ Form::checkbox('removeUpload[]', $user['submission']->id);}}
+							{{ Form::checkbox('removeUpload[]', $user['id']);}}
 								<a href="{{ URL::to('admin/upload/grade/'.$user['submission']->id)}}">{{$user['username']}}</a>
 							</label>
 						@endif

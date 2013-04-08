@@ -241,7 +241,7 @@ class User_Controller extends Base_Controller {
 				return Redirect::to('/no-course');
 
 			}
-			return Redirect::to('/');
+			return Redirect::to('/posts');
 
 /*			return View::make('user.loggedin')
 			->with('user', $logged_in_user);
@@ -377,14 +377,14 @@ class User_Controller extends Base_Controller {
 
 				case 2:
 					$submission = Submission::where('quest_id', '=', $quest->quest_id)
-											->where('user_id', '=', Session::get('uid'))
+											->where('user_id', '=', $id)
 											->order_by("created_at", "DESC")
 											->first();
 				break;
 
 				case 3:
 					$submission = Upload::where('quest_id', '=', $quest->quest_id)
-											->where('user_id', '=', Session::get('uid'))
+											->where('user_id', '=', $id)
 											->order_by("created_at", "DESC")
 											->first();
 				break;
@@ -398,7 +398,7 @@ class User_Controller extends Base_Controller {
 								  'type' => $quest->type,
 								  'skills' => DB::table('skill_user')
 										->join('skills', 'skill_user.skill_id', '=', 'skills.id')
-										->where('user_id', '=', Session::get('uid'))
+										->where('user_id', '=', $id)
 										->where('skills.group_id', '=', Session::get('current_course'))
 										->where('quest_id', '=', $quest->quest_id)
 										->get());

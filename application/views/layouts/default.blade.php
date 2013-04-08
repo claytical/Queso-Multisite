@@ -28,9 +28,9 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::to_asset('chosen/chosen.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/queso.css') }}">
 
-
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <script>
-filepicker.setKey('XXXXXX');
+filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
 </script>
   </head>
 	<body>
@@ -43,7 +43,7 @@ filepicker.setKey('XXXXXX');
 				<span class="icon-bar"></span>
 			  </button>
 			  @if(Session::get('current_course'))
-			  <a class="brand" href="{{ URL::base() }}">{{ Session::get('course_name')}}</a>
+			  <a class="brand" href="{{ URL::to('posts') }}">{{ Session::get('course_name')}}</a>
 			  @else
 			  <a class="brand" href="{{ URL::base() }}">Queso</a>
 			  @endif

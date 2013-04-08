@@ -34,7 +34,7 @@
 
 
 	<fieldset>
-		{{ Form::textarea('notes', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area', 'id' => 'grade-notes', 'required' => '', 'style' => 'width: 98%')); }}
+		{{ Form::textarea('notes', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area', 'id' => 'grade-notes', 'style' => 'width: 98%')); }}
 
 	<div class="control-group">
 	    <?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-large'));?>

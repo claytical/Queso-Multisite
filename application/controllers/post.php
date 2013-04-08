@@ -102,11 +102,7 @@ class Post_Controller extends Base_Controller {
 	*
 	*/
 	public function post_create() {
-		$rules = array(
-    		'headline'  => 'required',
-    		'body'   => 'required');
-		$v = Validator::make(array(Input::get('headline'), Input::get('body')), $rules);
-		if ($v->passes()) {
+
 			$post = Post::create(
 				array('headline' => Input::get('headline'),
 					  'post' => Input::get('body'),
@@ -118,12 +114,7 @@ class Post_Controller extends Base_Controller {
 					  ));
 			return Redirect::to('post/'.$post->id)
 				->with_message(Input::get('headline') . " has been created!", 'success');
-		}
-		else {
-			return Redirect::to('admin/post/create')
-				->with_message("Posts need to have a headline and a body!", 'error');
-
-		}
+		
 	}
 	
 	/*
