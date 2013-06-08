@@ -93,157 +93,6 @@ class Submission_Controller extends Base_Controller {
 	
 	}
 
-
-/*		
-	public function get_view_text($id) {
-		$data = new stdClass();
-		$data->submission = Submission::find($id);
-		$data->quest = Quest::find($data->submission->quest_id);
-		
-		return View::make('submission.view')
-		->with('data',$data);
-	
-	}
-*/
-/*
-	public function get_view_file($id) {
-		$data = new stdClass();
-		$data->submission = Upload::find($id);
-		$data->quest = Quest::find($data->submission->quest_id);
-		$data->comments = Comment::where('quest_id', '=', $data->submission->quest_id)
-									->where('user_id', '=', $data->submission->user_id)
-									->get();
-		
-		return View::make('submission.view')
-		->with('data',$data);
-	
-	}
-	
-
-	public function get_revise_text($id) {
-		$data = new stdClass();
-		$data->submission = Submission::find($id);
-		$data->quest = Quest::find($data->submission->quest_id);
-		$data->comments = Comment::where('quest_id', '=', $data->submission->quest_id)
-									->where('user_id', '=', $data->submission->user_id)
-									->get();
-		return View::make('submission.revise')
-		->with('data',$data);
-
-	
-	}
-	
-	public function get_revise_file($id) {
-		$data = new stdClass();
-		$data->submission = Upload::find($id);
-		$data->quest = Quest::find($data->submission->quest_id);
-		
-		return View::make('submission.revise')
-		->with('data',$data);
-	
-	}
-
-
-	public function get_grade_text($id) {
-		//get the submission
-		$submission = Submission::find($id);
-		//get the quest information
-		$quest = Quest::find($submission	
-							->quest_id);
-		$comments = Comment::where('quest_id', '=', $submission->quest_id)
-							->where('user_id', '=', $submission->user_id)
-							->get();
-		//get the skills for the quest
-		$skills = DB::table('quest_skill')
-						->where('quest_id', '=', $quest->id)
-						->order_by('skill_id')
-						->lists('skill_id');
-		//deduplicate the skills
-		$skills = array_unique($skills);
-
-		//get the info for each skill
-		foreach($skills as $skill) {
-			$rewardOptions = new stdClass();
-			$rewardOptions->name = Skill::where('id', '=', $skill)
-											->first()
-											->name;
-			$rewardOptions->id = $skill;
-			$rewardOptions->rewards = array();
-			$questSkills = DB::table('quest_skill')
-							->where('quest_id', '=', $quest->id)
-							->where('skill_id', '=', $skill)
-							->get();
-		//add each reward value for the skill
-			foreach ($questSkills as $reward) {
-				$rewardOptions->rewards[$reward->label] = $reward->amount;
-
-			}
-			$rewards[] = $rewardOptions;
-		}
-		
-		
-		return View::make('submission.grade')
-		->with('data', 
-				array('quest' => $quest,
-				 	  'submission' => $submission,
-				 	  'rewards' => $rewards,
-				 	  'comments' => $comments)
-				 	  );
-	
-	}
-	
-
-	public function get_grade_file($id) {
-
-		//get the submission
-		$submission = Upload::find($id);
-		//get the quest information
-		$quest = Quest::find($submission
-							->quest_id);
-		//get comments
-		$comments = Comment::where('quest_id', '=', $submission->quest_id)
-							->where('user_id', '=', $submission->user_id)
-							->get();
-		//get the skills for the quest
-		$skills = DB::table('quest_skill')
-						->where('quest_id', '=', $quest->id)
-						->order_by('skill_id')
-						->lists('skill_id');
-		//deduplicate the skills
-		$skills = array_unique($skills);
-
-		//get the info for each skill
-		foreach($skills as $skill) {
-			$rewardOptions = new stdClass();
-			$rewardOptions->name = Skill::where('id', '=', $skill)
-											->first()
-											->name;
-			$rewardOptions->id = $skill;
-			$rewardOptions->rewards = array();
-			$questSkills = DB::table('quest_skill')
-							->where('quest_id', '=', $quest->id)
-							->where('skill_id', '=', $skill)
-							->get();
-		//add each reward value for the skill
-			foreach ($questSkills as $reward) {
-				$rewardOptions->rewards[$reward->label] = $reward->amount;
-
-			}
-			$rewards[] = $rewardOptions;
-		}
-		
-		
-		return View::make('submission.grade')
-		->with('data', 
-				array('quest' => $quest,
-				 	  'submission' => $submission,
-				 	  'rewards' => $rewards,
-				 	  'comments' => $comments)
-				 	  );
-	
-	}
-
-*/
 	
 	public function post_grade() {
 			$notice = new Notice;
@@ -338,26 +187,6 @@ class Submission_Controller extends Base_Controller {
 										 'username' => User::find($submission->user_id)->username);
 				}
 		}
-		/*
-		foreach ($uploads as $upload) {
-			$newer_uploads = Upload::where('quest_id', '=', $upload->quest_id)
-						->where('user_id', '=', $upload->user_id)
-						->where('revision', '>', 0)
-						->where('graded', '=', 1)
-						->count();
-			if ($newer_uploads == 0) {
-
-				$data->submissions[] = array('id' => $upload->id,
-										 'quest' => DB::table('quests')
-													->where('id', '=', $upload->quest_id)
-													->first()
-													->name,
-										 'created' => $upload->created_at,
-										 'type' => 'file',
-										 'username' => User::find($upload->user_id)->username);
-			}
-		}
-		*/
 		return View::make('submission.index')
 				->with('data', $data);
 	}
@@ -372,13 +201,7 @@ class Submission_Controller extends Base_Controller {
 					->where('revision', '>', 0)
 					->order_by('created_at')
 					->get();
-/*		$uploads = Group::find(Session::get('current_course'))
-					->uploads()
-					->where('graded', '=', 0)
-					->where('revision', '>', 0)
-					->order_by('created_at')
-					->get();
-*/
+
 		if($submissions) {
 			foreach ($submissions as $submission) {
 				$data->submissions[] = array('id' => $submission->id,
@@ -391,18 +214,6 @@ class Submission_Controller extends Base_Controller {
 											 'username' => User::find($submission->user_id)->username);
 			}
 			
-			/*
-			foreach ($uploads as $upload) {
-				$data->submissions[] = array('id' => $upload->id,
-											 'quest' => DB::table('quests')
-														->where('id', '=', $upload->quest_id)
-														->first()
-														->name,
-											 'created' => $upload->created_at,
-											 'type' => 'file',
-											 'username' => User::find($upload->user_id)->username);
-			}
-			*/
 		}
 		else {
 			$data->submissions = NULL;		

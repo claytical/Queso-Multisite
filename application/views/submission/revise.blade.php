@@ -26,6 +26,7 @@ Revising {{$data->quest->name}}
 
 			@if ($data->quest->allow_upload)
 				<input type="filepicker-dragdrop" name="files" data-fp-button-text="Add Files" data-fp-services="COMPUTER,DROPBOX,BOX,GOOGLE_DRIVE,GMAIL" data-fp-multiple="true"/>
+				<br/>
 			@endif
 
 			@if ($data->quest->allow_text)

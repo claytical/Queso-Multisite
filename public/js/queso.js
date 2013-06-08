@@ -46,6 +46,15 @@ $(function() {
 	//$("#create-quest").nod(questCreateMetrics);
     
 });
+$('#quest-select').chosen().change(function() {
+	if ($('#quest-select').val() == 2) {
+		$("#submission_options").show();
+	}
+	else {
+		$("#submission_options").hide();
+
+	}
+});
 $('#skills-select').chosen().change(function() {
 	if ($('#skills-select :selected').size() > 0) {
 		$('#quest-skills-rewards .controls').remove();

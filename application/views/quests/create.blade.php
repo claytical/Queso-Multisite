@@ -26,7 +26,7 @@
 		<p class="">What kind of quest is this?</p>
 
 			<div class="controls">
-			{{ Form::select('type', $quest['types'], '', array('class' => 'chzn-select', 'data-placeholder' => 'Choose a quest type')) }}
+			{{ Form::select('type', $quest['types'], '', array('class' => 'chzn-select', 'data-placeholder' => 'Choose a quest type', 'id' => 'quest-select')) }}
 			</div>
 			<div class="help-block">
 				<dl>
@@ -34,13 +34,13 @@
 					<dd>Assignments that are handed in or completed during class.  Students will be able to see the quest description but ultimately will rely upon you to assign the completed quest to them.</dd>
 					<br/>
 					<dt>Submission</dt>
-			 		<dd>Assignments that can be completed online.  Students can submit written work via WYSIWYG interface or upload files that you will be able to download the file.</dd>
+			 		<dd>Assignments that can be completed online.  Students can submit written work via WYSIWYG interface as well as upload files that you will be able to download.</dd>
 					<br/>
 
 				</dl>
 			</div>
-			<div class="controls">
-				<label class="checkbox"><?php echo Form::checkbox('allow_text', '1'); ?> Allow students to submit written text</label>
+			<div class="controls" id="submission_options" style="display:none;">
+				<label class="checkbox"><?php echo Form::checkbox('allow_text', '1', true); ?> Allow students to submit written text</label>
 				<label class="checkbox"><?php echo Form::checkbox('allow_upload', '1'); ?> Allow students to upload a file</label>
 
 			</div>

@@ -200,24 +200,6 @@ class User_Controller extends Base_Controller {
 			}
 
 		}
-/*		if ($uploads) {
-			foreach($upload as $user_id) {
-				DB::table('skill_user')
-					->where('user_id', '=', $user_id)
-					->where('quest_id', '=', $quest_id)
-					->delete();
-				DB::table('quest_user')
-					->where('user_id', '=', $user_id)
-					->where('quest_id', '=', $quest_id)
-					->delete();
-				DB::table('submissions')
-					->where('user_id', '=', $user_id)
-					->where('quest_id', '=', $quest_id)
-					->delete();					
-			}
-
-		}
-*/
 		return Redirect::to('/admin/quests/completed/'.$quest_id);
 	}
 
@@ -383,14 +365,6 @@ class User_Controller extends Base_Controller {
 											->order_by("created_at", "DESC")
 											->first();
 				break;
-/*
-				case 3:
-					$submission = Upload::where('quest_id', '=', $quest->quest_id)
-											->where('user_id', '=', $id)
-											->order_by("created_at", "DESC")
-											->first();
-				break;
-*/			
 			}
 			$data->quests[] = array('name' => $quest->name,
 								  'quest_id' => $quest->quest_id,

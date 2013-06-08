@@ -517,14 +517,6 @@ class Quest_Controller extends Base_Controller {
 											->order_by("created_at", "DESC")
 											->first();
 				break;
-/*
-				case 3:
-					$submission = Upload::where('quest_id', '=', $quest->quest_id)
-											->where('user_id', '=', Session::get('uid'))
-											->order_by("created_at", "DESC")
-											->first();
-				break;
-*/			
 			}
 			$data->quests[] = array('name' => $quest->name,
 								  'quest_id' => $quest->quest_id,
@@ -604,6 +596,7 @@ class Quest_Controller extends Base_Controller {
 			//written submission
 			$attempt = Submission::create(
 				array('submission' => Input::get('body'),
+					  'filename' => Input::get('files'),					
 					  'user_id' => Session::get('uid'),
 					  'quest_id' => Input::get('quest_id'),
 					  'group_id' => Session::get('current_course'),
@@ -631,42 +624,6 @@ class Quest_Controller extends Base_Controller {
 			}
 				return Redirect::to('submission/view/'.$attempt->id);
 			}
-		/*
-		else if (Input::get('quest_type') == 3) {
-			//file submission
-			$attempt = Upload::create(
-				array('filename' => Input::get('files'),
-					  'user_id' => Session::get('uid'),
-					  'quest_id' => Input::get('quest_id'),
-					  'group_id' => Session::get('current_course'),
-					  'visible' => Input::has('visible'),
-					  'revision' => $revision
-					  ));	
-
-			foreach ($instructors as $instructor) {
-				$notice = new Notice;
-				$notice->url = "admin/upload/grade/".$attempt->id;
-
-				if ($revision > 0) {
-					$notice->title = "New Revision";
-					$notice->notification = "<p>".$user->username." has revised ".$quest->name."</p>";
-
-				}
-				else {
-					$notice->title = "New Submission";
-					$notice->notification = "<p>".$user->username." has completed ".$quest->name."</p>";
-				}
-					$notice->user_id = $instructor;
-					$notice->group_id = Session::get('current_course');
-
-					$notice->save();
-			}
-
-				return Redirect::to('upload/view/'.$attempt->id)
-					->with_message($quest->name. " has been submitted!", 'success');
-
-			}
-			*/
 		
 	}
 
