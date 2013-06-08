@@ -15,9 +15,6 @@
 		  @if($submission['type'] == 'text')
 			  <a href="{{ URL::to('admin/submission/grade/'.$submission['id'])}}">{{$submission['quest']}}</a>
 		  @endif
-		  @if($submission['type'] == 'file')
-			  <a href="{{ URL::to('admin/upload/grade/'.$submission['id'])}}">{{$submission['quest']}}</a>		  
-		  @endif
 		  </td>
 		  <td>
 			{{$submission['username']}}

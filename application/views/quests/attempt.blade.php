@@ -10,14 +10,14 @@ Attempting {{$quest->name}}
 	<fieldset>
 			<div class="control-group">
 				<div class="controls">
+	@if ($quest->allow_text)
+			    {{ Form::textarea('body', '', array('placeholder' => 'Ready when you are...', 'class' => 'wysiwyg-area', 'id' => 'submission-attempt', 'style' => 'width: 98%')); }}
+	@endif
 
-	@if ($quest->type == 3)
+	@if ($quest->allow_upload)
 					<input type="filepicker-dragdrop" name="files" data-fp-button-text="Add Files" data-fp-services="COMPUTER,DROPBOX,BOX,GOOGLE_DRIVE,GMAIL" data-fp-multiple="true"/>
 	@endif
 
-	@if ($quest->type == 2)
-			    {{ Form::textarea('body', '', array('placeholder' => 'Ready when you are...', 'class' => 'wysiwyg-area', 'id' => 'submission-attempt', 'style' => 'width: 98%')); }}
-	@endif
 	
 				</div>
 		</div>

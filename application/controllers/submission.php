@@ -21,8 +21,7 @@ class Submission_Controller extends Base_Controller {
 		->get());
 	
 	}
-	
-	public function get_view_text($id) {
+	public function get_view($id) {
 		$data = new stdClass();
 		$data->submission = Submission::find($id);
 		$data->quest = Quest::find($data->submission->quest_id);
@@ -32,7 +31,81 @@ class Submission_Controller extends Base_Controller {
 	
 	}
 
+	public function get_revise($id) {
+		$data = new stdClass();
+		$data->submission = Submission::find($id);
+		$data->quest = Quest::find($data->submission->quest_id);
+		$data->comments = Comment::where('quest_id', '=', $data->submission->quest_id)
+									->where('user_id', '=', $data->submission->user_id)
+									->get();
+		return View::make('submission.revise')
+		->with('data',$data);
 
+	
+	}
+
+
+	public function get_grade($id) {
+		//get the submission
+		$submission = Submission::find($id);
+		//get the quest information
+		$quest = Quest::find($submission	
+							->quest_id);
+		$comments = Comment::where('quest_id', '=', $submission->quest_id)
+							->where('user_id', '=', $submission->user_id)
+							->get();
+		//get the skills for the quest
+		$skills = DB::table('quest_skill')
+						->where('quest_id', '=', $quest->id)
+						->order_by('skill_id')
+						->lists('skill_id');
+		//deduplicate the skills
+		$skills = array_unique($skills);
+
+		//get the info for each skill
+		foreach($skills as $skill) {
+			$rewardOptions = new stdClass();
+			$rewardOptions->name = Skill::where('id', '=', $skill)
+											->first()
+											->name;
+			$rewardOptions->id = $skill;
+			$rewardOptions->rewards = array();
+			$questSkills = DB::table('quest_skill')
+							->where('quest_id', '=', $quest->id)
+							->where('skill_id', '=', $skill)
+							->get();
+		//add each reward value for the skill
+			foreach ($questSkills as $reward) {
+				$rewardOptions->rewards[$reward->label] = $reward->amount;
+
+			}
+			$rewards[] = $rewardOptions;
+		}
+		
+		
+		return View::make('submission.grade')
+		->with('data', 
+				array('quest' => $quest,
+				 	  'submission' => $submission,
+				 	  'rewards' => $rewards,
+				 	  'comments' => $comments)
+				 	  );
+	
+	}
+
+
+/*		
+	public function get_view_text($id) {
+		$data = new stdClass();
+		$data->submission = Submission::find($id);
+		$data->quest = Quest::find($data->submission->quest_id);
+		
+		return View::make('submission.view')
+		->with('data',$data);
+	
+	}
+*/
+/*
 	public function get_view_file($id) {
 		$data = new stdClass();
 		$data->submission = Upload::find($id);
@@ -46,6 +119,7 @@ class Submission_Controller extends Base_Controller {
 	
 	}
 	
+
 	public function get_revise_text($id) {
 		$data = new stdClass();
 		$data->submission = Submission::find($id);
@@ -68,6 +142,8 @@ class Submission_Controller extends Base_Controller {
 		->with('data',$data);
 	
 	}
+
+
 	public function get_grade_text($id) {
 		//get the submission
 		$submission = Submission::find($id);
@@ -167,8 +243,9 @@ class Submission_Controller extends Base_Controller {
 	
 	}
 
-
-		public function post_grade() {
+*/
+	
+	public function post_grade() {
 			$notice = new Notice;
 
 			$notice->notification = Input::get('notes');
@@ -176,29 +253,7 @@ class Submission_Controller extends Base_Controller {
 		//save comment
 		$comment_submission_field = "";
 
-		if (Input::get('quest_type') == 3) {
-			$comment_submission_field = "upload_id";
-			$file = Upload::find(Input::get('submission_id'));
-			$file->graded = TRUE;
-			if ($file->revision > 0) {
-				$revision = TRUE;
-			}
-			$file->save();
-			$quest = Quest::find($file->quest_id);
-			$notice->title = $quest->name . " has been graded";
-			$notice->user_id = $file->user_id;
-			$notice->group_id = Session::get('current_course');			
-			$notice->url = "upload/revise/".$file->id;
-			$comment = Comment::create(
-							array($comment_submission_field => Input::get('submission_id'),
-								  'comment' => Input::get('notes'),
-								  'user_id' => $file->user_id,
-								  'commenter_id' => Session::get('uid'),
-								  'quest_id' => Input::get('quest_id'),
-								  ));	
-
-		}
-		else if (Input::get('quest_type') == 2) {
+		if (Input::get('quest_type') == 2) {
 			$comment_submission_field = "submission_id";
 			$submission = Submission::find(Input::get('submission_id'));
 			$submission->graded = TRUE;
@@ -283,7 +338,7 @@ class Submission_Controller extends Base_Controller {
 										 'username' => User::find($submission->user_id)->username);
 				}
 		}
-		
+		/*
 		foreach ($uploads as $upload) {
 			$newer_uploads = Upload::where('quest_id', '=', $upload->quest_id)
 						->where('user_id', '=', $upload->user_id)
@@ -302,6 +357,7 @@ class Submission_Controller extends Base_Controller {
 										 'username' => User::find($upload->user_id)->username);
 			}
 		}
+		*/
 		return View::make('submission.index')
 				->with('data', $data);
 	}
@@ -316,13 +372,14 @@ class Submission_Controller extends Base_Controller {
 					->where('revision', '>', 0)
 					->order_by('created_at')
 					->get();
-		$uploads = Group::find(Session::get('current_course'))
+/*		$uploads = Group::find(Session::get('current_course'))
 					->uploads()
 					->where('graded', '=', 0)
 					->where('revision', '>', 0)
 					->order_by('created_at')
 					->get();
-		if($submissions || $uploads) {
+*/
+		if($submissions) {
 			foreach ($submissions as $submission) {
 				$data->submissions[] = array('id' => $submission->id,
 											 'quest' => DB::table('quests')
@@ -334,6 +391,7 @@ class Submission_Controller extends Base_Controller {
 											 'username' => User::find($submission->user_id)->username);
 			}
 			
+			/*
 			foreach ($uploads as $upload) {
 				$data->submissions[] = array('id' => $upload->id,
 											 'quest' => DB::table('quests')
@@ -344,6 +402,7 @@ class Submission_Controller extends Base_Controller {
 											 'type' => 'file',
 											 'username' => User::find($upload->user_id)->username);
 			}
+			*/
 		}
 		else {
 			$data->submissions = NULL;		

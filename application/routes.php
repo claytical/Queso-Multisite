@@ -66,14 +66,15 @@ View::composer('user.sidebar', function($view) {
 							->submissions()
 							->where('graded', '=', 0)
 							->count();
-							
+				/*			
 				$uploads = Group::find(Session::get('current_course'))
 							->uploads()
 							->where('graded', '=', 0)
 							->count();
+				*/
 				$info->has_posts = Course::has_posts();
 				$info->has_quests = Course::has_quests();
-				$info->ungraded = $submissions + $uploads;
+				$info->ungraded = $submissions;// + $uploads;
 				if($info->has_posts && $info->has_quests && $info->skills && $info->current_level) {
 					$info->setup_complete = TRUE;
 				}
@@ -155,11 +156,14 @@ Route::get('quests/in-class', array('uses' => 'quest@available_in_class'));
 Route::get('quests/completed', array('uses' => 'quest@completed_by_student'));
 Route::get('quest/attempt/(:any)', array('uses' => 'quest@attempt'));
 Route::post('quest/attempt', array('uses' => 'quest@attempt'));
-Route::get('submission/revise/(:any)', array('uses' => 'submission@revise_text'));
-Route::get('upload/revise/(:any)', array('uses' => 'submission@revise_file'));
+Route::get('submission/revise/(:any)', array('uses' => 'submission@revise'));
+//Route::get('upload/revise/(:any)', array('uses' => 'submission@revise_file'));
+
+/* what's this doing here?*/
 Route::post('quest/revise', array('uses' => 'submission@revise'));
-Route::get('submission/view/(:any)', array('uses' => 'submission@view_text'));
-Route::get('upload/view/(:any)', array('uses' => 'submission@view_file'));
+
+Route::get('submission/view/(:any)', array('uses' => 'submission@view'));
+//Route::get('upload/view/(:any)', array('uses' => 'submission@view_file'));
 Route::get('quest/type/(:any)', array('uses' => 'quest@type'));
 //Route::get('quest/completed/(:any)', array('uses' => 'quest@not_completed_by'));
 Route::get('post/menu', array('uses' => 'post@menu'));
@@ -199,8 +203,8 @@ Route::post('admin/quest/update', array('uses' => 'quest@update'));
 Route::get('admin/quests/completed/(:any)', array('uses' => 'quest@completed_by'));
 Route::get('admin/submissions', array('uses' => 'submission@new_submissions'));
 Route::get('admin/revisions', array('uses' => 'submission@latest_revisions'));
-Route::get('admin/submission/grade/(:any)', array('uses' => 'submission@grade_text'));
-Route::get('admin/upload/grade/(:any)', array('uses' => 'submission@grade_file'));
+Route::get('admin/submission/grade/(:any)', array('uses' => 'submission@grade'));
+//Route::get('admin/upload/grade/(:any)', array('uses' => 'submission@grade_file'));
 Route::post('admin/submission/grade', array('uses' => 'submission@grade'));
 Route::get('admin/grade', array('uses' => 'quest@grade_in_class'));
 Route::get('admin/quest/grade/(:any)', array('uses' => 'quest@grade'));

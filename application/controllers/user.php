@@ -168,7 +168,7 @@ class User_Controller extends Base_Controller {
 	public function post_remove_quest() {
 		$in_class = Input::get('removeQuest');
 		$submissions = Input::get('removeSubmission');
-		$uploads = Input::get('removeUpload');
+		//$uploads = Input::get('removeUpload');
 		$quest_id = Input::get('quest_id');
 		if ($in_class) {
 			foreach($in_class as $user_id) {
@@ -200,7 +200,7 @@ class User_Controller extends Base_Controller {
 			}
 
 		}
-		if ($uploads) {
+/*		if ($uploads) {
 			foreach($upload as $user_id) {
 				DB::table('skill_user')
 					->where('user_id', '=', $user_id)
@@ -215,7 +215,9 @@ class User_Controller extends Base_Controller {
 					->where('quest_id', '=', $quest_id)
 					->delete();					
 			}
+
 		}
+*/
 		return Redirect::to('/admin/quests/completed/'.$quest_id);
 	}
 
@@ -381,14 +383,14 @@ class User_Controller extends Base_Controller {
 											->order_by("created_at", "DESC")
 											->first();
 				break;
-
+/*
 				case 3:
 					$submission = Upload::where('quest_id', '=', $quest->quest_id)
 											->where('user_id', '=', $id)
 											->order_by("created_at", "DESC")
 											->first();
 				break;
-			
+*/			
 			}
 			$data->quests[] = array('name' => $quest->name,
 								  'quest_id' => $quest->quest_id,

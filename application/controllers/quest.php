@@ -46,6 +46,8 @@ class Quest_Controller extends Base_Controller {
 					  'type' => Input::get('type'),
 					  'category' => Input::get('category'),
 					  'filename' => Input::get('files'),
+					  'allow_upload' => Input::has('allow_upload'),
+					  'allow_text' => Input::has('allow_text'),
 					  'visible' => 1,
 					  'position' => 0,
 					  'group_id' => Session::get('current_course')
@@ -515,14 +517,14 @@ class Quest_Controller extends Base_Controller {
 											->order_by("created_at", "DESC")
 											->first();
 				break;
-
+/*
 				case 3:
 					$submission = Upload::where('quest_id', '=', $quest->quest_id)
 											->where('user_id', '=', Session::get('uid'))
 											->order_by("created_at", "DESC")
 											->first();
 				break;
-			
+*/			
 			}
 			$data->quests[] = array('name' => $quest->name,
 								  'quest_id' => $quest->quest_id,
@@ -629,7 +631,7 @@ class Quest_Controller extends Base_Controller {
 			}
 				return Redirect::to('submission/view/'.$attempt->id);
 			}
-		
+		/*
 		else if (Input::get('quest_type') == 3) {
 			//file submission
 			$attempt = Upload::create(
@@ -664,7 +666,7 @@ class Quest_Controller extends Base_Controller {
 					->with_message($quest->name. " has been submitted!", 'success');
 
 			}
-			
+			*/
 		
 	}
 

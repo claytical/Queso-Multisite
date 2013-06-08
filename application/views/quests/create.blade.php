@@ -33,15 +33,16 @@
 					<dt>In Class<dt>
 					<dd>Assignments that are handed in or completed during class.  Students will be able to see the quest description but ultimately will rely upon you to assign the completed quest to them.</dd>
 					<br/>
-					<dt>File Upload</dt>
-			 		<dd>Assignments that require a file to be uploaded to the server.  Students submit online and you will be able to download the file from Queso and grade it.</dd>
-					<br/>
-
-					<dt>Written</dt>
-					<dd>Assignments that can be written and submitted online.  Students will be able to use a WYSIWYG editor to write in a textbox, you will be able to view their work from Queso and grade it.</dd>
+					<dt>Submission</dt>
+			 		<dd>Assignments that can be completed online.  Students can submit written work via WYSIWYG interface or upload files that you will be able to download the file.</dd>
 					<br/>
 
 				</dl>
+			</div>
+			<div class="controls">
+				<label class="checkbox"><?php echo Form::checkbox('allow_text', '1'); ?> Allow students to submit written text</label>
+				<label class="checkbox"><?php echo Form::checkbox('allow_upload', '1'); ?> Allow students to upload a file</label>
+
 			</div>
 			<div class="form-actions">
 			<a href="#createquest" class="btn pull-right next-step">Next</a>

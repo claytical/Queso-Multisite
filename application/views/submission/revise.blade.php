@@ -24,11 +24,11 @@ Revising {{$data->quest->name}}
 		<div class="control-group">
 			<div class="controls">
 
-			@if ($data->quest->type == 3)
+			@if ($data->quest->allow_upload)
 				<input type="filepicker-dragdrop" name="files" data-fp-button-text="Add Files" data-fp-services="COMPUTER,DROPBOX,BOX,GOOGLE_DRIVE,GMAIL" data-fp-multiple="true"/>
 			@endif
 
-			@if ($data->quest->type == 2)
+			@if ($data->quest->allow_text)
 			    {{ Form::textarea('body', $data->submission->submission, array('placeholder' => 'Starting over?', 'class' => 'wysiwyg-area', 'id' => 'submission-attempt', 'required' => '', 'style' => 'width: 98%')); }}
 			@endif
 	

@@ -35,13 +35,7 @@
 							</label>
 						@endif
 						
-						@if($data->quest->type == 3)
-							<label class="checkbox">
-							{{ Form::checkbox('removeUpload[]', $user['id']);}}
-								<a href="{{ URL::to('admin/upload/grade/'.$user['submission']->id)}}">{{$user['username']}}</a>
-							</label>
-						@endif
-								</div>
+							</div>
 						</div>
 
 						</span>

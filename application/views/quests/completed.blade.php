@@ -24,9 +24,6 @@
                   	@if($quest['type'] == 2)
                   	<a href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">{{$quest['name']}}</a>
 					@endif
-                  	@if($quest['type'] == 3)
-                  	<a href="{{URL::to('upload/revise/'.$quest['submission']->id)}}">{{$quest['name']}}</a>
-					@endif
 
                   	</span>
                   	<div>
