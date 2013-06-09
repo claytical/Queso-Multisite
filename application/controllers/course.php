@@ -4,10 +4,60 @@ class Course_Controller extends Base_Controller {
 	public $restful = TRUE;
 	
 	public function get_index() {
-		return View::make('courses.index')
-		->with('courses', Group::all());
+		$user = User::find(Session::get('uid'));
+		if ($user->super) {
+			return View::make('courses.index')
+						->with('courses', Group::all());
+			}
+		else {
+			return Redirect::to('/');
+		}
 	}
 
+	public function get_remove($id) {
+
+		Group::find($id)->delete();
+		Variable::where('group_id', '=', $id)->delete();
+		Level::where('group_id', '=', $id)->delete();
+		Notice::where('group_id', '=', $id)->delete();
+		Post::where('group_id', '=', $id)->delete();
+		Submission::where('group_id', '=', $id)->delete();
+		Skill::where('group_id', '=', $id)->delete();
+		
+		DB::table('skill_user')
+				->where('group_id', '=', $id)->delete();
+
+		DB::table('users_groups')
+			->where('group_id', '=', $id)->delete();
+		
+		$questions = Question::where('group_id', '=', $id);
+
+		foreach($questions->get() as $question) {
+			Answer::where('question_id', '=', $question->id)->delete();
+		}
+
+		$questions->delete();
+
+		$quests = Quest::where('group_id', '=', $id);
+
+		foreach($quests->get() as $quest) {
+			Comment::where('quest_id', '=', $quest->id)->delete();
+			DB::table('quest_lock')
+				->where('quest_id', '=', $quest->id)
+				->delete();
+			DB::table('quest_skill')
+				->where('quest_id', '=', $quest->id)
+				->delete();
+			DB::table('quest_user')
+				->where('quest_id', '=', $quest->id)
+				->delete();
+		}
+
+		$quests->delete();
+		return View::make('courses.index')
+					->with('courses', Group::all());
+
+	}
 	public function get_setup() {
 		$course = Group::find(Session::get('current_course'));
 		$data = new stdClass();

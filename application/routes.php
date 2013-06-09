@@ -165,7 +165,8 @@ Route::get('submission/view/(:any)', array('uses' => 'submission@view'));
 Route::get('quest/type/(:any)', array('uses' => 'quest@type'));
 Route::get('post/menu', array('uses' => 'post@menu'));
 Route::get('post/(:any)', array('uses' => 'post@details'));
-Route::get('course', array('uses' => 'course@index'));
+Route::get('admin/courses', array('uses' => 'course@index'));
+Route::get('admin/course/remove/(:any)', array('uses' => 'course@remove'));
 Route::get('course/(:any)', array('uses' => 'course@course'));
 
 Route::get('admin/user/changepw/(:any)', array('uses' => 'user@change_any_password'));
