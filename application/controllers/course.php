@@ -4,14 +4,8 @@ class Course_Controller extends Base_Controller {
 	public $restful = TRUE;
 	
 	public function get_index() {
-		$user = User::find(Session::get('uid'));
-		if ($user->super) {
-			return View::make('courses.index')
-						->with('courses', Group::all());
-			}
-		else {
-			return Redirect::to('/');
-		}
+		return View::make('courses.index')
+					->with('courses', Group::all());
 	}
 
 	public function get_remove($id) {
@@ -207,8 +201,7 @@ class Course_Controller extends Base_Controller {
 				$group = Group::find($id);
 				Session::put('current_course', $id);
 				Session::put('course_name', $group->name);
-			//	return View::make('courses.switch');
-				return Redirect::to('/');
+				return Redirect::to('posts');
 
 			}
 			else {

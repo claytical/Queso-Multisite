@@ -142,6 +142,8 @@ Route::post('user/changepw', array('uses' => 'user@change_password'));
 Route::get('user', array('uses' => 'user@profile'));
 Route::get('user/add', array('uses' => 'user@add_course'));
 Route::post('user/add', array('uses' => 'user@add_course'));
+Route::get('user/preferences', array('uses' => 'user@preferences'));
+Route::post('user/preferences', array('uses' => 'user@preferences'));
 Route::get('notices', array('uses' =>'notice@index'));
 Route::get('notice/hide/(:any)', array('uses' => 'notice@hide'));
 Route::get('question/ask', array('uses' => 'question@ask'));
@@ -165,7 +167,8 @@ Route::get('submission/view/(:any)', array('uses' => 'submission@view'));
 Route::get('quest/type/(:any)', array('uses' => 'quest@type'));
 Route::get('post/menu', array('uses' => 'post@menu'));
 Route::get('post/(:any)', array('uses' => 'post@details'));
-Route::get('admin/courses', array('uses' => 'course@index'));
+Route::get('super/courses', array('uses' => 'course@index'));
+Route::get('super/users', array('uses' => 'user@index'));
 Route::get('admin/course/remove/(:any)', array('uses' => 'course@remove'));
 Route::get('course/(:any)', array('uses' => 'course@course'));
 
@@ -177,6 +180,7 @@ Route::get('admin/quests', array('uses' => 'quest@admin'));
 Route::get('admin/quests/available/student/(:any)', array('uses' => 'quest@index'));
 Route::get('admin/students', array('uses' => 'user@list'));
 Route::get('admin/student/deactivate/(:any)', array('uses' => 'user@deactivate'));
+Route::get('super/student/deactivate/(:any)', array('uses' => 'user@deactivate'));
 Route::get('admin/student/promote/(:any)', array('uses' => 'user@promote'));
 Route::get('admin/student/demote/(:any)', array('uses' => 'user@demote'));
 Route::get('admin/student/switch', array('uses' => 'user@switch'));
@@ -283,6 +287,8 @@ Event::listen('500', function()
 
 Route::filter('pattern: admin/*', 'admin');
 
+Route::filter('pattern: super/*', 'super');
+
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
@@ -302,5 +308,12 @@ Route::filter('admin', function()
 {
 	if(!Course::is_instructor()) {
 		return View::make('user.notinstructor');
+	}
+});
+
+Route::filter('super', function()
+{
+	if (!Info::is_super()) {
+		return View::make('user.notsuper');
 	}
 });

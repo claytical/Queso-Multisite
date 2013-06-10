@@ -345,6 +345,8 @@ class Quest_Controller extends Base_Controller {
 			$notice->title = $quest->name . " has been graded";
 			$notice->url = "quests/completed#".Input::get('quest_id');
 			$notice->save();
+			$message = "For more information, visit <a href='".URL::to($notice->url)."'>the class website</a>";
+			Info::notify($student, $notice->title, $message);
 
 		}
 		return Redirect::to('admin/grade')
@@ -610,17 +612,20 @@ class Quest_Controller extends Base_Controller {
 				$notice->url = "admin/submission/grade/".$attempt->id;
 
 				if ($revision > 0) {
-					$notice->title = "New Revision";
+					$notice->title = "[Revision] ".$quest->name;
 					$notice->notification = "<p>".$user->username." has revised ".$quest->name."</p>";
 
 				}
 				else {
-					$notice->title = "New Submission";
+					$notice->title = "[Submission] ".$quest->name;
 					$notice->notification = "<p>".$user->username." has completed ".$quest->name."</p>";
 				}
 					$notice->user_id = $instructor;
 					$notice->group_id = Session::get('current_course');
 					$notice->save();
+					$message = $notice->notification . "<p>For more information, visit <a href='".URL::to($notice->url)."'>the class website</a></p>";
+					Info::notify($instructor, $notice->title, $message);
+
 			}
 				return Redirect::to('submission/view/'.$attempt->id);
 			}

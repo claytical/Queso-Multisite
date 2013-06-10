@@ -126,6 +126,8 @@ class Submission_Controller extends Base_Controller {
 		}
 
 			$notice->save();
+			$message = "<p>".Input::get('notes')."</p><p>For more information, visit <a href='".URL::to($notice->url)."'>the class website</a></p>";
+			Info::notify($submission->user_id, $notice->title, $message);
 
 			DB::table('skill_user')
 					->where('user_id', '=', Input::get('user_id'))
@@ -159,12 +161,6 @@ class Submission_Controller extends Base_Controller {
 
 		$submissions = Group::find(Session::get('current_course'))
 					->submissions()
-					->where('graded', '=', 0)
-					->where('revision', '=', 0)
-					->order_by('created_at')
-					->get();
-		$uploads = Group::find(Session::get('current_course'))
-					->uploads()
 					->where('graded', '=', 0)
 					->where('revision', '=', 0)
 					->order_by('created_at')

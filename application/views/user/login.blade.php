@@ -6,7 +6,7 @@
         Don't have an account? <a href="{{URL::to('register')}}" class="">Register Now!</a>
      </p>
      <p>
-        Forgot your password? <a href="{{URL::to('register')}}" class="">Reset It</a> 
+        Forgot your password? <a href="{{URL::to('forgot')}}" class="">Reset It</a> 
     </p>
     </div>
     <!-- username field -->

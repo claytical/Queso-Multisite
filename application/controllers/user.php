@@ -227,9 +227,6 @@ class User_Controller extends Base_Controller {
 			}
 			return Redirect::to('/posts');
 
-/*			return View::make('user.loggedin')
-			->with('user', $logged_in_user);
-*/
   			}
 		else {
 			// could not log the user in - do your bad login logic
@@ -267,7 +264,28 @@ class User_Controller extends Base_Controller {
 		return View::make('user.list')
 		->with('users',$usersWithLevels);
 	}
-	
+
+	public function get_remove($id) {
+		Sentry::user($id)->delete();
+		Answer::where('user_id', '=', $id)->delete();
+		Notice::where('user_id', '=', $id)->delete();
+		Post::where('user_id', '=', $id)->delete();
+		Question::where('user_id', '=', $id)->delete();
+		Submission::where('user_id', '=', $id)->delete();
+		DB::table('quest_user')
+			->where('user_id', '=', $id)
+			->delete();
+		DB::table('skill_user')
+			->where('user_id', '=', $id)
+			->delete();
+		DB::table('users_groups')
+			->where('user_id', '=', $id)
+			->delete();
+		
+		return Redirect::to('/admin/users');
+
+
+	}
 	public function get_deactivate($id) {
 		$affected = DB::table('users_groups')
 					->where('user_id', '=', $id)
@@ -472,11 +490,27 @@ class User_Controller extends Base_Controller {
 		
 	public function get_index()
 	{
-		
-		$uid = Session::get('uid');
-	
 		return View::make('user.index')
-			-> with('users', User::all());	
+			->with('users', User::all());	
+
+	}
+
+	public function get_preferences() {
+		$user = User::find(Session::get('uid'));
+		return View::make('user.preferences')
+			->with('user', $user);
+
+	}
+
+	public function post_preferences() {
+		$user = User::find(Session::get('uid'));
+		$notifications = Input::has('email_notifications');
+		$email = Input::get('email');
+		$user->email = $email;
+		$user->notify_email = $notifications;
+		$user->save();
+		return Redirect::to('user/preferences')
+			->with_message("Your preferences have been saved!", 'success');
 
 	}
 

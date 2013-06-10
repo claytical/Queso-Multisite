@@ -26,6 +26,6 @@
       <hr>
 
       <footer>
-        <p>&copy; Company 2013</p>
+        <p>&copy; Clay Ewing 2013</p>
       </footer>
 @endsection
