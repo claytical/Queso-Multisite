@@ -15,6 +15,7 @@
 			</ul>
 		</li>
 		<li><a href="{{ URL::to('user');}}">Progress</a></li>
+		<li><a href="{{ URL::to('user/preferences');}}">Preferences</a></li>
 		<li class="divider"></li>
 		<li><a href="{{ URL::to('user/add');}}">Add Course</a></li>
 		<li><a href="{{ URL::to('user/changepw');}}">Change Password</a></li>
