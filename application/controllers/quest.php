@@ -18,23 +18,31 @@ class Quest_Controller extends Base_Controller {
 	*/ 
 
 	public function get_create() {
+
 		$skills = Skill::where('group_id', '=', Session::get('current_course'));
 		$levels = Level::where('group_id', '=', Session::get('current_course'))
 				->order_by('amount', 'asc')->lists('label', 'amount');
-		$categories = DB::table('quests')
-						->where('group_id', '=', Session::get('current_course'))
-						->distinct('category')
-						->get('category');
+		if ($levels) {
 
-		$quest = array(
-				'types' => DB::table('quest_types')->lists('label','id'),
-				'skills' => $skills->lists('name', 'id'),
-				'levels' => $levels,
-				'categories' => $categories);
-		
-			return View::make('quests.create')
-			->with('quest', $quest);
+			$categories = DB::table('quests')
+							->where('group_id', '=', Session::get('current_course'))
+							->distinct('category')
+							->get('category');
 
+			$quest = array(
+					'types' => DB::table('quest_types')->lists('label','id'),
+					'skills' => $skills->lists('name', 'id'),
+					'levels' => $levels,
+					'categories' => $categories);
+			
+				return View::make('quests.create')
+				->with('quest', $quest);
+		}
+		else {
+		return Redirect::to('admin/levels')
+				->with_message('You need to create levels first!', 'error');
+
+		}
 	}
 	
 	public function post_create() {
@@ -80,6 +88,52 @@ class Quest_Controller extends Base_Controller {
 			}
 			$quest->dump = Input::get();
 		return View::make('quests.created')->with('quest', $quest);
+	}
+
+	public function get_clone($id) {
+		$quest = Quest::find($id);
+		return View::make('quests.clone')->with('quest', $quest);
+
+	}
+
+	public function post_clone() {
+		$questToClone = Quest::find(Input::get('quest_id'));
+			$quest = Quest::create(
+				array('name' => Input::get('title'),
+					  'instructions' => Input::get('body'),
+					  'type' => $questToClone->type,
+					  'category' => $questToClone->category,
+					  'filename' => $questToClone->filename,
+					  'allow_upload' => $questToClone->allow_upload,
+					  'allow_text' => $questToClone->allow_text,
+					  'visible' => 1,
+					  'position' => 0,
+					  'group_id' => Session::get('current_course')
+					  ));	
+			//insert skill amounts
+			$skills = DB::table('quest_skill')->where('quest_id', '=', Input::get('quest_id'))->get();
+
+			foreach ($skills as $skill) {
+				DB::table('quest_skill')->insert(
+						array('quest_id' => $quest->id,
+							  'skill_id' => $skill->skill_id,
+							  'label' => $skill->label,
+							  'amount' => $skill->amount)
+						);
+			}
+			
+			$locks = DB::table('quest_lock')->where('quest_id', '=', Input::get('quest_id'))->get();
+
+			foreach ($locks as $lock) {
+				DB::table('quest_lock')->insert(
+							array('quest_id' => $quest->id,
+								  'skill_id' => $lock->skill_id,
+								  'requirement' => $lock->requirement)
+							);
+			}			
+
+		return View::make('quests.cloned')->with('quest', $quest);
+
 	}
 
 	public function get_update($id) {
@@ -245,8 +299,21 @@ class Quest_Controller extends Base_Controller {
 		
 		}
 
+		if ($quests->get()) {
+
+			foreach($quests->get() as $quest) {
+				$quest = Merge::max_skill_points($quest);
+				$questsWithPoints[] = $quest;
+
+			}
+		}
+		else {
+			$questsWithPoints = NULL;
+		}
+
+
 			$view = View::make('quests.index')
-			->with('data', array('quests' => $quests->get(), 
+			->with('data', array('quests' => $questsWithPoints, 
 								 'title' => 'Available Quests')
 				
 			);

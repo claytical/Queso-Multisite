@@ -497,6 +497,13 @@ class User_Controller extends Base_Controller {
 
 	public function get_preferences() {
 		$user = User::find(Session::get('uid'));
+		if (!$user->photo) {
+			$grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $user->email ) ) );
+			$user->photo_url = $grav_url;
+		}
+		else {
+			$user->photo_url = $user->photo;
+		}
 		return View::make('user.preferences')
 			->with('user', $user);
 
@@ -507,6 +514,9 @@ class User_Controller extends Base_Controller {
 		$notifications = Input::has('email_notifications');
 		$email = Input::get('email');
 		$user->email = $email;
+		if (Input::has('photo_url')) {
+			$user->photo = Input::get('photo_url');
+		}
 		$user->notify_email = $notifications;
 		$user->save();
 		return Redirect::to('user/preferences')

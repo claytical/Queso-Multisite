@@ -40,6 +40,14 @@ class Notice_Controller extends Base_Controller {
 		
 	}
 
+	public function get_hide_all() {
+		$notices = Notice::where('user_id', '=', Session::get('uid'))->get();
+		foreach($notices as $notice) {
+			$notice->hidden = TRUE;
+			$notice->save();
+		}
+		return Redirect::to('notices');
+	}
 	
 	
 }

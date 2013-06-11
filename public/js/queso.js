@@ -169,3 +169,8 @@ function changeQuestPage(direction) {
   }
   $('.pager button.page').eq(selectedQuestIndex).addClass('active');
 }
+
+function swapPhoto(url) {
+	$('#photo_url').val(url);
+	$('#profile_photo').attr('src', url);
+}

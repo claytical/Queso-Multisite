@@ -4,3 +4,7 @@ td input.disabled {
 .nod_msg {
 	float: right;
 }
+
+img#profile_photo {
+	width: 80px;
+}

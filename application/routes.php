@@ -145,6 +145,7 @@ Route::post('user/add', array('uses' => 'user@add_course'));
 Route::get('user/preferences', array('uses' => 'user@preferences'));
 Route::post('user/preferences', array('uses' => 'user@preferences'));
 Route::get('notices', array('uses' =>'notice@index'));
+Route::get('notices/hide', array('uses' => 'notice@hide_all'));
 Route::get('notice/hide/(:any)', array('uses' => 'notice@hide'));
 Route::get('question/ask', array('uses' => 'question@ask'));
 Route::post('question/ask', array('uses' => 'question@ask'));
@@ -164,8 +165,8 @@ Route::get('submission/revise/(:any)', array('uses' => 'submission@revise'));
 Route::post('quest/revise', array('uses' => 'submission@revise'));
 
 Route::get('submission/view/(:any)', array('uses' => 'submission@view'));
-Route::get('quest/type/(:any)', array('uses' => 'quest@type'));
-Route::get('post/menu', array('uses' => 'post@menu'));
+//Route::get('quest/type/(:any)', array('uses' => 'quest@type'));
+//Route::get('post/menu', array('uses' => 'post@menu'));
 Route::get('post/(:any)', array('uses' => 'post@details'));
 Route::get('super/courses', array('uses' => 'course@index'));
 Route::get('super/users', array('uses' => 'user@index'));
@@ -200,6 +201,8 @@ Route::get('admin/post/update/(:any)', array('uses' => 'post@update'));
 Route::post('admin/post/update', array('uses' => 'post@update'));
 Route::get('admin/quest/create', array('uses' => 'quest@create'));
 Route::post('admin/quest/create', array('uses' => 'quest@create'));
+Route::get('admin/quest/clone/(:num)', array('uses' => 'quest@clone'));
+Route::post('admin/quest/clone', array('uses' => 'quest@clone'));
 Route::get('admin/quest/update/(:any)', array('uses' => 'quest@update'));
 Route::post('admin/quest/update', array('uses' => 'quest@update'));
 Route::get('admin/quests/completed/(:any)', array('uses' => 'quest@completed_by'));
@@ -230,7 +233,9 @@ Route::get('admin/quest/trash/(:any)', array('uses' => 'quest@remove'));
 
 Route::filter('sentry', function()
 {
-	if (!Sentry::check()) return Redirect::to('home');
+	if (!Sentry::check() || !Session::get('current_course')) {
+		return Redirect::to('home');
+	} 
 });
 /*
 |--------------------------------------------------------------------------
@@ -288,7 +293,7 @@ Event::listen('500', function()
 Route::filter('pattern: admin/*', 'admin');
 
 Route::filter('pattern: super/*', 'super');
-
+//posts, quests, quest, comments, user, submission, 
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...

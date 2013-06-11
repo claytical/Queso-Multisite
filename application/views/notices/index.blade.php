@@ -1,7 +1,13 @@
 @layout('layouts.default')
 @section('content')
 	@if($notices)
-	<h2>Notifications</h2>
+	<div>
+		@if($notices)
+		<a href="{{URL::to('notices/hide')}}" class="btn btn-danger pull-right">Dismiss All</a>
+		@endif
+
+		<h2>Notifications</h2>
+	</div>
 		@foreach($notices as $notice)
 			<div class="notice well">
 				 <a class="close" href="{{URL::to('notice/hide/'.$notice->id)}}">×</a>

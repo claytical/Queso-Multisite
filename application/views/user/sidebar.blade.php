@@ -3,25 +3,26 @@
 		@if(!$info->setup_complete)
 			<h5>Course Setup</h5>
 			<h6>
-				@if(!$info->current_level)
-				@else 
-					<i class="icon-ok"></i>
-				@endif
-			Levels
-			</h6>
-			<h6>
 				@if (!$info->skills)
 				@else
 					<i class="icon-ok"></i>
 				@endif
-				Skills
+				<a href='{{URL::to("admin/skills")}}'>Skills</a>
+			</h6>
+
+			<h6>
+				@if(!$info->current_level)
+				@else 
+					<i class="icon-ok"></i>
+				@endif
+			<a href='{{URL::to("admin/levels")}}'>Levels</a>
 			</h6>
 			<h6>
 			@if(!$info->has_quests)
 				@else 
 					<i class="icon-ok"></i>
 				@endif
-			Quests
+			<a href='{{URL::to("admin/quest/create")}}'>Quests</a>
 			</h6>
 
 			<h6>
@@ -29,7 +30,7 @@
 				@else 
 					<i class="icon-ok"></i>
 				@endif
-			Posts
+			<a href='{{URL::to("admin/post/create")}}'>Posts</a>
 			</h6>
 
 		@endif

@@ -24,6 +24,8 @@ Quest Admin
                   <td>
 					<div class="btn-group">
 						<a class="btn" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest"><i class="icon-user"></i></a>
+            <a class="btn" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest"><i class="icon-repeat"></i></a>
+
 						@if ($quest->visible)
 						<a class="btn" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}"><i class="icon-eye-close"></i></a>
 						@else
