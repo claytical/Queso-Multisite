@@ -17,19 +17,26 @@ class Post_Controller extends Base_Controller {
 
 
 	public function get_index() {
-		$posts = Group::find(Session::get('current_course'))
-		->posts()
-		->where('frontpage', '=', 1)
-		->get();
-		if ($posts) {
-			//need a separate index page for non-logged in people
-			return View::make('posts.index')
-			->with('posts', $posts);
+		$group = Group::find(Session::get('current_course'));
+		if ($group) {
+			$posts = Group::find(Session::get('current_course'))
+			->posts()
+			->where('frontpage', '=', 1)
+			->get();
+			if ($posts) {
+				//need a separate index page for non-logged in people
+				return View::make('posts.index')
+				->with('posts', $posts);
+			}
+			else {
+				return View::make('posts.index');
+			
+			}
 		}
 		else {
-			return View::make('posts.index');
-		
+			return Redirect::to('login');
 		}
+
 	
 	}
 

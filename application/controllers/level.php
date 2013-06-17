@@ -30,4 +30,21 @@ class Level_Controller extends Base_Controller {
 	
 	}
 
+	public function get_delete($id) {
+		$level = Level::find($id);
+		if ($level->group_id == Session::get('current_course')) {
+			$label = $level->label;
+			$level->delete();			
+			return Redirect::to('admin/levels')
+					->with_message($label . " deleted.", 'success');
+
+		}
+		else {
+			return Redirect::to('admin/levels')
+					->with_message("Access denied", 'error');
+
+		}
+		
+	}
+
 }

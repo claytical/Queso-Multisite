@@ -3,9 +3,15 @@
 class Info {
 
 	public static function is_super() {
-		$user = Sentry::user(Session::get(Config::get('sentry::sentry.session.user')));
-		if ($user->super) {
-			return TRUE;
+//		$user = Sentry::user(Session::get(Config::get('sentry::sentry.session.user')));
+		$user = User::find(Session::get('uid'));
+		if ($user) {
+			if ($user->super) {
+				return TRUE;
+			}
+			else {
+				return FALSE;
+			}
 		}
 		else {
 			return FALSE;

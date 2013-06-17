@@ -230,7 +230,9 @@ class User_Controller extends Base_Controller {
   			}
 		else {
 			// could not log the user in - do your bad login logic
-				return View::make('user.login');
+			return Redirect::to('login')
+					->with_message("Invalid login", 'error');
+
 		
 			}
 		}

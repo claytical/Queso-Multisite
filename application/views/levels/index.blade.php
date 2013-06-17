@@ -29,8 +29,7 @@ You probably want more than one level.  Traditionally, most classes require over
                   <td>
       	            <div class="btn-toolbar pull-right">
   						<div class="btn-group">
-							<a class="btn" href="#"><i class="icon-edit"></i></a>
-							<a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i></a>
+							<a class="btn btn-danger" href="{{URL::to('admin/level/delete/'.$level->id)}}"><i class="icon-trash icon-white"></i></a>
 					   </div>
 					</div>
                   </td>
