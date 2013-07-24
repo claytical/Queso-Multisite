@@ -193,6 +193,80 @@ class Course_Controller extends Base_Controller {
 		return Redirect::to('admin/course/generate');
 
 	}
+
+	public function get_export() {
+		$exported_course = new stdClass();
+		//variables
+
+	   	$course = Group::find(Session::get('current_course'));
+		$exported_course->name = $course->name;
+		$dropdown = $course->variables()->where('label', '=', 'dropdown')->first();
+		if ($dropdown) {
+			$exported_course->dropdown = $dropdown->variable;
+		}
+		else {
+			$exported_course->dropdown = "Posts";
+		}
+		//levels
+		$levels = $course->levels()->get();
+
+		foreach($levels as $level) {
+			$exported_course->levels[$level->label] = $level->amount;
+		}
+
+		//skills
+		$skills = $course->skills()->get();
+
+		foreach($skills as $skill) {
+			$exported_course->skills[] = array('name' => $skill->name,
+											   'mapped_id' => $skill->id);
+		}
+		//quests
+
+		$quests = $course->quests()->get();
+
+		foreach($quests as $quest) {
+			$quest_skills = DB::table('quest_skill')
+								->where('quest_id', '=', $quest->id)
+								->get();
+
+			foreach($quest_skills as $skill) {
+				$q_skills[] = array('mapped_id' => $skill->skill_id,
+									'label' => $skill->label,
+									'amount' => $skill->amount);
+			}
+
+
+			$quest_locks = DB::table('quest_lock')
+					->where('quest_id', '=', $quest->id)->get();
+			$locks = array();
+			foreach($quest_locks as $quest_lock) {
+				if ($quest_lock->requirement  != 0) {
+					$locks[] = array('mapped_id' => $quest_lock->skill_id,
+									 'amount' => $quest_lock->requirement);
+				}
+			}
+
+			$exported_course->quests[] = array('name' => $quest->name,
+											   'instructions' => $quest->instructions,
+											   'type' => $quest->type,
+											   'category' => $quest->category,
+											   'allow_upload' => $quest->allow_upload,
+											   'allow_text' => $quest->allow_text,
+											   'visible' => $quest->visible,
+											   'filename' => $quest->filename,
+											   'position' => $quest->position,
+											   'locks' => $locks,
+											   'skills' => $q_skills
+											   );
+		}
+		$json = json_encode($exported_course);
+		$headers = array( 'Content-Type' => 'application/json', 'Content-Disposition' => 'attachment;filename='.str_replace(" ", "", $course->name).'.json');
+  
+		return Response::make($json, 200, $headers );
+	
+	}
+
 	public function get_course($id) {
 		try {
 		// check to see if the current user is in the editors(id:2) group

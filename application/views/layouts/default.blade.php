@@ -103,7 +103,9 @@ filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
 				  		<li><a href="{{ URL::to('admin/skills');}}">Skills</a></li>
 				  		<li><a href="{{ URL::to('admin/levels');}}">Levels</a></li>
 				  		<li class="divider"></li>
-				  		<li><a href="{{ URL::to('admin/course/share');}}">Share Course</a></li>
+				  		<li><a href="{{ URL::to('admin/course/share');}}">Share</a></li>
+				  		<li><a href="{{ URL::to('admin/course/export');}}">Export</a></li>
+				  		<li class="divider"></li>
 				  		<li><a href="{{ URL::to('admin/course/new');}}">New Course</a></li>
 				  	</ul>
 				  </li>

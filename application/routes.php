@@ -229,7 +229,7 @@ Route::get('admin/post/trash/(:any)', array('uses' => 'post@trash'));
 Route::get('admin/quest/hide/(:any)', array('uses' => 'quest@hide'));
 Route::get('admin/quest/show/(:any)', array('uses' => 'quest@show'));
 Route::get('admin/quest/trash/(:any)', array('uses' => 'quest@remove'));
-
+Route::get('admin/course/export', array('uses' => 'course@export'));
 
 Route::filter('sentry', function()
 {
