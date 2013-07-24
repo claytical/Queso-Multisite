@@ -1,12 +1,19 @@
 @layout('layouts.default')
 @section('content')
-<h2>Creating a New Course</h2>
-<?php echo Form::open('admin/course/new', 'POST', array('class' => 'well form-horizontal')); ?>
+<h2>New Course</h2>
+<?php echo Form::open_for_files('admin/course/new', 'POST', array('class' => 'well form-horizontal')); ?>
 <fieldset>
 	<div class="control-group">	
-	    <?php echo Form::label('course', 'Name', array('class' => 'control-label')); ?>
+	    <?php echo Form::label('course', 'Name the course', array('class' => 'control-label')); ?>
 			<div class="controls">
     			<?php echo Form::text('course'); ?>
+			</div>
+	</div>
+
+	<div class="control-group">	
+	    <?php echo Form::label('course_file', 'Or upload an exported course file', array('class' => 'control-label')); ?>
+			<div class="controls">
+    			<?php echo Form::file('course_file'); ?>
 			</div>
 	</div>
 

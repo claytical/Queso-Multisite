@@ -141,8 +141,33 @@ class Course_Controller extends Base_Controller {
 	}
 
 	public function post_create() {
-		$course_data = array('name' => Input::get('course'));
-		$course_id = Sentry::group()->create($course_data);
+		if (array_get(Input::file('course_file'), 'tmp_name'))
+		{
+		    
+		    // file uploaded
+		    $import = TRUE;
+		    $renamed = FALSE;
+			$json = file_get_contents(Input::file('course_file.tmp_name'));
+			$course_to_import = json_decode($json);
+
+			try {
+				$course_id = Sentry::group()->create(array('name'=> $course_to_import->name));
+				
+			} catch (Exception $e) {
+				$new_code = Course::generate_code();
+				$renamed = TRUE;
+				$course_id = Sentry::group()->create(array('name'=> $course_to_import->name . $new_code));								
+			}
+			 
+
+		}
+
+		else {
+			$import = FALSE;
+			$course_data = array('name' => Input::get('course'));
+			$course_id = Sentry::group()->create($course_data);
+		}
+
 	    $course = Group::find($course_id);
 	    $codeNeedsRefresh = TRUE;
 	    while ($codeNeedsRefresh) {
@@ -152,7 +177,7 @@ class Course_Controller extends Base_Controller {
 				$codeNeedsRefresh = FALSE;
 			}
 	    }
-
+	    
 	    $course->save();
 		$user = Sentry::user(Session::get('uid'));
 	    if ($user->add_to_group($course_id)) {
@@ -163,10 +188,82 @@ class Course_Controller extends Base_Controller {
 	    			->update(array('instructor' => 1));
 	    			
 				Session::put('current_course', $course_id);
-				Session::put('course_name', Input::get('course'));
-				return Redirect::to('admin/skills')
+				Session::put('course_name', $course->name);
+
+				if ($import) {
+					//import levels
+					foreach($course_to_import->levels as $level => $amount) {
+						Level::create(array('label' => $level,
+											'amount' => $amount,
+											'group_id' => $course_id));
+					}
+
+					//create old skill id map to new skill ids
+					$skill_map = array();
+					//import skills
+					
+					foreach($course_to_import->skills as $skill) {
+						$new_skill = Skill::create(array('name' => $skill->name,
+														 'group_id' => $course_id));
+						$skill_map[$skill->mapped_id] = $new_skill->id;
+
+					}
+
+					//import quests
+
+					foreach($course_to_import->quests as $quest) {
+						$new_quest = Quest::create(
+										array('name' => $quest->name,
+											  'instructions' => $quest->instructions,
+											  'type' => $quest->type,
+											  'category' => $quest->category,
+											  'filename' => $quest->filename,
+											  'allow_upload' => $quest->allow_upload,
+											  'allow_text' => $quest->allow_text,
+											  'visible' => $quest->visible,
+											  'position' => $quest->position,
+											  'group_id' => $course_id)
+											  );
+						
+						foreach($quest->skills as $quest_skills) {
+							DB::table('quest_skill')->insert(
+									array('quest_id' => $new_quest->id,
+										  'skill_id' => $skill_map[$quest_skills->mapped_id],
+										  'label' => $quest_skills->label,
+										  'amount' => $quest_skills->amount)
+										  );
+						}
+						
+						foreach($quest->locks as $quest_locks) {
+							DB::table('quest_lock')->insert(
+									array('quest_id' => $new_quest->id,
+										  'skill_id' => $skill_map[$quest_locks->mapped_id],
+										  'requirement' => $quest_locks->amount)
+										  );							
+						}
+
+
+					}
+					Variable::create(
+						array('variable' => $course_to_import->dropdown,
+							  'label' => 'dropdown',
+							  'group_id' => $course_id)
+							  );
+					if ($renamed) {
+						return Redirect::to('admin/course')
+							->with_message("Course has been imported, but the course name is taken.  We took some liberty and added junk on the end.  Feel free to rename it.", 'warning');
+					}
+					else {
+						return Redirect::to('admin/course')
+							->with_message("Course has been imported!", 'success');
+
+					}
+				}
+				else {
+					return Redirect::to('admin/skills')
 					->with_message(Input::get('course') . " has been created!", 'success');
 				;
+			}
 
 	    }
 
@@ -241,10 +338,8 @@ class Course_Controller extends Base_Controller {
 					->where('quest_id', '=', $quest->id)->get();
 			$locks = array();
 			foreach($quest_locks as $quest_lock) {
-				if ($quest_lock->requirement  != 0) {
 					$locks[] = array('mapped_id' => $quest_lock->skill_id,
 									 'amount' => $quest_lock->requirement);
-				}
 			}
 
 			$exported_course->quests[] = array('name' => $quest->name,
