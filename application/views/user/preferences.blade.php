@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.noclass')
 @section('title')
 Preferences
 @endsection

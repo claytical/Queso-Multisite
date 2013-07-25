@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.noclass')
 @section('content')
 <h2>Add a Course</h2>
 <?php echo Form::open('user/add', 'POST', array('class' => 'form-horizontal well')); ?>

@@ -12,7 +12,7 @@
 			<div class="notice well">
 				 <a class="close" href="{{URL::to('notice/hide/'.$notice->id)}}">×</a>
 				<h3>{{$notice->title}}</h3>
-				<a class="btn btn-info pull-right" href="{{URL::to($notice->url)}}">More Info</a>
+				<a class="btn btn-info pull-right" href="{{URL::to('notice/show/'.$notice->id)}}">More Info</a>
 				{{$notice->notification}}
 			</div>
 		@endforeach

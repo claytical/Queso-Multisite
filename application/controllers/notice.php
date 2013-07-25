@@ -29,6 +29,20 @@ class Notice_Controller extends Base_Controller {
 	
 	}
 
+	public function get_show($id) {
+		$notice = Notice::find($id);
+		if (Sentry::user()->in_group($notice->group_id)) {
+			// user is in the group
+			$notice->hidden = TRUE;
+			$notice->save();
+			$group = Group::find($notice->group_id);
+			Session::put('current_course', $notice->group_id);
+			Session::put('course_name', $group->name);
+			return Redirect::to($notice->url);
+		}
+
+	}
+
 	public function get_hide($id) {
 		$notice = Notice::find($id);
 		if ($notice->user_id == Session::get('uid') && $notice->group_id == Session::get('current_course')) {

@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.noclass')
 @section('content')
 <h2>Add a Course</h2>
 <div class="alert alert-error">That code doesn't exist, try again.</div>

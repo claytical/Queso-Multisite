@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.noclass')
 @section('content')
 <h1>Player List</h1>
 	<ul>

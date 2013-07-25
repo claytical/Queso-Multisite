@@ -27,6 +27,5 @@
 	@if(URI::segment(1) == 'login')
 	@else
 	<a class="btn btn-primary pull-right" href="{{ URL::to('login')}}">Login</a>
-
 	@endif
 @endif

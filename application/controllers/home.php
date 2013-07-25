@@ -32,7 +32,23 @@ class Home_Controller extends Base_Controller {
 
 	public function action_index()
 	{
-		return View::make('home.home');
+		if(Sentry::check()) {
+			$info = new StdClass;
+//			$quote = json_decode(file_get_contents("http://api.theysaidso.com/qod.json?category=inspire"));
+//			$info->quote = $quote->contents;
+			$notices = User::find(Session::get('uid'))
+						->notices()
+						->where('hidden', '!=', 1)
+						->get();
+			$info->notices = $notices;
+			$info->courses = User::find(Session::get('uid'))->groups()->get();
+
+			return View::make('home.dashboard')
+					->with('info', $info);
+		}
+		else {
+			return View::make('home.home');
+		}
 	}
 
 }

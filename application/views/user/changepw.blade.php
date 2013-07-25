@@ -1,4 +1,4 @@
-@layout('layouts.default')
+@layout('layouts.noclass')
 @section('content')
 <h1>Change Password</h1>
 <?php echo Form::open('user/changepw', 'POST', array('class' => 'form-horizontal well')); ?>

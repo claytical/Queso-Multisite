@@ -147,6 +147,7 @@ Route::post('user/preferences', array('uses' => 'user@preferences'));
 Route::get('notices', array('uses' =>'notice@index'));
 Route::get('notices/hide', array('uses' => 'notice@hide_all'));
 Route::get('notice/hide/(:any)', array('uses' => 'notice@hide'));
+Route::get('notice/show/(:any)', array('uses' => 'notice@show'));
 Route::get('question/ask', array('uses' => 'question@ask'));
 Route::post('question/ask', array('uses' => 'question@ask'));
 Route::get('question/(:any)', array('uses' => 'question@details'));
