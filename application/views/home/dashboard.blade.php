@@ -2,6 +2,10 @@
 @section('content')
 
 	  <div class="row-fluid">
+       <div class="span6 well">
+        <p class="lead">Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
+      </div>
+
         <div class="span6">
           <h2>Classes</h2>
           @foreach($info->courses as $course)

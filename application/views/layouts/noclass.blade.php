@@ -38,8 +38,6 @@
 				<span class="icon-bar"></span>
 			  </button>
 			 
-			  <a class="brand" href="{{ URL::base() }}">Queso</a>
-
 			  <div class="nav-collapse collapse">
 					@render('user.menu')
 			  </div><!--/.nav-collapse -->

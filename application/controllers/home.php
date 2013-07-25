@@ -32,17 +32,19 @@ class Home_Controller extends Base_Controller {
 
 	public function action_index()
 	{
-		if(Sentry::check()) {
+		if(Sentry::check() && Session::get('uid')) {
 			$info = new StdClass;
 //			$quote = json_decode(file_get_contents("http://api.theysaidso.com/qod.json?category=inspire"));
 //			$info->quote = $quote->contents;
-			$notices = User::find(Session::get('uid'))
-						->notices()
-						->where('hidden', '!=', 1)
-						->get();
+			$user = User::find(Session::get('uid'));
+			$quests = $user->quests()->pivot();
+			$notices = $user->notices()
+							->where('hidden', '!=', 1)
+							->get();
 			$info->notices = $notices;
+			$info->quests = $quests;
 			$info->courses = User::find(Session::get('uid'))->groups()->get();
-
+			$info->user = $user->first()->username;
 			return View::make('home.dashboard')
 					->with('info', $info);
 		}
