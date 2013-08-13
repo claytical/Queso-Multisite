@@ -251,6 +251,9 @@ class Quest_Controller extends Base_Controller {
 	public function get_remove($id) {
 		$quest = Quest::find($id);
 		if ($quest->group_id == Session::get('current_course')) {
+			$submissions = Submission::where('quest_id', '=', $quest->quest_id);
+			$submissions->delete();
+
 			DB::table('quest_lock')
 				->where('quest_id', '=', $quest->id)
 				->delete();
