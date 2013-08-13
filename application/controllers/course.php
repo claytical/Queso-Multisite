@@ -165,7 +165,16 @@ class Course_Controller extends Base_Controller {
 		else {
 			$import = FALSE;
 			$course_data = array('name' => Input::get('course'));
-			$course_id = Sentry::group()->create($course_data);
+
+			try {
+				$course_id = Sentry::group()->create($course_data);
+			}
+			catch (Exception $e) {
+				return Redirect::to('admin/course/new')
+					->with_message("That course already exists, perhaps you should try something else.", 'error');
+					
+			}
+		
 		}
 
 	    $course = Group::find($course_id);
