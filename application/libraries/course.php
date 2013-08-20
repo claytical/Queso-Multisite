@@ -50,6 +50,12 @@ class Course {
 		}
 	}
 
+	public static function posts_name() {
+		$course = Group::find(Session::get('current_course'));
+		$dropdown = $course->variables()->where('label', '=', 'dropdown')->first();
+		return $dropdown->variable;
+	}
+
 	public static function has_posts() {
 		if(Group::find(Session::get('current_course'))->posts()->count() > 0) {
 			return TRUE;

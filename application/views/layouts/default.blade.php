@@ -52,7 +52,7 @@ filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
 				<ul class="nav">
 				@if(Session::get('current_course') && Sentry::check())
 				  @if(Course::has_post_menu())
-				  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Posts</a>
+				  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">{{Course::posts_name()}}</a>
 					@render('posts.menu')
 				  </li>
 				  @endif
