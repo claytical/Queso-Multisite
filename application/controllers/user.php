@@ -225,7 +225,7 @@ class User_Controller extends Base_Controller {
 				return Redirect::to('/no-course');
 
 			}
-			return Redirect::to('/posts');
+			return Redirect::to('/');
 
   			}
 		else {
