@@ -33,8 +33,10 @@ Attempting {{$quest->name}}
 
 	
 		<?php echo Form::hidden('quest_id', $quest->id); ?>
+		<?php echo Form::hidden('group_id', $quest->group_id); ?>
+
 		<?php echo Form::hidden('quest_type', $quest->type); ?>
-	    <?php echo Form::submit('Submit', array('class' => 'btn btn-primary pull-right btn-large'));?>
+	    <?php echo Form::submit('Submit', array('class' => 'btn btn-primary pull-right btn-large btn-submit', 'data-loading-text'=>'Submitting...'));?>
 	</fieldset>
 <?php echo Form::close(); ?>
 

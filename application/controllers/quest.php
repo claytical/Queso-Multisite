@@ -660,7 +660,7 @@ class Quest_Controller extends Base_Controller {
 		$user = User::find(Session::get('uid'));
 		//find instructors
 		$instructors = DB::table('users_groups')
-						->where('group_id', '=', Session::get('current_course'))
+						->where('group_id', '=', Input::get('group_id'))
 						->where('instructor', '=', 1)
 						->lists('user_id');
 
@@ -671,7 +671,7 @@ class Quest_Controller extends Base_Controller {
 					  'filename' => Input::get('files'),					
 					  'user_id' => Session::get('uid'),
 					  'quest_id' => Input::get('quest_id'),
-					  'group_id' => Session::get('current_course'),
+					  'group_id' => Input::get('group_id'),
 					  'visible' => Input::has('visible'),
 					  'revision' => $revision
 					  ));	

@@ -58,15 +58,19 @@
 	</div>
 	
 	<div class="control-group" id="quest-threshold" style="display:none">
+	
 		<p class="">By default, quests are available to all students.  Sometimes a quest should only be available to students that have achieved a certain level or higher.  If you want to limit the availability of this quest to a higher skill level, you can set it here.</p>
 			@foreach($quest->all_skills as $key => $skill)
 				<div class="controls" style="margin-bottom: 10px">
 				{{ Form::label('skill_type', $skill, array('class' => 'control-label pull-left', 'style' => 'width:150px')); }}
 				{{ Form::select('threshold_skill_level['.$key.'][]', $quest->levels, '', array('id' => 'skill'.$key, 'class' => 'chzn-select', 'data-placeholder' => 'No Threshold', 'tabindex' => '-1')) }}
 			</div>	
-			<script>
-				document.getElementById('skill'+<?=$key;?>).value = <?=$quest->locks[$key]?>;
-			</script>
+			
+				@if(array_key_exists($key,$quest->locks))			
+					<script>
+						document.getElementById('skill'+<?=$key;?>).value = <?=$quest->locks[$key]?>;
+					</script>
+				@endif
 			@endforeach
 
 		<div class="form-actions">

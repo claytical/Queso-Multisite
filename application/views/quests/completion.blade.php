@@ -21,7 +21,6 @@
 						<span style="white-space:nowrap;">
 						<div class="control-group">	
 							<div class="controls">
-	
 						@if($data->quest->type == 1)
 						  	<label class="checkbox"> {{ Form::checkbox('removeQuest[]', $user['id'])}}
 
@@ -30,8 +29,10 @@
 
 						@if($data->quest->type == 2)
 							<label class="checkbox">
-								{{ Form::checkbox('removeSubmission[]', $user['id']);}}							
-								<a href="{{ URL::to('admin/submission/grade/'.$user['submission']->id)}}">{{$user['username']}}</a>
+								{{ Form::checkbox('removeSubmission[]', $user['id']);}}	
+									<a href="{{ URL::to('admin/submission/grade/'.$user['submission']->id)}}">{{$user['username']}}</a>
+								
+
 							</label>
 						@endif
 						

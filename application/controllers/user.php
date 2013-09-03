@@ -151,7 +151,7 @@ class User_Controller extends Base_Controller {
 	public function post_add_course() {
 		$course = Course::lookup(Input::get('regcode'));
 		if ($course) {	    
-			$user = Sentry::user(Session::get('uid'));
+			$user = Sentry::user(intval(Session::get('uid')));
 			if ($user->add_to_group($course->id)) {
 
 	        // Group assigned successfully
