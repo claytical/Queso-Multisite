@@ -49,8 +49,15 @@ class Submission_Controller extends Base_Controller {
 		//get the submission
 		$submission = Submission::find($id);
 		//get the quest information
-		$quest = Quest::find($submission	
+		if ($submission) {
+			$quest = Quest::find($submission	
 							->quest_id);
+		}
+		else {
+			return Redirect::to('admin/submissions')
+				->with_message('That submission no longer exists!', 'error');
+
+		}
 		$comments = Comment::where('quest_id', '=', $submission->quest_id)
 							->where('user_id', '=', $submission->user_id)
 							->get();

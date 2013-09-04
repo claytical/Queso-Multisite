@@ -219,12 +219,13 @@ class User_Controller extends Base_Controller {
 			if (!empty($logged_in_user->groups()->first()->id)) {
 				Session::put('current_course', $logged_in_user->groups()->first()->id);
 				Session::put('course_name', $logged_in_user->groups()->first()->name);
-			
+				
 			}
 			else {
-				return Redirect::to('/no-course');
+				return Redirect::to('/no-course')->with_message("Need Code", "error");
 
 			}
+			
 			return Redirect::to('/');
 
   			}
@@ -240,7 +241,7 @@ class User_Controller extends Base_Controller {
 			// issue logging in via Sentry - lets catch the sentry error thrown
 			// store/set and display caught exceptions such as a suspended user with limit attempts feature.
 			$errors = $e->getMessage();
-		
+			return Redirect::to('login')->with_message($errors, 'error');
 		}
 	
 	}
@@ -368,7 +369,7 @@ class User_Controller extends Base_Controller {
 				->lists('skill_id','amount');
 			$skill_list = array_unique($quest_skills);
 			foreach ($skill_list as $skill) {
-				$data->questMaxPoints[$skill] = DB::table('quest_skill')
+				$data->questPoints[$quest->quest_id][$skill] =  DB::table('quest_skill')
 							->where('quest_id', '=', $quest->quest_id)
 							->where('skill_id', '=', $skill)
 							->max('amount');

@@ -37,7 +37,7 @@
 		{{ Form::textarea('notes', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area', 'id' => 'grade-notes', 'style' => 'width: 98%')); }}
 
 	<div class="control-group">
-	    <?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-large'));?>
+	    <?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-large btn-submit', 'data-loading-text' => 'Grading...'));?>
 	@foreach($data['rewards'] as $reward)
 		<div class="controls" style="margin-bottom: 10px">
 		<?php echo Form::label('reward', $reward->name, array('class' => 'control-label', 'style' => '')); ?>

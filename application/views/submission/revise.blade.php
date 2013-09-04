@@ -46,6 +46,8 @@ Revising {{$data->quest->name}}
 
 	
 		<?php echo Form::hidden('quest_id', $data->quest->id); ?>
+		<?php echo Form::hidden('group_id', $data->quest->group_id); ?>
+
 		<?php echo Form::hidden('quest_type', $data->quest->type); ?>
 	    <?php echo Form::submit('Revise', array('class' => 'btn btn-primary pull-right btn-large btn-submit', "data-loading-text" => "Revising..."));?>
 	</fieldset>

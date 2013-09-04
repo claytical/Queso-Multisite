@@ -3,36 +3,38 @@
 <h2>{{$data->user->username}}</h2>
 @if(!empty($data->dates))
 <h4>{{$data->current_level->label}}</h4>
-	<table class="chart" style="display:none;" width="65%" height="50%">
-		<thead>
-			<tr>
-				<td></td>
-				<!-- Date of Quests -->
-				@foreach($data->dates as $date)
-				<th scope="col">{{ date('n/j', strtotime($date)) }}</th>
-				@endforeach
-			</tr>
-		</thead>
-		<tbody>
-				@foreach($data->progress_by_skill as $skill => $dates)
-
-			<tr>
-
-				<th scope="row">{{$skill}}</th>
-					@foreach($dates as $date)
-						<td>
-							@if($date['amount'])
-								{{$date['amount']}}
-							@else
-							0
-							@endif
-						</td>
+	@if(count($data->dates) > 1)
+		<table class="chart" style="display:none;" width="65%" height="50%">
+			<thead>
+				<tr>
+					<td></td>
+					<!-- Date of Quests -->
+					@foreach($data->dates as $date)
+					<th scope="col">{{ date('n/j', strtotime($date)) }}</th>
 					@endforeach
-			</tr>
-				@endforeach
+				</tr>
+			</thead>
+			<tbody>
+					@foreach($data->progress_by_skill as $skill => $dates)
 
-		</tbody>
-	</table>
+				<tr>
+
+					<th scope="row">{{$skill}}</th>
+						@foreach($dates as $date)
+							<td>
+								@if($date['amount'])
+									{{$date['amount']}}
+								@else
+								0
+								@endif
+							</td>
+						@endforeach
+				</tr>
+					@endforeach
+
+			</tbody>
+		</table>
+	@endif
 @endif
 @if (!empty($data->quests))
 	@if (count($data->quests) > 0)
@@ -71,11 +73,13 @@
 	                  	</td>
 	                  <td>
 						@if($quest['skills'])
+
 							<ul class="unstyled">
 									@foreach($quest['skills'] as $skill)
 									<li><em>{{$skill->name}}</em>
+
 										<div class="progress progress-success">
-											<div class="bar" style="width: {{$skill->amount/$data->questMaxPoints[$skill->id] * 100}}%;">{{$skill->amount}} / {{$data->questMaxPoints[$skill->id]}}</div>
+											<div class="bar" style="width: {{$skill->amount/$data->questPoints[$quest['quest_id']][$skill->id] * 100}}%;">{{$skill->amount}} / {{$data->questPoints[$quest['quest_id']][$skill->id]}}</div>
 										</div>	
 									</li>
 									@endforeach

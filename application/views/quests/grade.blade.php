@@ -28,7 +28,7 @@
 
 
 		<div class="form-actions">
-	    {{ Form::submit('Grade Quest', array('class' => 'btn btn-primary pull-right btn-large')); }}
+	    {{ Form::submit('Grade Quest', array('class' => 'btn btn-primary pull-right btn-submit btn-large', 'data-loading-text' => 'Grading...')); }}
 		</div>
 
 @endsection
