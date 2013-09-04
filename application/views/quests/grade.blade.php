@@ -15,7 +15,7 @@
 		@foreach($data->skills as $skill)
 			<h4>{{$skill['name']}}</h4>		
 			<div class="controls">
-				{{ Form::text('grade['.$skill["id"].']', '', array('data-slider-min' => $skill['rewards']['Minimum'], 'data-slider-max' => $skill['rewards']['Maximum'], 'data-slider-step' => 1, 'class' => 'slider'))}}
+				{{ Form::text('grade['.$skill["id"].']', $skill['rewards']['Maximum'], array('data-slider-min' => $skill['rewards']['Minimum'], 'data-slider-max' => $skill['rewards']['Maximum'], 'data-slider-step' => 1, 'class' => 'slider', 'data-slider-value' => $skill['rewards']['Maximum']))}}
 			</div>
 		@endforeach
 		

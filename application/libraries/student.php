@@ -88,7 +88,21 @@ class Student {
 			}
 
 	}
-	
+
+	public static function is_in_course() {
+
+		//in the course, are they an instructor?
+			if(DB::table('users_groups')
+				->where('user_id', '=', Session::get('uid'))
+				->where('group_id', '=', Session::get('current_course'))
+				->count() == 1) {
+				return TRUE;
+			}
+			else {
+				return FALSE;
+			}
+
+	}
 	public static function completed_quest_list($user_id, $group_id) {
 		return	User::find($user_id)->quests()
 						->where('group_id', '=', $group_id)

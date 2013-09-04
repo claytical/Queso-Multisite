@@ -41,7 +41,7 @@
 	@foreach($data['rewards'] as $reward)
 		<div class="controls" style="margin-bottom: 10px">
 		<?php echo Form::label('reward', $reward->name, array('class' => 'control-label', 'style' => '')); ?>
-		{{ Form::text('rewards['.$reward->id.']', '', array('data-slider-min' => $reward->rewards['Minimum'], 'data-slider-max' => $reward->rewards['Maximum'], 'data-slider-step' => 1, 'class' => 'slider'))}}
+		{{ Form::text('rewards['.$reward->id.']', $reward->rewards['Maximum'], array('data-slider-value'=>$reward->rewards['Maximum'], 'data-slider-min' => $reward->rewards['Minimum'], 'data-slider-max' => $reward->rewards['Maximum'], 'data-slider-step' => 1, 'class' => 'slider'))}}
 
 		</div>		
 	@endforeach

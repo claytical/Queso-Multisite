@@ -294,6 +294,13 @@ Event::listen('500', function()
 */
 
 Route::filter('pattern: admin/*', 'admin');
+Route::filter('pattern: post/*', 'student');
+Route::filter('pattern: posts/*', 'student');
+Route::filter('pattern: quest/*', 'student');
+Route::filter('pattern: quests/*', 'student');
+Route::filter('pattern: question/*', 'student');
+Route::filter('pattern: questions/*', 'student');
+Route::filter('pattern: answer/*', 'student');
 
 Route::filter('pattern: super/*', 'super');
 //posts, quests, quest, comments, user, submission, 
@@ -310,6 +317,13 @@ Route::filter('after', function($response)
 Route::filter('csrf', function()
 {
 	if (Request::forged()) return Response::error('500');
+});
+
+Route::filter('student', function() {
+	if(!Student::is_in_course()) {
+		return View::make('user.notincourse');
+	}
+
 });
 
 Route::filter('admin', function()

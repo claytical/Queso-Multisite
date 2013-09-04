@@ -39,6 +39,7 @@
 		</div>
 	<div class="container-fluid">
 		<div class="row-fluid">
+					@include('simplemessage::out')				
 		        	@yield('content')
 		</div>
     </div>

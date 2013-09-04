@@ -645,7 +645,10 @@ class Quest_Controller extends Base_Controller {
 	public function post_attempt() {
 		if(Input::has('revision')) {
 			$revision = Input::get('revision');
-		
+			$previous_attempts = Submission::where('user_id', '=', Session::get('uid'))
+								->where('quest_id', '=', Input::get('quest_id'));
+			$previous_attempts->update(array('graded' => TRUE));
+
 		}
 		else {
 			DB::table('quest_user')->insert(

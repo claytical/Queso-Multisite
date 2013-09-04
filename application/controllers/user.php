@@ -222,7 +222,7 @@ class User_Controller extends Base_Controller {
 				
 			}
 			else {
-				return Redirect::to('/no-course')->with_message("Need Code", "error");
+				return Redirect::to('user/add')->with_message("You are not registered for any courses", "error");
 
 			}
 			
@@ -231,8 +231,17 @@ class User_Controller extends Base_Controller {
   			}
 		else {
 			// could not log the user in - do your bad login logic
-			return Redirect::to('login')
-					->with_message("Invalid login", 'error');
+			$user = User::where('email', '=', Input::get('email'))->first();
+			if ($user) {
+				return Redirect::to('login')
+						->with_message("Bad Password", 'error');
+
+			}
+			else {
+				return Redirect::to('login')
+						->with_message("Invalid Username", 'error');
+
+			}
 
 		
 			}
