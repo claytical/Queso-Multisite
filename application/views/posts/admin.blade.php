@@ -21,9 +21,15 @@ Post Administration
                   <td><span style="white-space:nowrap;"><strong><a href="{{ URL::to('/admin/post/update/'.$post->id)}}">{{$post->headline}}</a><strong></span></td>
                   <td>{{$post->post}}</td>
                   <td>
-					<div class="btn-group pull-right">		
-					
+					<div class="btn-group pull-right">
+						@if($post->position == 0)		
+						<a href="{{ URL::to('/admin/post/sticky/'.$post->id);}}" class="btn" title="Make Post Sticky"><i class="icon-flag"></i></a>
+						@else
+						<a href="{{ URL::to('/admin/post/unstick/'.$post->id);}}" class="btn" title="Unstick Post"><i class="icon-minus-sign"></i></a>
+
+						@endif
 						<a href="{{ URL::to('/admin/post/trash/'.$post->id);}}" class="btn btn-danger" title="Delete Post"><i class="icon-trash icon-white"></i></a>
+
 						@if($post->frontpage)
 						<a href="{{ URL::to('/admin/post/demote/'.$post->id);}}" class="btn btn-warning" title="Demote from front page"><i class="icon-arrow-down icon-white"></i></a>
 						@else

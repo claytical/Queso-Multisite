@@ -104,7 +104,7 @@
 	<div class="form-actions">
 		{{ Form::hidden('quest_id', $quest->id); }}
 		
-	    {{ Form::submit('Update Quest', array('class' => 'btn btn-primary pull-right btn-large')); }}
+	    {{ Form::submit('Update Quest', array('class' => 'btn btn-submit btn-primary pull-right btn-large', 'data-loading-text' => 'Updating Quest...')); }}
 	</div>
 
 	</div>

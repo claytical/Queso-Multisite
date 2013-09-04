@@ -129,7 +129,7 @@
 				<input type="filepicker-dragdrop" name="files" data-fp-button-text="Add Files" data-fp-services="COMPUTER,DROPBOX,BOX,GOOGLE_DRIVE,GMAIL" data-fp-multiple="true"/>
 			</div>
 	<div class="form-actions">
-	    <?php echo Form::submit('Create Quest', array('class' => 'btn btn-primary pull-right btn-large validated-submission'));?>
+	    <?php echo Form::submit('Create Quest', array('class' => 'btn btn-submit btn-primary pull-right btn-large validated-submission', 'data-loading-text'=>'Creating Quest...'));?>
 	</div>
 
 	</div>

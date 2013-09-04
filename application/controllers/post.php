@@ -22,6 +22,8 @@ class Post_Controller extends Base_Controller {
 			$posts = Group::find(Session::get('current_course'))
 			->posts()
 			->where('frontpage', '=', 1)
+			->order_by('position', 'desc')
+			->order_by('created_at', 'desc')
 			->get();
 			if ($posts) {
 				//need a separate index page for non-logged in people
@@ -175,12 +177,37 @@ class Post_Controller extends Base_Controller {
 	
 	public function get_trash($id) {
 		$post = Post::find($id);
+		$headline = $post->headline;
 		if ($post->group_id == Session::get('current_course')) {		
 			$post->delete();
 		}
 
 		return Redirect::to('admin/posts')
-		->with_message(Input::get('headline') . " has been deleted!", 'info');
+		->with_message($headline . " has been deleted!", 'info');
+	
+	}
+
+	public function get_sticky($id) {
+		$post = Post::find($id);
+		if ($post->group_id == Session::get('current_course')) {		
+			$post->position = 999;
+			$post->save();
+		}
+
+		return Redirect::to('admin/posts')
+		->with_message($post->headline . " has been made sticky!", 'info');
+	
+	}
+
+	public function get_unstick($id) {
+		$post = Post::find($id);
+		if ($post->group_id == Session::get('current_course')) {		
+			$post->position = 0;
+			$post->save();
+		}
+
+		return Redirect::to('admin/posts')
+		->with_message($post->headline . " has been unstuck!", 'info');
 	
 	}
 	
