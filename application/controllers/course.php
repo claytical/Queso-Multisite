@@ -363,6 +363,7 @@ class Course_Controller extends Base_Controller {
 											   'locks' => $locks,
 											   'skills' => $q_skills
 											   );
+			unset($q_skills);
 		}
 		$json = json_encode($exported_course);
 		$headers = array( 'Content-Type' => 'application/json', 'Content-Disposition' => 'attachment;filename='.str_replace(" ", "", $course->name).'.json');

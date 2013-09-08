@@ -3,8 +3,8 @@
 Quest Admin
 @endsection
 @section('content')
+<a href='{{URL::to("admin/quest/create")}}' class="btn btn-large btn-primary pull-right">New Quest</a>
 <h2>Quests</h2>
-
 @if (count($data->quests) > 0)
 <table class="table sortable">
               <thead>

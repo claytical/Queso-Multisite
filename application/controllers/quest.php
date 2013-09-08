@@ -505,8 +505,57 @@ class Quest_Controller extends Base_Controller {
 		
 	}
 
+	public function post_remove_skills() {
+	
+		$quest_skills = Input::get('removeSkill');
+		foreach($quest_skills as $skill) {
+			DB::table('quest_skill')
+				->where('id', '=', $skill)
+				->delete();
+		}
+		
+		return Redirect::to('admin/skills/quest/'.Input::get('quest_id'))
+				->with_message("Deleted skill quest " . implode($quest_skills, ","), 'success');
 
 
+	}
+	
+	public function get_quest_skills($id) {
+		$data = new stdClass();
+		$quest = Quest::find($id);
+
+		//get the skills for the quest
+		$skills = DB::table('quest_skill')
+						->where('quest_id', '=', $quest->id)
+						->order_by('skill_id')
+						->lists('skill_id');
+		//deduplicate the skills
+		$skills = array_unique($skills);
+
+		//get the info for each skill
+		foreach($skills as $skill) {
+			$name = Skill::where('id', '=', $skill)
+											->first()
+											->name;
+			$questSkills = DB::table('quest_skill')
+							->where('quest_id', '=', $quest->id)
+							->where('skill_id', '=', $skill)
+							->get();
+							
+			foreach($questSkills as $value) {
+				$data->skills[] = array('name' => $name,
+										'id' => $value->id,
+										'label' => $value->label,
+										'amount' => $value->amount);
+													
+			}
+		}
+											
+
+		$data->quest = $quest;
+		return View::make('quests.questskills')
+			->with('data', $data);
+	}
 	/*
 	*	ALL QUESTS FOR COURSE
 	*

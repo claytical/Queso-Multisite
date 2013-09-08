@@ -28,7 +28,7 @@ Preferences
 	</div>
 		<div class="form-actions">
 
-			<?php echo Form::submit('Update', array('class' => 'btn btn-primary btn-large pull-right'));?>
+			<?php echo Form::submit('Update', array('class' => 'btn-submit btn btn-primary btn-large pull-right', 'data-loading-text' => 'Updating...'));?>
 		</div>
 <?php echo Form::close(); ?>
 @endsection

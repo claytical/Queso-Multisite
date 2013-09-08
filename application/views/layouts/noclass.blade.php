@@ -17,7 +17,10 @@
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.widgets.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/bootstrap-wysihtml5.js') }}"></script>
+
 <script type="text/javascript" src="{{ URL::to('js/bootstro.min.js') }}"></script>
+<script type="text/javascript" src="{{ URL::to('js/bootstrap-slider.js') }}"></script>
+
 <link href='http://fonts.googleapis.com/css?family=Lato|Londrina+Solid|Londrina+Shadow' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize.css') }}">
@@ -47,10 +50,13 @@
 		</div>
 	<div class="container-fluid">
 		<div class="row-fluid">
+					@include('simplemessage::out')				
 		        	@yield('content')
 		</div>
     </div>
 <script src="{{ URL::to_asset('chosen/chosen.jquery.min.js') }}"></script> 
+<script type="text/javascript" src="{{ URL::to('js/queso.js') }}"></script>
+
   </body>
 </html>
 
