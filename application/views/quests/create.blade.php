@@ -63,6 +63,7 @@
 
 			</div>
 		<div class="form-actions">
+		<a href="#createquest" class="btn pull-left step-back">Back</a>		
 		<a href="#createquest" class="btn pull-right next-step">Next</a>
 		</div>
 
@@ -75,6 +76,7 @@
 			{{ Form::select('skills[]', $quest['skills'], '', array('class' => 'chzn-select', 'id' => 'skills-select', 'data-placeholder' => 'Choose skills', 'multiple', 'required' => '', 'title' => 'Quest skills')) }}
 			</div>
 		<div class="form-actions">
+		<a href="#createquest" class="btn pull-left step-back">Back</a>		
 		<a href="#createquest" class="btn pull-right next-step">Next</a>
 		</div>
 
@@ -87,6 +89,7 @@
 				<p><strong>You can't assign rewards unless the quest has skills associated with it.</strong></p>
 			</div>
 		<div class="form-actions">
+		<a href="#createquest" class="btn pull-left step-back">Back</a>				
 		<a href="#createquest" class="btn pull-right next-step">Next</a>
 		</div>
 
@@ -104,6 +107,8 @@
 			@endforeach
 
 		<div class="form-actions">
+		<a href="#createquest" class="btn pull-left step-back">Back</a>		
+		
 		<a href="#createquest" class="btn pull-right next-step">Next</a>
 		</div>
 
@@ -119,6 +124,7 @@
 			    {{ Form::text('category', '', array('placeholder' => 'Category name', 'class' => 'input-xxlarge', 'list' => 'categories', 'autocomplete' => 'off')); }}
 			</div>
 		<div class="form-actions">
+		<a href="#createquest" class="btn pull-left step-back">Back</a>				
 		<a href="#createquest" class="btn pull-right next-step">Next</a>
 		</div>
 	</div>
@@ -129,6 +135,7 @@
 				<input type="filepicker-dragdrop" name="files" data-fp-button-text="Add Files" data-fp-services="COMPUTER,DROPBOX,BOX,GOOGLE_DRIVE,GMAIL" data-fp-multiple="true"/>
 			</div>
 	<div class="form-actions">
+		<a href="#createquest" class="btn pull-left step-back">Back</a>			
 	    <?php echo Form::submit('Create Quest', array('class' => 'btn btn-submit btn-primary pull-right btn-large validated-submission', 'data-loading-text'=>'Creating Quest...'));?>
 	</div>
 

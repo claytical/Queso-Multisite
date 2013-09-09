@@ -372,15 +372,16 @@ class User_Controller extends Base_Controller {
 
 		//student quests with skills acquired
 		foreach ($completed_quests->get() as $quest) {
-			$quest_skills = DB::table('quest_skill')
+/*			$quest_skills = DB::table('quest_skill')
 				->join('skills', 'quest_skill.skill_id', '=', 'skills.id')
 				->where('quest_id', '=', $quest->quest_id)
-				->lists('skill_id','amount');
-			$skill_list = array_unique($quest_skills);
-			foreach ($skill_list as $skill) {
-				$data->questPoints[$quest->quest_id][$skill] =  DB::table('quest_skill')
+				->lists('skill_id','amount');*/
+		$quest_skills = Quest::find($quest->quest_id)->skills()->get();
+//		$data->qskillz[] = $quest_skills;
+			foreach ($quest_skills as $skill) {
+				$data->questPoints[$quest->quest_id][$skill->id] =  DB::table('quest_skill')
 							->where('quest_id', '=', $quest->quest_id)
-							->where('skill_id', '=', $skill)
+							->where('skill_id', '=', $skill->id)
 							->max('amount');
 			}
 
