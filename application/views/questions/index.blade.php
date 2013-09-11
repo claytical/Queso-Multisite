@@ -5,9 +5,9 @@
 	@if(isset($questions))
 		@foreach($questions as $question)
 			<div class="well">
+				<a href="{{URL::to('question/'.$question->id)}}" class="btn pull-right">Answers</a>
 				<p>{{$question->username}} asked...</p>
 				{{$question->question}}
-				<a href="{{URL::to('question/'.$question->id)}}" class="btn pull-right">Answers</a>
 			</div>
 		@endforeach
 	@else
