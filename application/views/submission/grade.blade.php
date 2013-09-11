@@ -40,8 +40,10 @@
 	    <?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-large btn-submit', 'data-loading-text' => 'Grading...'));?>
 	@foreach($data['rewards'] as $reward)
 		<div class="controls" style="margin-bottom: 10px">
-		<?php echo Form::label('reward', $reward->name, array('class' => 'control-label', 'style' => '')); ?>
-		{{ Form::text('rewards['.$reward->id.']', $reward->rewards['Maximum'], array('data-slider-value'=>$reward->rewards['Maximum'], 'data-slider-min' => $reward->rewards['Minimum'], 'data-slider-max' => $reward->rewards['Maximum'], 'data-slider-step' => 1, 'class' => 'slider'))}}
+
+			<?php echo Form::label('reward', $reward->name, array('class' => 'control-label', 'style' => '')); ?>
+			<input type="range" name="rewards[{{$reward->id}}]" min="{{$reward->rewards['Minimum']}}" max="{{$reward->rewards['Maximum']}}" value="{{$reward->rewards['Maximum']}}">
+			<span class="badge" for="rewards[{{$reward->id}}]" onforminput="value = rewards[{{$reward->id}}].valueAsNumber;"></span>
 
 		</div>		
 	@endforeach

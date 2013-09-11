@@ -53,8 +53,17 @@ $(function() {
 
 	});
 	//$("#create-quest").nod(questCreateMetrics);
-    
+     // Select all range inputs, watch for change
+	 $("input[type='range']").change(function() {
+	 
+	   $(this).next("span").text($(this).val());
+	   
+	   // Move bubble
+	 })
+	 // Fake a change to position bubble at page load
+	 .trigger('change');
 });
+  
 $('#quest-select').chosen().change(function() {
 	if ($('#quest-select').val() == 2) {
 		$("#submission_options").show();
