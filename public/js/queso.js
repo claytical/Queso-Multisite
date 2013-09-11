@@ -39,6 +39,7 @@ $(function() {
 	}
 	
 
+
 	$('a.btn-remove-file').click(function() {
 		event.preventDefault();
 		$(this).parent().remove();
@@ -89,7 +90,7 @@ jQuery(".next-step, .pager-next").click(function() {
 	}		
 });
 
-jQuery(".pager-previous").click(function() {
+jQuery(".pager-previous, .step-back").click(function() {
 	if (selectedQuestIndex > 0) {
 		for (var i = selectedQuestIndex; i < $('.control-group').size(); i++) {
 			$('.pager button.page').eq(i).addClass('disabled');
@@ -122,6 +123,10 @@ jQuery(".pager .page").click(function() {
 		$('.control-group').eq($(this).index()-1).show();
 	}
 });
+
+$('.btn-submit').click(function () {
+        $(this).button('loading')
+    });
 
 function skillReward(name, id) {
 	var html = "<div class='controls'><h4>" + name + "</h4>";
