@@ -3,8 +3,9 @@
 Post Administration
 @endsection
 @section('content')
+<a href='{{URL::to("admin/post/create")}}' class="btn btn-large btn-primary pull-right">New Post</a>
 
-<h2>Posts</h1>
+<h2>Posts</h2>
 	
 @if (count($posts) > 0)
 <table class="table table-hover sortable">
