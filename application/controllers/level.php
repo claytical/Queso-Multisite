@@ -29,7 +29,18 @@ class Level_Controller extends Base_Controller {
 				
 	
 	}
+	public function post_edit() {
+		
+		$level = Level::find(Input::get('level_id'));
 
+		if ($level->group_id == Session::get('current_course')) {
+			$level->label = Input::get('level');
+			$level->amount = Input::get('level_amount');
+            $level->save();
+		}
+		return Redirect::to('admin/levels');
+
+	}
 	public function get_delete($id) {
 		$level = Level::find($id);
 		if ($level->group_id == Session::get('current_course')) {

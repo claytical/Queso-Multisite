@@ -24,17 +24,31 @@ You probably want more than one level.  Traditionally, most classes require over
               <tbody>
 			@foreach($levels as $level)
                 <tr>
-                  <td>{{$level->label}}</td>
-				  <td>{{$level->amount}}</td>
-                  <td>
+                <?php echo Form::open('admin/level/edit', 'POST', array('class' => 'form-inline')); ?>
+
+                    <td><span class="level">{{$level->label}}</span>
+                    <?php echo Form::text('level', $level->label, array('placeholder' => '', 'class' => 'input-large level-input', 'style' => 'display:none;')); ?>
+                    <?php echo Form::hidden('level_id', $level->id); ?>
+
+                    </td>                    
+                    <td><span class="level_amount">{{$level->amount}}</span>
+                    <?php echo Form::text('level_amount', $level->amount, array('placeholder' => '', 'class' => 'input-large level-amount-input', 'style' => 'display:none;')); ?>
+                    
+                    </td>
+                    
+                    <td>
       	            <div class="btn-toolbar pull-right">
   						<div class="btn-group">
+                        <a class="btn btn-edit-level" href="#"><i class="icon-pencil"></i></a>
+                      <?php echo Form::submit('<i class="icon-ok"></i>', array('class' => 'btn btn-edit-level-save', 'style' => "display:none;" ));?>                          
+
 							<a class="btn btn-danger" href="{{URL::to('admin/level/delete/'.$level->id)}}"><i class="icon-trash icon-white"></i></a>
 					   </div>
 					</div>
-                  </td>
+ <?php echo Form::close(); ?>
+                    </td>
                 </tr>
-			@endforeach
+                  @endforeach
               </tbody>
             </table>
 @endsection

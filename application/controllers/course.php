@@ -56,6 +56,7 @@ class Course_Controller extends Base_Controller {
 		$course = Group::find(Session::get('current_course'));
 		$data = new stdClass();
 		$data->name = $course->name;
+        $data->code = $course->code;
 		$data->id = $course->id;
 		$dropdown = $course->variables()->where('label', '=', 'dropdown')->first();
 		if ($dropdown) {
@@ -72,6 +73,7 @@ class Course_Controller extends Base_Controller {
 	public function post_setup() {
 		$course = Group::find(Session::get('current_course'));
 		$course->name = Input::get('course');
+        $course->code = Input::get('code');
 		Session::put('course_name', $course->name);
 		$course->save();
 		if (Input::has('dropdown')) {
@@ -95,6 +97,7 @@ class Course_Controller extends Base_Controller {
 		}
 		$data = new stdClass();
 		$data->name = $course->name;
+        $data->code = $course->code;
 		$data->id = $course->id;
 		$dropdown = $course->variables()->where('label', '=', 'dropdown')->first();
 		if ($dropdown) {

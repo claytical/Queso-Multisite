@@ -221,6 +221,7 @@ Route::get('admin/skill/remove/(:any)', array('uses' => 'skill@remove'));
 Route::post('admin/skill/edit', array('uses' => 'skill@edit'));
 Route::get('admin/levels', array('uses' => 'level@index'));
 Route::post('admin/levels', array('uses' => 'level@index'));
+Route::post('admin/level/edit', array('uses' => 'level@edit'));
 Route::get('admin/level/delete/(:num)', array('uses' => 'level@delete'));
 Route::get('admin/post/promote/(:any)', array('uses' => 'post@promote'));
 Route::get('admin/post/demote/(:any)', array('uses' => 'post@demote'));

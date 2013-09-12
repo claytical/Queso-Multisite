@@ -15,6 +15,12 @@
 			    <?php echo Form::text('course', $course->name, array('placeholder' => 'Course Name', 'class' => 'input-large')); ?>
 			</div>
 	</div>
+	<div class="control-group">	
+	    <?php echo Form::label('code', 'Course Registration Code', array('class' => 'control-label')); ?>
+			<div class="controls">
+			    <?php echo Form::text('code', $course->code, array('placeholder' => 'Course Registration Code', 'class' => 'input-large')); ?>
+			</div>
+	</div>
 
 	<div class="control-group">	
 	    <?php echo Form::label('dropdown', 'Custom Dropdown Text', array('class' => 'control-label')); ?>

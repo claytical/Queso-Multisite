@@ -52,6 +52,19 @@ $(function() {
 		$(this).parent().parent().parent().parent().children("td").children(".skill-name").hide();
 
 	});
+    
+    $('a.btn-edit-level').click(function() {
+        event.preventDefault();
+        $(this).hide();
+		$(this).parent().children('button.btn-edit-level-save').show();
+		$(this).parent().parent().parent().parent().children("td").children(".level-input").show();
+		$(this).parent().parent().parent().parent().children("td").children(".level-amount-input").show();
+
+            $(this).parent().parent().parent().parent().children("td").children(".level").hide();
+            $(this).parent().parent().parent().parent().children("td").children(".level_amount").hide();
+
+	});
+    
 	//$("#create-quest").nod(questCreateMetrics);
      // Select all range inputs, watch for change
 	 $("input[type='range']").change(function() {
