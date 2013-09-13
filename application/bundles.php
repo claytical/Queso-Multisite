@@ -42,6 +42,7 @@ return array(
 	'simplemessage' => array('auto' => true),
 	'sentry' => array(
 	    'auto'     => true,
-	),	
+	),
+    'mailgun' => array('auto', true),
 );
 
