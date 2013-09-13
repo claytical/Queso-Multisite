@@ -216,7 +216,17 @@ class User_Controller extends Base_Controller {
 			// the user is now logged in - do your own logic
 			$logged_in_user = User::where('email', '=', Input::get('email'))->first();
 			Session::put('uid', $logged_in_user->id);
-			if (!empty($logged_in_user->groups()->first()->id)) {
+            $remember = Input::has('remember');
+
+            if($remember) {
+                Cookie::forever('email', Input::get('email'));
+                Cookie::forever('remember', 1);
+            }
+            else {
+                Cookie::forget('email');
+                Cookie::forget('remember');
+            }
+            if (!empty($logged_in_user->groups()->first()->id)) {
 				Session::put('current_course', $logged_in_user->groups()->first()->id);
 				Session::put('course_name', $logged_in_user->groups()->first()->name);
 				

@@ -11,14 +11,27 @@
     </div>
     <!-- username field -->
     <?php echo Form::label('email', 'Email Address'); ?>
-    <?php echo Form::text('email'); ?>
+    @if(Cookie::get('remember'))
+    <?php echo Form::text('email', Cookie::get('email')); ?>
     <!-- password field -->
+    @else
+    <?php echo Form::text('email', '', array('autocomplete' => 'off')); ?>
+    @endif
     <?php echo Form::label('password', 'Password'); ?>
     <?php echo Form::password('password'); ?>
-    <!-- login button -->
-	<div class="form-actions">
+    <label class="checkbox">
+    @if(Cookie::get('remember'))    
+    <?php echo Form::checkbox('remember', 1, true); ?>
+    @else
+    <?php echo Form::checkbox('remember', 1, false); ?>        
+    @endif
+        Remember Me</label>
+    
+<!-- login button -->
 
-			<?php echo Form::submit('Login', array('class' => 'btn btn-primary btn-large pull-right'));?>
+    <div class="form-actions">
+
+<?php echo Form::submit('Login', array('class' => 'btn btn-primary btn-large pull-right'));?>
 	</div>
 <?php echo Form::close(); ?>
 @endsection
