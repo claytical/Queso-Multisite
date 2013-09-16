@@ -79,14 +79,14 @@ class Post_Controller extends Base_Controller {
 		$post->post = Input::get('body');
 		$post->menu = Input::has('menuitem');
 		$post->frontpage = Input::has('frontpage');
-		if (Input::get('existingFiles')) {
-			$newFiles = explode(",", Input::get('files'));
-			$existingFiles = Input::get('existingFiles');
-			$post->filename = implode(",", array_merge($newFiles, $existingFiles));		
-		}
-		else {
-			$post->filename = Input::get('files');
-		}
+			if (Input::get('existingFiles') && Input::get('files')) {
+				$existingFiles = Input::get('existingFiles');
+				$newFiles = explode(",", Input::get('files'));
+				$post->filename = implode(",", array_merge($newFiles, $existingFiles));		
+			}
+			else if (Input::get('files')) {
+				$post->filename = Input::get('files');
+			}
 		$post->save();
 		return Redirect::to('admin/posts')
 		->with_message(Input::get('headline') . " has been updated!", 'success');

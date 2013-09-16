@@ -179,12 +179,12 @@ class Quest_Controller extends Base_Controller {
 			$quest->name = Input::get('title');
 			$quest->instructions = Input::get('instructions');
 			$quest->category = Input::get('category');
-			if (Input::get('existingFiles')) {
-				$newFiles = explode(",", Input::get('files'));
+			if (Input::get('existingFiles') && Input::get('files')) {
 				$existingFiles = Input::get('existingFiles');
+				$newFiles = explode(",", Input::get('files'));
 				$quest->filename = implode(",", array_merge($newFiles, $existingFiles));		
 			}
-			else {
+			else if (Input::get('files')) {
 				$quest->filename = Input::get('files');
 			}
 
@@ -604,6 +604,7 @@ class Quest_Controller extends Base_Controller {
 			   unset($data->categories[$key]);
 		}
 		//course skills
+		
 		$skills = Group::find(Session::get('current_course'))
 							->skills()
 							->order_by('name', 'asc')
