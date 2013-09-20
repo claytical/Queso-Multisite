@@ -66,7 +66,15 @@ class Course_Controller extends Base_Controller {
 			$data->dropdown = 'Posts';
 		}
 		$data->alert = NULL;
-		return View::make('courses.setup')
+		
+		$skills = Skill::where('group_id', '=', Session::get('current_course'))->order_by('name', 'asc')->get();
+        $data->skills = $skills; 
+        
+		$levels = Level::where('group_id', '=', Session::get('current_course'))->order_by('amount', 'asc');
+        $data->levels = $levels->get();
+        
+                
+        return View::make('courses.all')
 		->with('course', $data);
 	}
 
@@ -105,10 +113,19 @@ class Course_Controller extends Base_Controller {
 		}
 		else {
 			$data->dropdown = 'Posts';
-		}		
-		$data->alert = "Course information has been updated!";
-		return View::make('courses.setup')
-		->with('course', $data);
+		}
+
+        $data->alert = "Course information has been updated!";
+
+        if (Input::has('tab')) {
+            return Redirect::to('admin/course#general')
+					->with_message($data->alert, 'success');    
+        }
+        else {
+            return View::make('courses.setup')
+		  ->with('course', $data);
+
+        }
 	
 	}
 

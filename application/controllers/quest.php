@@ -428,13 +428,58 @@ class Quest_Controller extends Base_Controller {
 	*	ALL AVAILABLE QUESTS FOR USER
 	*
 	*/ 
+    
+    public function get_available() {
+		//Get Completed Quests
+		$playerQuests = User::find(Session::get('uid'))->quests();
+		$ids = $playerQuests->lists('id');
+        
+        $categories = DB::table('quests')
+                        ->where('group_id', '=', Session::get('current_course'))
+                        ->distinct('category')
+                        ->lists('category');;
+        array_unshift($categories, "All Categories");
+        if (!empty($ids)) {
+			$quests = Group::find(Session::get('current_course'))
+				->quests()
+				->where_not_in('id',$ids);
+		}
+		else {
+			$quests = Group::find(Session::get('current_course'))
+			->quests();
+		
+		}
+
+        if ($quests->get()) {
+
+			foreach($quests->get() as $quest) {
+				$quest = Merge::max_skill_points($quest);
+				$questsWithPoints[] = $quest;
+
+			}
+		}
+		else {
+			$questsWithPoints = NULL;
+		}
+           // $questsWithPoints['categories'] = $categories;
+
+			$view = View::make('quests.index')
+			->with('data', array('quests' => $questsWithPoints,
+                                 'categories' => $categories,
+								 'title' => 'Available Quests')
+				
+			);
+
+        return $view;
+        
+    }
 
 	public function get_available_online() {
 
 		//Get Completed Quests
 		$playerQuests = User::find(Session::get('uid'))->quests();
 		$ids = $playerQuests->lists('id');
-		if (!empty($ids)) {
+        if (!empty($ids)) {
 			$quests = Group::find(Session::get('current_course'))
 				->quests()
 				->where_not_in('id',$ids)
@@ -457,7 +502,6 @@ class Quest_Controller extends Base_Controller {
 		else {
 			$questsWithPoints = NULL;
 		}
-
 			$view = View::make('quests.index')
 			->with('data', array('quests' => $questsWithPoints,
 								 'title' => 'Online Quests')

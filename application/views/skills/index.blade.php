@@ -5,7 +5,7 @@
 </p>
 <?php echo Form::open('admin/skills', 'POST', array('class' => 'well form-inline')); ?>
 <fieldset>
-			    <?php echo Form::text('skill', '', array('placeholder' => 'Name of skill', 'class' => 'input-xlarge')); ?>
+			    <?php echo Form::text('skill', '', array('placeholder' => 'Name of skill', 'class' => 'input-lg')); ?>
 		    	<?php echo Form::submit('Add This Skill', array('class' => 'btn btn-primary pull-right'));?>		
 	
 	</fieldset>
@@ -24,7 +24,7 @@
                 <?php echo Form::open('admin/skill/edit', 'POST', array('class' => 'form-inline')); ?>
 
                   <td><span class="skill-name">{{$skill->name}}</span>
-                    <?php echo Form::text('skill', $skill->name, array('placeholder' => '', 'class' => 'input-large skill-input', 'style' => 'display:none;')); ?></td>
+                    <?php echo Form::text('skill', $skill->name, array('placeholder' => '', 'class' => 'input-large skill-input', 'style' => 'display:none;')); ?>
                     <?php echo Form::hidden('skill_id', $skill->id); ?></td>
                   <td>
       	            <div class="btn-toolbar pull-right">

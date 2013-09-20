@@ -155,6 +155,7 @@ Route::post('question/(:any)', array('uses' => 'question@answer'));
 Route::get('answer/(:any)/thanks',array('uses' => 'question@thanks'));
 Route::get('questions', array('uses' => 'question@index'));
 Route::get('quests', array('uses' => 'quest@index'));
+Route::get('quests/available', array('uses' => 'quest@available'));
 Route::get('quests/online', array('uses' => 'quest@available_online'));
 Route::get('quests/in-class', array('uses' => 'quest@available_in_class'));
 Route::get('quests/completed', array('uses' => 'quest@completed_by_student'));

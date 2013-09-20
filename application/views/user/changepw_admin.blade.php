@@ -14,7 +14,7 @@
 
 	<hr>
     <!-- login button -->
-    <?php echo Form::submit('Change Password', array('class' => 'btn btn-primary pull-right btn-large'));?>
+    <?php echo Form::submit('Change Password', array('class' => 'btn btn-primary pull-right btn-lg'));?>
 	</fieldset>
 <?php echo Form::close(); ?>
 @endsection

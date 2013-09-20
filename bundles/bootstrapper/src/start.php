@@ -22,8 +22,6 @@ Autoloader::namespaces(
 Asset::container('bootstrapper')
     ->bundle('bootstrapper')
     ->add('bootstrap',            'css/bootstrap.min.css')
-    ->add('nav-fix',              'css/nav-fix.css')
-    ->add('bootstrap-responsive', 'css/bootstrap-responsive.min.css')
     ->add('jquery',               'js/jquery-1.8.3.min.js')
     ->add('bootstrap-js',         'js/bootstrap.min.js', 'jquery');
 
@@ -31,8 +29,6 @@ Asset::container('bootstrapper')
 Asset::container('bootstrapper-unminified')
     ->bundle('bootstrapper')
     ->add('bootstrap',            'css/bootstrap.css')
-    ->add('nav-fix',              'css/nav-fix.css')
-    ->add('bootstrap-responsive', 'css/bootstrap-responsive.css')
     ->add('jquery',               'js/jquery-1.8.3.js')
     ->add('bootstrap-js',         'js/bootstrap.js', 'jquery');
 

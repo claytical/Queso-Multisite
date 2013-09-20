@@ -1,19 +1,19 @@
 @layout('layouts.default')
 @section('content')
 		<a name="createquest"></a>
-		<div class="btn-group pager pull-right">
-		  <button class="btn btn-mini btn-primary pager-previous disabled">Previous</button>
-		  <button class="btn btn-mini page disabled">Info</button>
-		  <button class="btn btn-mini page disabled">Skills</button>
-		  <button class="btn btn-mini page disabled">Thresholds</button>
-		  <button class="btn btn-mini page disabled">Category</button>
-		  <button class="btn btn-mini page disabled">Files</button>
-		  <button class="btn btn-mini btn-primary pager-next">Next</button>
+		<div class="btn-group-xs pager pull-right">
+		  <button class="btn btn-xs btn-primary pager-previous disabled">Previous</button>
+		  <button class="btn btn-xs page disabled">Info</button>
+		  <button class="btn btn-xs page disabled">Skills</button>
+		  <button class="btn btn-xs page disabled">Thresholds</button>
+		  <button class="btn btn-xs page disabled">Category</button>
+		  <button class="btn btn-xs page disabled">Files</button>
+		  <button class="btn btn-xs btn-primary pager-next">Next</button>
 		
 		</div>
 		
 
-		<h2>Update Quest</a></h2>
+		<h2>Update Quest</h2>
 
 		{{ Form::open('admin/quest/update', 'POST', array('class' => 'well')); }}
 
@@ -22,7 +22,7 @@
 	<div class="control-group" id="quest-info">	
 
 			<div class="controls">
-			    {{ Form::text('title', $quest->name, array('placeholder' => 'Quest Name', 'class' => 'input-xxlarge')); }}
+			    {{ Form::text('title', $quest->name, array('placeholder' => 'Quest Name', 'class' => 'input-lg')); }}
 			<div class="controls">
 			    {{ Form::textarea('instructions', $quest->instructions, array('placeholder' => 'Instructions go here...', 'class' => 'wysiwyg-area', 'id' => 'quest-instructions', 'required' => '', 'style' => 'width: 98%')); }}
 			</div>

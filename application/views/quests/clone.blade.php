@@ -11,7 +11,7 @@
 	<fieldset>
 
 		<div class="controls">
-		    {{ Form::text('title', '', array('placeholder' => 'Quest Name', 'class' => 'input-xxlarge', 'id' => 'quest-name', 'required' => '', 'title' => 'Quest name')); }}
+		    {{ Form::text('title', '', array('placeholder' => 'Quest Name', 'class' => 'input-lg', 'id' => 'quest-name', 'required' => '', 'title' => 'Quest name')); }}
 		</div>
 		
 		<div class="controls">

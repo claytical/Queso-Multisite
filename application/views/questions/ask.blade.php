@@ -13,9 +13,10 @@
 		
 	
 	<div class="form-actions">
-	    <?php echo Form::submit('Ask', array('class' => 'btn btn-primary pull-right btn-large'));?>
-	</fieldset>
+	    <?php echo Form::submit('Ask', array('class' => 'btn btn-primary pull-right btn-lg'));?>
 	</div>
-<?php echo Form::close(); ?>
+	</fieldset>
+
+        <?php echo Form::close(); ?>
 
 @endsection

@@ -74,7 +74,7 @@
 	                  <td>
 						@if($quest['skills'])
 
-							<ul class="unstyled">
+							<ul class="list-unstyled">
 									@foreach($quest['skills'] as $skill)
 									<li><em>{{$skill->name}}</em>
 

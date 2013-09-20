@@ -1,6 +1,5 @@
-	@if($info)
+@if($info)
 		@if($info->is_instructor)
-		<div class="well">
 			@if(!$info->setup_complete)
 				<h5>Course Setup</h5>
 				<h6>
@@ -37,27 +36,30 @@
 			@endif
 			@if($info && $info->setup_complete)
 				@if($info->notices > 0)
-					<a href="{{URL::to('notices')}}" class="btn btn-inverse btn-danger pull-right">
-						{{$info->notices}} <i class="icon-envelope icon-white"></i>
-					</a>
 				@endif
+				    <ul class="nav nav-stacked">
+                        <li><h6>Grade</h6></li>
+                        <li><a href="{{ URL::to('admin/submissions');}}">Submissions <span class="badge badge-important pull-right">{{$info->ungraded}}</span></a></li>
+				  		<li><a href="{{ URL::to('admin/grade');}}">In Class Work</a></li>
+                        <li><h6>List</h6></li>
+				  		<li><a href="{{ URL::to('admin/students');}}">Students</a></li>
+				  		<li><a href="{{ URL::to('admin/quests');}}">Quests</a></li>
+				  		<li><a href="{{ URL::to('admin/posts');}}">Posts</a></li>
+                        <li><h6>Create</h6></li>    
+				  		<li><a href="{{ URL::to('admin/quest/create');}}">Quest</a></li>
+				  		<li><a href="{{ URL::to('admin/post/create');}}">Post</a></li>
+				  	</ul>
 
-				<h5>Instructor</h5>
-
-					<p><span class="badge badge-important">{{$info->ungraded}}</span> ungraded quests</p>
-			@endif
-		</div>
+            @endif
 
 		@else
-
-		<div class="well">
 
 			@if($info)
 				@if($info->current_level)
 					<h5>{{$info->current_level->label}} 
 					@if($info->notices > 0)
 						<a href="{{URL::to('notices')}}" class="btn btn-inverse btn-danger pull-right">
-							{{$info->notices}} <i class="icon-envelope icon-white"></i>
+							{{$info->notices}} <i class="glyphicon glyphicon-envelope icon-white"></i>
 						</a>
 					@endif
 	</h5>
@@ -88,6 +90,5 @@
 					<p><span class="badge badge-default">{{$info->available_quests}}</span> Available</p>
 				@endif
 			@endif
-		</div>
 		@endif
 	@endif

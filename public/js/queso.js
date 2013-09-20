@@ -28,16 +28,6 @@ $(function() {
 	$('table.chart').visualize({
 							type: 'area'
 						});
-	$('.slider').slider();
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
- 		//mobile only js
- 	}
-	else {
-		//desktop js
-	    $(".chzn-select").chosen();
-
-	}
-	
 
 
 	$('a.btn-remove-file').click(function() {
@@ -45,65 +35,48 @@ $(function() {
 		$(this).parent().remove();
 	});
 
-	$('a.btn-edit-skill').click(function() {
-		$(this).hide();
-		$(this).parent().children('button.btn-edit-skill-save').show();
-		$(this).parent().parent().parent().parent().children("td").children(".skill-input").show();
-		$(this).parent().parent().parent().parent().children("td").children(".skill-name").hide();
 
-	});
-    
-    $('a.btn-edit-level').click(function() {
-        event.preventDefault();
-        $(this).hide();
-		$(this).parent().children('button.btn-edit-level-save').show();
-		$(this).parent().parent().parent().parent().children("td").children(".level-input").show();
-		$(this).parent().parent().parent().parent().children("td").children(".level-amount-input").show();
-
-            $(this).parent().parent().parent().parent().children("td").children(".level").hide();
-            $(this).parent().parent().parent().parent().children("td").children(".level_amount").hide();
-
-	});
     
 	//$("#create-quest").nod(questCreateMetrics);
      // Select all range inputs, watch for change
 	 $("input[type='range']").change(function() {
-	 
-	   $(this).next("span").text($(this).val());
+         $("#badgegrade"+$(this).val()).text($(this).val());
 	   
 	   // Move bubble
 	 })
 	 // Fake a change to position bubble at page load
 	 .trigger('change');
-});
-  
-$('#quest-select').chosen().change(function() {
-	if ($('#quest-select').val() == 2) {
-		$("#submission_options").show();
-	}
-	else {
-		$("#submission_options").hide();
+    $('select.tablesorter-filter').selectpicker();
+    $('input.tablesorter-filter').addClass('form-control');
+    $('.selectpicker').selectpicker();
 
-	}
-});
-$('#skills-select').chosen().change(function() {
-	if ($('#skills-select :selected').size() > 0) {
-		$('#quest-skills-rewards .controls').remove();
-		$('#skills-select :selected').each(function(i, selected){ 
-			$('#quest-skills-rewards p').append(skillReward($(selected).text(), $(selected).val()));
-		});
-
-	}
-	else {
-		$('#quest-skills-rewards .controls').html("<p></p><p><strong>You can't assign rewards unless the quest has skills associated with it.</strong></p>");
-	}
 });
 
+$('#quest-select').change(function() {
+   if ($('#quest-select').val() == 2) {
+		$("#submission_options").show();       
+   }
+    else {
+		$("#submission_options").hide();    
+    }
+});
 
+$('#skills-select').change(function() {
+   if ($('#skills-select').val()) {
+       $('#quest-skills-rewards p').eq(1).html("");
+       $('#skills-select :selected').each(function(i, selected) {
+        $('#quest-skills-rewards p').eq(1).append(skillReward($(selected).text(), $(selected).val()));
+       });
+   }
+    else {
+    $('#quest-skills-rewards .controls').html("<p></p><p><strong>You can't assign rewards unless the quest has skills associated with it.</strong></p>");
+
+    }
+});
 jQuery(".next-step, .pager-next").click(function() {
-	if (selectedQuestIndex < $('.control-group').size() -1) {
+	if (selectedQuestIndex < $('.quest-wizard-page').size() -1) {
 		changeQuestPage(1);
-		if (selectedQuestIndex == $('.control-group').size() - 1) {
+		if (selectedQuestIndex == $('.quest-wizard-page').size() - 1) {
 			$('.pager-next').addClass('disabled');
 		}
 		else {
@@ -114,7 +87,7 @@ jQuery(".next-step, .pager-next").click(function() {
 
 jQuery(".pager-previous, .step-back").click(function() {
 	if (selectedQuestIndex > 0) {
-		for (var i = selectedQuestIndex; i < $('.control-group').size(); i++) {
+		for (var i = selectedQuestIndex; i < $('.quest-wizard-page').size(); i++) {
 			$('.pager button.page').eq(i).addClass('disabled');
 		}
 		changeQuestPage(-1);
@@ -128,12 +101,12 @@ jQuery(".pager-previous, .step-back").click(function() {
 jQuery(".pager .page").click(function() {
 	if (!$(this).hasClass('disabled')) {
 		selectedQuestIndex = $(this).index() - 1;
-		$('.control-group').hide();
-			for (var i = $(this).index(); i < $('.control-group').size(); i++) {
+		$('.quest-wizard-page').hide();
+			for (var i = $(this).index(); i < $('.quest-wizard-page').size(); i++) {
 				$('.pager button.page').eq(i).addClass('disabled');
 				$('.pager button.page').eq(i).removeClass('active');
 			}
-			if (selectedQuestIndex != $('.control-group').size()) {
+			if (selectedQuestIndex != $('.quest-wizard-page').size()) {
 				$('.pager-next').removeClass('disabled');
 			}
 			if (selectedQuestIndex == 0) {
@@ -142,7 +115,7 @@ jQuery(".pager .page").click(function() {
 			}
 			
 		$(this).addClass('active');
-		$('.control-group').eq($(this).index()-1).show();
+		$('.quest-wizard-page').eq($(this).index()-1).show();
 	}
 });
 
@@ -154,9 +127,9 @@ function skillReward(name, id) {
 	var html = "<div class='controls'><h4>" + name + "</h4>";
 			html += "<div class='skill_reward form-inline'>";
 			html += "<input value='Minimum' type='hidden' name='skill_reward["+id+"][label][]'> ";
-			html += "<input placeholder='Minimum Point Value' required type='text' name='skill_reward["+id+"][amount][]'/> ";
+			html += "<input class='form-control input-sm' placeholder='Minimum Point Value' required type='text' name='skill_reward["+id+"][amount][]' style='width:40%;'/> ";
 			html += "<input value='Maximum' type='hidden' name='skill_reward["+id+"][label][]'> ";
-			html += "<input placeholder='Maximum Point Value' required type='text' name='skill_reward["+id+"][amount][]'/> ";
+			html += "<input class='form-control input-sm' placeholder='Maximum Point Value' required type='text' name='skill_reward["+id+"][amount][]' style='width:40%;'/> ";
 			html +=	"</div>";
 		html += "</div>";
 	return html;	
@@ -195,10 +168,10 @@ function checkRequiredInputs() {
 }
 
 function changeQuestPage(direction) {
-  $('.control-group').eq(selectedQuestIndex).hide();
+  $('.quest-wizard-page').eq(selectedQuestIndex).hide();
   $('.pager button.page').eq(selectedQuestIndex).removeClass('active');
   selectedQuestIndex += direction;
-  $('.control-group').eq(selectedQuestIndex).show();
+  $('.quest-wizard-page').eq(selectedQuestIndex).show();
   if (direction == 1) {
 	  $('.pager button.page').eq(selectedQuestIndex).removeClass('disabled');
   }

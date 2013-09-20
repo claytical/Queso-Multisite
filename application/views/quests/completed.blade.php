@@ -1,47 +1,77 @@
 @layout('layouts.default')
 @section('content')
-<h2>Completed Quests</h2>
+<div class="container">
+    <h2>Completed Quests</h2>
+    <form class="form-inline form-group pull-right" role="form">
+      <div class="form-group">
+          {{ Form::text('quest_title', '', array('placeholder' => 'Quest Title', 'class' => 'form-control input-md')); }}
+      </div>
+      <div class="form-group">
+          {{ Form::select('category', array('one', 'two', 'three'), '', array('class' => 'selectpicker', 'data-placeholder' => 'Category Filter', 'id' => 'category-select')) }}
+      </div>
+    </form>
+
+</div>
 
 @if (count($data->quests) > 0)
-<table class="table sortable">
-              <thead>
-                <tr>
-                  <th>Quest</th>
-                  <th class="filter-select" data-placeholder="Select...">Category</th>
-                  <th class="filter-false" data-sorter="false"></th>
+<div class="col-md-4 quest-box">
+    <div class="panel panel-success" style="min-height: 140px">
+        <div class="panel-heading">
+        Totals
+        </div>
+        <div class="panel-body">
+            <ul class="list-unstyled">
+                @foreach($data->skills as $skill)
+                    <li>{{$skill['label']}}
+                        <span class="pull-right">
+                        @if($skill['amount'])
+                            {{$skill['amount']}}
+                        @else
+                            0
+                        @endif
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
 
-                </tr>
-              </thead>
-              <tbody>
-            	@foreach($data->quests as $quest)
-                <tr>
-                  <td>
-
-                  	<span style="white-space:nowrap;">
-                  	@if($quest['type'] == 1)
+        </div>
+    </div>
+</div>
+@foreach($data->quests as $quest)
+<div class="col-md-4 quest-box">
+    <div class="panel panel-default"  style="min-height: 140px">
+    <div class="panel-heading">   
+     <button class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#quest{{$quest['quest_id']}}" type="button">
+         <span class="glyphicon glyphicon-chevron-down"></span>
+     </button>
+         <h3 class="panel-title">
                   	{{$quest['name']}}
-					@endif
-                  	@if($quest['type'] == 2)
-                  	<a href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">{{$quest['name']}}</a>
-					@endif
+        </h3>
+        </div>
+        <div class="panel-body">
+            @if($quest['type'] != 1)
+                <a class="btn btn-primary btn-sm pull-right" href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">Revise</a>
+            @else
+            <span class="btn btn-default disabled pull-right">In Class</span>
+            @endif
 
-                  	</span>
-                  	<div>
-	                  	<?php $created_date = strtotime($quest['completed']);?>
-						{{date("F j, Y", $created_date);}}
-                  	<div>
-                  	</td>
-                  	<td>{{$quest['category']}}</td>
-                  <td>
+            <h5>
+                <?php $created_date = strtotime($quest['completed']);?>
+				{{date("F j, Y", $created_date);}}
+            </h5>
+            <div id="quest{{$quest['quest_id']}}" class="more-info collapse">
+                <h6>{{$quest['category']}}</h6>
 					@if($quest['skills'])
-						<ul class="unstyled">
+						<ul class="list-unstyled">
 								@foreach($quest['skills'] as $skill)
-								<li><em>{{$skill->name}}</em>
-									<div class="progress progress-success">
-										@if($data->questMaxPoints[$skill->id] != 0)
-										<div class="bar" style="width: {{$skill->amount/$data->questMaxPoints[$skill->id] * 100}}%;">{{$skill->amount}} / {{$data->questMaxPoints[$skill->id]}}</div>
-										@endif
-									</div>	
+								<li><em>{{$skill->amount}} {{$skill->name}}</em>        
+                                    <div class="progress">
+                                        @if($data->questMaxPoints[$skill->id] != 0)
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{$skill->amount}}" aria-valuemin="0" aria-valuemax="{{$data->questMaxPoints[$skill->id]}}" style="width: {{$skill->amount/$data->questMaxPoints[$skill->id] * 100}}%;">
+                                            <span class="sr-only">{{$skill->amount}}</span>
+                                            @endif
+                                        </div>
+                                    </div>                                    
 								</li>
 								@endforeach
 						</ul>
@@ -49,32 +79,13 @@
 						<em>Pending</em>
 					@endif
 
-                  </td>
-                </tr>
-				@endforeach
-
-              </tbody>
-            </table>
-<hr>
-<div class="offset6">
-	<h5>Totals</h5>
-	<ul class="unstyled">
-	@foreach($data->skills as $skill)
-		<li>
-			{{$skill['label']}}
-		 	<span class="pull-right">
-		 	@if($skill['amount'])
-		 		{{$skill['amount']}}
-			@else
-			0
-			@endif
-		 	</span>
-		</li>
-	@endforeach
-	</ul>
-</div>
+            </div>
+            </div>
+        </div>
+    </div>
+@endforeach
 
 @else
-<p class="lead">Looks like you haven't completed any quests...</p>
+<p class="lead">No quests available, stay tuned!</p>
 @endif
 @endsection

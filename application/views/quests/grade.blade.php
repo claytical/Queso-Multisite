@@ -1,14 +1,13 @@
 @layout('layouts.default')
 @section('content')
-<h1>{{$data->quest->name}}</h1>
-{{ Form::open('admin/quest/grade', 'POST', array('class' => 'well')); }}
+<h2>{{$data->quest->name}}</h2>
+{{ Form::open('admin/quest/grade', 'POST', array('class' => 'form-horizontal')); }}
 
-<fieldset>
-
-	<div class="control-group">	
+<div class="container">
+	<div class="form-group">	
 
 			<div class="controls">
-				{{ Form::select('students[]', $data->students, '', array('class' => 'chzn-select', 'data-placeholder' => 'Select Students', 'tabindex' => '-1', 'multiple')) }}	
+				{{ Form::select('students[]', $data->students, '', array('class' => 'selectpicker', 'data-placeholder' => 'Select Students', 'tabindex' => '-1', 'multiple')) }}	
 			</div>
 			
 			
@@ -16,21 +15,24 @@
 			<h4>{{$skill['name']}}</h4>		
 
 			<div class="controls">
-				<input type="range" name="grade[{{$skill['id']}}]" min="{{$skill['rewards']['Minimum']}}" max="{{$skill['rewards']['Maximum']}}" value="{{$skill['rewards']['Maximum']}}">
-				<span class="badge" for="grade[{{$skill['id']}}]" onforminput="value = grade[{{$skill['id']}}].valueAsNumber;"></span>
+                <div class="input-group">
+				<input class="form-control" type="range" name="grade[{{$skill['id']}}]" min="{{$skill['rewards']['Minimum']}}" max="{{$skill['rewards']['Maximum']}}" value="{{$skill['rewards']['Maximum']}}">
+                    <span class="badge input-group-addon" for="grade[{{$skill['id']}}]" onforminput="value = grade[{{$skill['id']}}].valueAsNumber;"></span>
+                    </div>
+				
 			</div>
 		@endforeach
 		
 
 	</div>
-		<div class="controls">
-			{{ Form::text('note', '', array('placeholder' => 'Note', 'class' => 'input-xxlarge')); }}
+		<div class="form-group">
+			{{ Form::text('note', '', array('placeholder' => 'Note', 'class' => 'input-md form-control')); }}
 			{{ Form::hidden('quest_id', $data->quest->id); }}
 		</div>
 
 
-		<div class="form-actions">
-	    {{ Form::submit('Grade Quest', array('class' => 'btn btn-primary pull-right btn-submit btn-large', 'data-loading-text' => 'Grading...')); }}
+		<div class="form-group">
+	    {{ Form::submit('Grade Quest', array('class' => 'btn btn-primary pull-right btn-submit btn-lg', 'data-loading-text' => 'Grading...')); }}
 		</div>
-
+</div>
 @endsection

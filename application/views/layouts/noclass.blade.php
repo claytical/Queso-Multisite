@@ -30,30 +30,40 @@
 <link rel="stylesheet" type="text/css" href="{{ URL::to_asset('chosen/chosen.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/queso.css') }}">
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-  </head>
+<script>
+filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
+</script>
+    </head>
+    <style>
+        body {
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+    </style>
+    
 	<body>
-	<div class="navbar navbar-fixed-top">
-		  <div class="navbar-inner">
-			<div class="container">
-			  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			  </button>
-			 
-			  <div class="nav-collapse collapse">
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ URL::base() }}">Queso</a>
+        </div>
+            <div class="collapse navbar-collapse navbar-queso" role="navigation">
+				<ul class="nav navbar-nav">
+                @if(Session::get('current_course'))
+			     <li><a href="{{ URL::to('posts') }}">{{ Session::get('course_name')}}</a></li>
+                @endif
+				</ul>
 					@render('user.menu')
-			  </div><!--/.nav-collapse -->
+			 </div><!--/.nav-collapse -->
 
-			</div>
-		  </div>
-		</div>
-	<div class="container-fluid">
-		<div class="row-fluid">
+    </div>
+	
+<div class="container">
+    <div class="row">
 					@include('simplemessage::out')				
 		        	@yield('content')
-		</div>
     </div>
+</div>
+
 <script src="{{ URL::to_asset('chosen/chosen.jquery.min.js') }}"></script> 
 <script type="text/javascript" src="{{ URL::to('js/queso.js') }}"></script>
 

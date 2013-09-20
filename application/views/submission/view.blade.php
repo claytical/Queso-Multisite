@@ -17,7 +17,7 @@
 <div>
 <p>
 	@foreach(explode(",",$data->submission->filename) as $file)
-	<a class="btn btn-info btn-mini" target="_blank" href="{{$file}}">{{Filepicker::metadata($file)->filename}}</a>
+	<a class="btn btn-info btn-xs" target="_blank" href="{{$file}}">{{Filepicker::metadata($file)->filename}}</a>
 	@endforeach
 </p>
 </div>

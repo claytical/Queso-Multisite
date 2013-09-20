@@ -1,6 +1,6 @@
 @layout('layouts.noclass')
 @section('content')
-<h1>Change Password</h1>
+<h2>Change Password</h2>
 <?php echo Form::open('user/changepw', 'POST', array('class' => 'form-horizontal well')); ?>
 	<fieldset>
 	
@@ -29,7 +29,7 @@
 
 	<hr>
     <!-- login button -->
-    <?php echo Form::submit('Change Password', array('class' => 'btn btn-primary pull-right btn-large'));?>
+    <?php echo Form::submit('Change Password', array('class' => 'btn btn-primary pull-right btn-lg'));?>
 	</fieldset>
 <?php echo Form::close(); ?>
 

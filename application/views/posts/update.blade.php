@@ -7,7 +7,7 @@
 	
 	<div class="control-group">	
 			<div class="controls">
-			    <?php echo Form::text('headline', $post->headline, array('placeholder' => 'Headline', 'class' => 'input-xxlarge')); ?>
+			    <?php echo Form::text('headline', $post->headline, array('placeholder' => 'Headline', 'class' => 'input-lg')); ?>
 			    <?php echo Form::hidden('post_id', $post->id); ?>
 
 			</div>
@@ -23,7 +23,7 @@
 			@if($post->files)
 				<ul class="inline">
 				@foreach($post->files as $file)
-					<li>{{$file['friendly']}} {{ Form::hidden('existingFiles[]', $file['encoded'])}} <a class="btn btn-danger btn-mini btn-remove-file" href=''><i class="icon-remove icon-white"></i></a></li>
+					<li>{{$file['friendly']}} {{ Form::hidden('existingFiles[]', $file['encoded'])}} <a class="btn btn-danger btn-xs btn-remove-file" href=''><i class="glyphicon glyphicon-remove icon-white"></i></a></li>
 				@endforeach
 				</ul>
 			@endif
@@ -53,9 +53,9 @@
 	
 	
 	<div class="form-actions">
-	    <?php echo Form::submit('Post', array('class' => 'btn btn-primary pull-right btn-large'));?>
-	</fieldset>
+	    <?php echo Form::submit('Post', array('class' => 'btn btn-primary pull-right btn-lg'));?>
 	</div>
+</fieldset>
 <?php echo Form::close(); ?>
 
 @endsection

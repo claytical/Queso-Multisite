@@ -8,14 +8,14 @@ Queso uses skills as a metric for student achievement.  Points are awarded in sp
 <fieldset>
 	<div class="control-group">	
 			<div class="controls">
-			    <?php echo Form::text('skill', '', array('placeholder' => 'Name of skill', 'class' => 'input-xxlarge')); ?>
+			    <?php echo Form::text('skill', '', array('placeholder' => 'Name of skill', 'class' => 'input-lg')); ?>
 			</div>
 	</div>
 	
 	<div class="form-actions">
 	    <?php echo Form::submit('Create Skill', array('class' => 'btn btn-primary pull-right btn-large'));?>
-	</fieldset>
 	</div>
+    </fieldset>
 <?php echo Form::close(); ?>
 	
 

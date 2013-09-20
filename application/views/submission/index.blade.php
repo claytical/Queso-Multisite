@@ -1,34 +1,53 @@
 @layout('layouts.default')
 @section('content')
 <h2>{{$data->title}}</h2>
-@if (!empty($data->submissions))
-<table class="table sortable">
+@if (!empty($data->submissions) || !empty($data->revisions))
+<table class="table table-responsive sortable">
 	  <thead>
 	  <th>Quest</th>
 	  <th>Student</th>
-      <th class="filter-select" data-placeholder="Select...">Submitted</th>
 	  </thead>
 	  <tbody>
-		@foreach ($data->submissions as $submission)
-		<tr>
-		  <td>
-		  @if($submission['type'] == 'text')
-			  <a href="{{ URL::to('admin/submission/grade/'.$submission['id'])}}">{{$submission['quest']}}</a>
-		  @endif
-		  </td>
-		  <td>
-			{{$submission['username']}}
-		  </td>
-		  <td>
-		  <?php $submitted_date = strtotime($submission['created']);?>
-			{{date("F j, Y", $submitted_date);}}
-		  
-		  </td>
-		</tr>
-		@endforeach
-	  </tbody>
+        @if (!empty($data->submissions))          
+            @foreach ($data->submissions as $submission)
+            <tr>
+              <td>
+                  <a href="{{ URL::to('admin/submission/grade/'.$submission['id'])}}">{{$submission['quest']}} <span class="label label-info pull-right">New</span></a>
+              <div class="visible-md visible-lg">
+              <?php $submitted_date = strtotime($submission['created']);?>
+                {{date("F j, Y", $submitted_date);}}
+              
+              </div>                  
+              </td>
+              <td>
+                {{$submission['username']}}
+              </td>
+            </tr>
+            @endforeach
+		@endif
+        @if (!empty($data->revisions))    
+              @foreach ($data->revisions as $submission)
+                <tr>
+                  <td>
+                    <a href="{{ URL::to('admin/submission/grade/'.$submission['id'])}}">{{$submission['quest']}}<span class="label label-info pull-right">Revision {{$submission['revision']}}</span></a>
+                    <div class="visible-md visible-lg">
+              <?php $submitted_date = strtotime($submission['created']);?>
+                {{date("F j, Y", $submitted_date);}}
+              
+              </div>
+
+                  </td>
+                  <td>
+                    {{$submission['username']}}
+                  </td>
+                </tr>
+            @endforeach
+        @endif
+    </tbody>
 	</table>
-@else
-<p class="lead">Nothing to grade...</p>
 @endif
+@if (empty($data->submissions) && empty($data->revisions))
+    <p>Nothing to grade...</p>
+@endif
+    
 @endsection

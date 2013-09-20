@@ -5,7 +5,7 @@
 	<?php echo Form::open('admin/student/quest/remove', 'POST', array('class' => '')); ?>
 
 	<h3>Completed</h3>
-	<?php echo Form::submit('Remove Checked Quests', array('class' => 'btn btn-danger btn-mini pull-right'));?>
+	<?php echo Form::submit('Remove Checked Quests', array('class' => 'btn btn-danger btn-xs pull-right'));?>
 	<?php echo Form::hidden('quest_id', $data->quest->id);?>
 	<table class="table table-hover sortable">
 				  <thead>
