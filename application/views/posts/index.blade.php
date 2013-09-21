@@ -10,7 +10,7 @@
         			<h5>Files</h5>
 	        		<ul class="list-inline">
 	        		@foreach(explode(",",$post->filename) as $file)
-						<li><a class='btn btn-sm btn-info pull-right' href='{{$file}}'>{{Filepicker::metadata($file)->filename}}</a></li>
+						<li><a class='btn btn-sm btn-info pull-right' href='{{$file}}'><span class="glyphicon glyphicon-cloud-download"></span> {{Filepicker::metadata($file)->filename}}</a></li>
 					@endforeach
 					</ul>
 				</div>
@@ -26,19 +26,22 @@
 
         @if($data->questions)
 <div class="panel-group" id="accordion">
-            @foreach($data->questions as $question)
-                @if($data->answers[$question->id])
-                    <div class="panel panel-success">
-                @else
+
+    @foreach($data->questions as $question)
                     <div class="panel panel-default">
-                @endif
-                  <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#question{{$question->id}}">
-                      {{$question->question}} 
+                        <div class="panel-heading">
+                        <h4 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#question{{$question->id}}">
+                             
+                        @if($data->answers[$question->id])
+                            <span class="glyphicon glyphicon-comment"></span> 
+                        @endif
+
+                            {{$question->question}} 
+                                
                     </a> 
                       @if(Course::is_instructor())
-                      <a href="{{URL::to('admin/question/delete/'.$question->id)}}" class="btn btn-default btn-xs pull-right">Delete</a>
+                      <a href="{{URL::to('admin/question/delete/'.$question->id)}}" class="btn btn-xs pull-right btn-default"><span class="glyphicon glyphicon-trash"></span></a>
                       @endif
 
                     </h4>
@@ -51,9 +54,9 @@
                         <li>
                             <div class="answer-header">{{$answer->username}} says...
                             <div class="btn-group pull-right">
-                                <a href="{{URL::to('answer/'.$answer->id.'/thanks')}}" class='btn-xs btn btn-success'>+ {{$answer->thanks}}</a>
+                                <a href="{{URL::to('answer/'.$answer->id.'/thanks')}}" class='btn-xs btn btn-default'>{{$answer->thanks}} <span class="glyphicon glyphicon-heart"></span></a>
                         @if(Course::is_instructor())
-                            <a href="{{URL::to('admin/answer/delete/'.$answer->id)}}" class="btn-xs btn btn-danger">Delete</a>
+                            <a href="{{URL::to('admin/answer/delete/'.$answer->id)}}" class="btn-xs btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
                         @endif
                             </div>
                             </div>

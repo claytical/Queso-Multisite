@@ -56,7 +56,7 @@ filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
 			  <div class="collapse navbar-collapse navbar-queso" role="navigation">
 				<ul class="nav navbar-nav">
 				@if(Session::get('current_course') && Sentry::check())
-                    <li class="dropdown"><a class="navbar-brand" href="{{ URL::to('posts') }}">{{ Session::get('course_name')}}</a>          
+                    <li class="dropdown"><a class="visible-md visible-lg" href="{{ URL::to('posts') }}">{{ Session::get('course_name')}}</a>          
 </li>
                     @if(Course::has_post_menu())
 				  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">{{Course::posts_name()}}</a>

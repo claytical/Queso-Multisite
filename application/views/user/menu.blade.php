@@ -11,15 +11,17 @@
 					<li role="presentation"><a role="menuitem" href="{{ URL::to('/course/'.$course['id']);}}">{{$course['name']}}</a>                      </li>
 				@endforeach
           <li role="presentation" class="divider"></li>
+          
         @if(Course::is_instructor())
             <li role="presentation"><a role="menuitem" href="{{ URL::to('admin/course');}}">Course Setup</a></li>
             <li role="presentation"><a role="menuitem" href="{{ URL::to('admin/course/export');}}">Export</a></li>
             <li role="presentation"><a role="menuitem" href="{{ URL::to('admin/course/new');}}">New Course</a></li>
           @else
-            <li role="presentation"><a role="menuitem" href="{{ URL::to('user');}}">Progress</a></li>
+            <li role="presentation"><a role="menuitem" href="{{ URL::to('user');}}"><span class="glyphicon glyphicon-stats"></span> Progress</a></li>
         @endif
         <li class="divider"></li>
-        <li role="presentation"><a role="menuitem" href="{{ URL::to('user/preferences');}}">Account Settings</a></li>
+          <li role="presentation"><a role="menuitem" href="{{ URL::to('user/add');}}">Join Another Course</a></li>
+          <li role="presentation"><a role="menuitem" href="{{ URL::to('user/preferences');}}">Account Settings</a></li>
         <li role="presentation"><a role="menuitem" href="{{ URL::to('user/logout');}}">Sign Out</a></li>
 
         </ul>

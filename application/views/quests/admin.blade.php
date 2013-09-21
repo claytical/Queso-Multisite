@@ -36,16 +36,16 @@ Quest Admin
                                   <h4 class="modal-title">{{$quest->name}}</h4>
                                 </div>
                                 <div class="modal-body">
-    <a class="btn btn-default btn-block" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest">Show Progress</a>
-                <a class="btn btn-default btn-block" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest">Clone This Quest</a>
+    <a class="btn btn-default btn-block" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest"><span class="glyphicon glyphicon-tasks"></span> Show Progress</a>
+                <a class="btn btn-default btn-block" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest"><span class="cc-icon sprite-clone"> </span>Clone This Quest</a>
     
                             @if ($quest->visible)
-                            <a class="btn btn-default btn-block" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}">Hide This Quest</a>
+                            <a class="btn btn-default btn-block" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-close"></span> Hide This Quest</a>
                             @else
-                            <a class="btn btn-default btn-block" title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}">Show This Quest</a>
+                            <a class="btn btn-default btn-block" title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-open"></span> Show This Quest</a>
                             
                             @endif
-                            <a class="btn btn-danger btn-block" href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it">Delete This Quest</a>
+                            <a class="btn btn-danger btn-block" href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it"><span class="glyphicon glyphicon-eye-close"></span> Delete This Quest</a>
                                   </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -58,16 +58,16 @@ Quest Admin
                         
                     </div>
 					<div class="btn-group pull-right visible-md visible-lg">
-						<a class="btn btn-default btn-xs" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest">Progress</a>
-            <a class="btn btn-default btn-xs" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest">Clone</a>
+						<a class="btn btn-default btn-xs" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest"><span class="glyphicon glyphicon-tasks"></span></a>
+            <a class="btn btn-default btn-xs" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest"><span class="cc-icon sprite-clone"> </span></a>
 
 						@if ($quest->visible)
-						<a class="btn btn-default btn-xs" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}">Hide</a>
+						<a class="btn btn-default btn-xs" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-close"></span></a>
 						@else
-						<a class="btn btn-default btn-xs" title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}">Show</a>
+						<a class="btn btn-default btn-xs" title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-open"></span></a>
 						
 						@endif
-						<a class="btn btn-danger btn-xs" href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it">Trash</a>
+						<a class="btn btn-danger btn-xs" href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it"><span class="glyphicon glyphicon-trash"></span></a>
 						</div>
                   </td>
                 </tr>

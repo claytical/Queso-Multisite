@@ -327,8 +327,14 @@ class Quest_Controller extends Base_Controller {
 	public function get_grade_in_class() {
 		$quests = Group::find(Session::get('current_course'))->quests()
 						->where('type', '=', 1);
-		
-		$data = array('quests' => $quests->get(),
+        $categories = DB::table('quests')
+                        ->where('group_id', '=', Session::get('current_course'))
+                        ->where('type', '=', 1)
+                        ->distinct('category')
+                        ->lists('category');
+        
+        $data = array('quests' => $quests->get(),
+                      'categories' => $categories,
 					  'title' => 'Grade In Class Quests'
 					  );
 		
