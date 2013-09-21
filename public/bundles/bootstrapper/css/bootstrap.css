@@ -187,11 +187,11 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
+  background-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 input,
 button,
@@ -235,7 +235,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.428571429;
-  background-color: #ffffff;
+  background-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   border: 1px solid #dddddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -394,7 +394,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -1317,7 +1317,7 @@ th {
   border-top: 2px solid #dddddd;
 }
 .table .table {
-  background-color: #ffffff;
+  background-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .table-condensed thead > tr > th,
 .table-condensed tbody > tr > th,
@@ -3206,7 +3206,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #ffffff;
+  background-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -3232,7 +3232,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   margin-right: 0;
 }
 .nav-tabs.nav-justified > .active > a {
-  border-bottom-color: #ffffff;
+  border-bottom-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .nav-pills > li {
   float: left;
@@ -3279,7 +3279,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   margin-right: 0;
 }
 .nav-tabs-justified > .active > a {
-  border-bottom-color: #ffffff;
+  border-bottom-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .tabbable:before,
 .tabbable:after {
@@ -4162,7 +4162,7 @@ a.list-group-item.active > .badge,
 .thumbnail {
   padding: 4px;
   line-height: 1.428571429;
-  background-color: #ffffff;
+  background-color: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   border: 1px solid #dddddd;
   border-radius: 4px;
   -webkit-transition: all 0.2s ease-in-out;

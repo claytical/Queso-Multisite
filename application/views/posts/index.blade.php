@@ -1,13 +1,13 @@
 @layout('layouts.default')
 @section('content')
-    <div class="col-md-6">
+    <div class="col-md-7">
 	@if($data->posts)
 		@foreach($data->posts as $post)
 			<h2>{{$post->headline}}</h2>
-			<div class="row-fluid">{{$post->post}}</div>
+			<div class="row container">{{$post->post}}</div>
 			@if($post->filename)
-        		<div class="row-fluid">
-        			<h5>Files</h5>
+        		<div class="row container">
+        			<h6>Files</h6>
 	        		<ul class="list-inline">
 	        		@foreach(explode(",",$post->filename) as $file)
 						<li><a class='btn btn-sm btn-info pull-right' href='{{$file}}'><span class="glyphicon glyphicon-cloud-download"></span> {{Filepicker::metadata($file)->filename}}</a></li>
@@ -21,7 +21,7 @@
 		<h2>Nothing posted yet, stay tuned!</h2>
 	@endif
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <h2>Questions <a href="{{URL::to('question/ask')}}" class="btn btn-default btn-primary pull-right">Ask a Question</a></h2>
 
         @if($data->questions)
@@ -31,7 +31,11 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#question{{$question->id}}">
+                          @if(Course::is_instructor())
+                          <a href="{{URL::to('admin/question/delete/'.$question->id)}}" class="btn btn-xs pull-right btn-default"><span class="glyphicon glyphicon-trash"></span></a>
+                          @endif
+
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#question{{$question->id}}">
                              
                         @if($data->answers[$question->id])
                             <span class="glyphicon glyphicon-comment"></span> 
@@ -40,9 +44,6 @@
                             {{$question->question}} 
                                 
                     </a> 
-                      @if(Course::is_instructor())
-                      <a href="{{URL::to('admin/question/delete/'.$question->id)}}" class="btn btn-xs pull-right btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                      @endif
 
                     </h4>
                 </div>

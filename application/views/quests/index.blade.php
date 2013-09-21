@@ -18,7 +18,7 @@
 @if (count($data['quests']) > 0)
 @foreach($data['quests'] as $quest)
 <div class="col-md-4 quest-box">
-    <span style="display:none" class="quest_category">{{$quest['category']}}</span>    
+    <span style="display:none" class="quest_category">{{$quest->category}}</span>    
     <div class="panel panel-default"  style="min-height: 140px">
     <div class="panel-heading">             
      <button class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#quest{{$quest->id}}" type="button">

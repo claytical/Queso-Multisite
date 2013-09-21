@@ -71,11 +71,11 @@ filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
 			  </div><!--/.nav-collapse -->
 			</div>
     <div class="row container">
-        <div class="col-md-3">
+        <div class="col-md-2">
             @render('user.sidebar')
             
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10">
             @include('simplemessage::out')				
             @yield('content')
         </div>
