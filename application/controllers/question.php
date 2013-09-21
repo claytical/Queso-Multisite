@@ -46,14 +46,26 @@ class Question_Controller extends Base_Controller {
 						  'question_id' => $id,
 						  'user_id' => Session::get('uid')));
 
-		return Redirect::to('question/'.$id);
+		return Redirect::to('posts');
 
 	}
-	public function get_thanks($id) {
+    
+    public function get_delete_question($id) {
+        $question = Question::find($id);
+        $question->delete();
+        return Redirect::to('posts');
+    }
+    public function get_delete_answer($id) {
+        $answer = Answer::find($id);
+        $answer->delete();
+        return Redirect::to('posts');
+    }
+    
+    public function get_thanks($id) {
 		$answer = Answer::find($id);
 		$answer->thanks++;
 		$answer->save();
-		return Redirect::to('question/'.$answer->question_id);
+		return Redirect::to('posts');
 	}
 	public function get_ask() {
 		$info = new stdClass();
@@ -72,7 +84,7 @@ class Question_Controller extends Base_Controller {
 					  'group_id' => Session::get('current_course')
 					  ));	
 
-		return Redirect::to('question/'.$question->id);
+		return Redirect::to('posts');
 		}
 
 

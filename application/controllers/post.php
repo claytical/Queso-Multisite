@@ -17,7 +17,8 @@ class Post_Controller extends Base_Controller {
 
 
 	public function get_index() {
-		$group = Group::find(Session::get('current_course'));
+		$data = new stdClass();
+        $group = Group::find(Session::get('current_course'));
 		if ($group) {
 			$posts = Group::find(Session::get('current_course'))
 			->posts()
@@ -25,15 +26,28 @@ class Post_Controller extends Base_Controller {
 			->order_by('position', 'desc')
 			->order_by('created_at', 'desc')
 			->get();
-			if ($posts) {
-				//need a separate index page for non-logged in people
-				return View::make('posts.index')
-				->with('posts', $posts);
-			}
-			else {
-				return View::make('posts.index');
-			
-			}
+            
+            $questions = Group::find(Session::get('current_course'))
+            ->questions()
+            ->join('users', 'users.id', '=', 'questions.user_id')
+            ->order_by('questions.created_at', 'desc')
+            ->get(array('question', 'questions.user_id', 'questions.id', 'users.username'));
+            $answers = array();
+            foreach($questions as $question) {
+                $answers[$question->id] = $question->answers()
+								->join('users', 'users.id', '=', 'answers.user_id')
+								->order_by('thanks', 'desc')
+                                ->order_by('answers.created_at', 'desc')
+								->get(array('answers.id', 'answers.thanks', 'answers.answer', 'answers.user_id', 'users.username'));
+
+            }
+            
+            $data->answers = $answers;
+            $data->questions = $questions;
+            $data->posts = $posts;
+                    
+            return View::make('posts.index')
+				->with('data', $data);
 		}
 		else {
 			return Redirect::to('login');

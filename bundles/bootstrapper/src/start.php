@@ -22,14 +22,14 @@ Autoloader::namespaces(
 Asset::container('bootstrapper')
     ->bundle('bootstrapper')
     ->add('bootstrap',            'css/bootstrap.min.css')
-    ->add('jquery',               'js/jquery-1.8.3.min.js')
+    ->add('jquery',               'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
     ->add('bootstrap-js',         'js/bootstrap.min.js', 'jquery');
 
 // Define unminified version of the assets
 Asset::container('bootstrapper-unminified')
     ->bundle('bootstrapper')
     ->add('bootstrap',            'css/bootstrap.css')
-    ->add('jquery',               'js/jquery-1.8.3.js')
+    ->add('jquery',               'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.js')
     ->add('bootstrap-js',         'js/bootstrap.js', 'jquery');
 
 // Prevent the need for modifying config/application.php

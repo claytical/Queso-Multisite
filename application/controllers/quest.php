@@ -643,8 +643,11 @@ class Quest_Controller extends Base_Controller {
 							  ->where('group_id', '=', Session::get('current_course'));
 		
 		//quest categories for completed quests
+
 		$data->categories = array_unique($completed_quests->lists('category'));
-		if(($key = array_search("", $data->categories)) !== false) {
+        array_unshift($data->categories, "All Categories");
+
+        if(($key = array_search("", $data->categories)) !== false) {
 			   unset($data->categories[$key]);
 		}
 		//course skills

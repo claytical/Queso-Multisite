@@ -2,7 +2,7 @@
 @section('content')
 @if(!empty($quest['skills']))
 		<a name="createquest"></a>
-		<div class="btn-group-sm pager pull-right hidden-phone">
+		<div class="btn-group pager pull-right hidden-phone">
 		  <button class="btn btn-xs btn-primary pager-previous disabled">Previous</button>
 		  <button class="btn btn-xs page active">Type</button>
 		  <button class="btn btn-xs page disabled">Info</button>

@@ -268,8 +268,7 @@ class User_Controller extends Base_Controller {
 	public function get_logout() {
 		Sentry::logout();
 		Session::flush();
-		return View::make('user.login');
-		
+        return Redirect::to('/');
 	}	
 	
 	

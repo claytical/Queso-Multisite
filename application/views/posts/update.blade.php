@@ -1,29 +1,29 @@
 @layout('layouts.default')
 @section('content')
 		<h2>Updating Post</h2>
-	<?php echo Form::open('admin/post/update', 'POST', array('class' => 'well')); ?>
-	<fieldset>
+<div class="container">
+	<?php echo Form::open('admin/post/update', 'POST', array('class' => 'form-horizontal')); ?>
 	
 	
-	<div class="control-group">	
+	<div class="form-group">	
 			<div class="controls">
-			    <?php echo Form::text('headline', $post->headline, array('placeholder' => 'Headline', 'class' => 'input-lg')); ?>
+			    <?php echo Form::text('headline', $post->headline, array('placeholder' => 'Headline', 'class' => 'input-md form-control')); ?>
 			    <?php echo Form::hidden('post_id', $post->id); ?>
 
 			</div>
 	</div>
 
-	<div class="control-group">	
+	<div class="form-group">	
 			<div class="controls">
-				{{ Form::textarea('body', $post->post, array('placeholder' => 'Post content goes here...', 'class' => 'wysiwyg-area', 'id' => 'post-content', 'required' => '', 'style' => 'width: 98%')); }}
+				{{ Form::textarea('body', $post->post, array('placeholder' => 'Post content goes here...', 'class' => 'wysiwyg-area form-control', 'id' => 'post-content', 'required' => '', 'style' => 'width: 100%')); }}
 			</div>
 	</div>
 	
-		<div class="control-group">
+		<div class="form-group">
 			@if($post->files)
-				<ul class="inline">
+				<ul class="list-inline">
 				@foreach($post->files as $file)
-					<li>{{$file['friendly']}} {{ Form::hidden('existingFiles[]', $file['encoded'])}} <a class="btn btn-danger btn-xs btn-remove-file" href=''><i class="glyphicon glyphicon-remove icon-white"></i></a></li>
+					<li>{{$file['friendly']}} {{ Form::hidden('existingFiles[]', $file['encoded'])}} <a class="btn btn-danger btn-xs btn-remove-file" href=''>Remove</a></li>
 				@endforeach
 				</ul>
 			@endif
@@ -33,7 +33,7 @@
 	</div>
 
 
-		<div class="control-group">
+		<div class="form-group">
 
 			<div class="controls">
 				<label class="checkbox">
@@ -52,10 +52,9 @@
 
 	
 	
-	<div class="form-actions">
+	<div class="form-group">
 	    <?php echo Form::submit('Post', array('class' => 'btn btn-primary pull-right btn-lg'));?>
 	</div>
-</fieldset>
 <?php echo Form::close(); ?>
-
+</div>
 @endsection

@@ -5,7 +5,7 @@
 
 <div class="container">
 <?php echo Form::open('register', 'POST', array('class' => 'form-horizontal')); ?>
-		
+    <div class="col-md-5">
 	<div class="form-group">	
 	    <?php echo Form::label('firstname', 'First Name', array('class' => 'control-label')); ?>
 			<div class="controls">
@@ -27,14 +27,14 @@
 			    <?php echo Form::text('email', '', array('class' => 'input-md form-control')); ?>
     		</div>
     </div>
-
+    </div>
+    <div class="col-md-5  col-md-offset-1">
 	<div class="form-group">	
 	    <?php echo Form::label('regcode', 'Course Code', array('class' => 'control-label')); ?>
 			<div class="controls">
     			<?php echo Form::text('regcode', Input::get('id'), array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
-
 	<div class="form-group">	
 	    <?php echo Form::label('password', 'Password', array('class' => 'control-label')); ?>
 			<div class="controls">
@@ -48,12 +48,14 @@
 			    <?php echo Form::password('confirm_password', array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
-
+    </div>
+    <div class="col-md-11">
 
     <div class="form-group">
 	    {{ Form::submit('Register', array('class' => 'btn btn-primary pull-right btn-submit btn-lg', 'data-loading-text' => 'Registering...')); }}
     
         <?php echo Form::close(); ?>
- </div>
+        </div>
+        </div>
 </div>
         @endsection

@@ -39,10 +39,13 @@ class Home_Controller extends Base_Controller {
 			$user = User::find(Session::get('uid'));
 			$quests = $user->quests()->pivot();
 			$notices = $user->notices()
-							->where('hidden', '!=', 1)
-							->get();
-			$info->notices = $notices;
-			$info->quests = $quests;
+							->where('hidden', '!=', 1);
+			$info->notices = $notices->get();
+            DB::table('notices')
+                ->where('user_id', '=', Session::get('uid'))
+                ->update(array('hidden' => TRUE));
+
+            $info->quests = $quests;
 			$info->courses = User::find(Session::get('uid'))->groups()->get();
 			$info->user = $user->first()->username;
 			return View::make('home.dashboard')

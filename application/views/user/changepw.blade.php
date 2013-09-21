@@ -1,36 +1,34 @@
-@layout('layouts.noclass')
+@layout('layouts.default')
 @section('content')
 <h2>Change Password</h2>
-<?php echo Form::open('user/changepw', 'POST', array('class' => 'form-horizontal well')); ?>
-	<fieldset>
+<div class="container">
+<?php echo Form::open('user/changepw', 'POST', array('class' => 'form-horizontal')); ?>
 	
-	<div class="control-group">	
+	<div class="form-group">	
 	    <?php echo Form::label('password', 'Old Password', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::password('password_old'); ?>
+			    <?php echo Form::password('password_old', array('class' => 'form-control input-md')); ?>
 			</div>
 	</div>
 	
 
-	<div class="control-group">	
+	<div class="form-group">	
 	    <?php echo Form::label('password', 'New Password', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::password('password'); ?>
+			    <?php echo Form::password('password',  array('class' => 'form-control input-md')); ?>
 			</div>
 	</div>
 
 
-	<div class="control-group">	
+	<div class="form-group">	
 	    <?php echo Form::label('password_confirm', 'Confirm Password', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::password('password_confirm'); ?>
+			    <?php echo Form::password('password_confirm',  array('class' => 'form-control input-md')); ?>
 			</div>
 	</div>
-
-	<hr>
-    <!-- login button -->
-    <?php echo Form::submit('Change Password', array('class' => 'btn btn-primary pull-right btn-lg'));?>
-	</fieldset>
+    <div class="form-group">
+        <?php echo Form::submit('Change Password', array('class' => 'btn btn-primary pull-right btn-lg'));?>
+    </div>
 <?php echo Form::close(); ?>
-
+</div>
 @endsection

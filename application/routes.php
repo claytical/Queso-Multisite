@@ -237,6 +237,9 @@ Route::get('admin/quest/trash/(:any)', array('uses' => 'quest@remove'));
 Route::get('admin/course/export', array('uses' => 'course@export'));
 Route::get('admin/skills/quest/(:num)', array('uses' => 'quest@quest_skills'));
 Route::post('admin/skill/bulk/remove', array('uses' => 'quest@remove_skills'));
+Route::get('admin/question/delete/(:num)', array('uses' => 'question@delete_question'));
+Route::get('admin/answer/delete/(:num)', array('uses' => 'question@delete_answer'));
+
 Route::filter('sentry', function()
 {
 	if (!Sentry::check() || !Session::get('current_course')) {

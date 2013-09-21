@@ -4,41 +4,19 @@
     <h2>Completed Quests</h2>
     <form class="form-inline form-group pull-right" role="form">
       <div class="form-group">
-          {{ Form::text('quest_title', '', array('placeholder' => 'Quest Title', 'class' => 'form-control input-md')); }}
+          {{ Form::text('quest_title', '', array('id' => 'quest_filter', 'placeholder' => 'Quest Title', 'class' => 'form-control input-md')); }}
       </div>
       <div class="form-group">
-          {{ Form::select('category', array('one', 'two', 'three'), '', array('class' => 'selectpicker', 'data-placeholder' => 'Category Filter', 'id' => 'category-select')) }}
+          {{ Form::select('category', $data->categories, '', array('class' => 'selectpicker', 'data-placeholder' => 'Category Filter', 'id' => 'category-select')) }}
       </div>
     </form>
 
 </div>
 
 @if (count($data->quests) > 0)
-<div class="col-md-4 quest-box">
-    <div class="panel panel-success" style="min-height: 140px">
-        <div class="panel-heading">
-        Totals
-        </div>
-        <div class="panel-body">
-            <ul class="list-unstyled">
-                @foreach($data->skills as $skill)
-                    <li>{{$skill['label']}}
-                        <span class="pull-right">
-                        @if($skill['amount'])
-                            {{$skill['amount']}}
-                        @else
-                            0
-                        @endif
-                        </span>
-                    </li>
-                @endforeach
-            </ul>
-
-        </div>
-    </div>
-</div>
 @foreach($data->quests as $quest)
 <div class="col-md-4 quest-box">
+    <span style="display:none" class="quest_category">{{$quest['category']}}</span>
     <div class="panel panel-default"  style="min-height: 140px">
     <div class="panel-heading">   
      <button class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#quest{{$quest['quest_id']}}" type="button">
@@ -84,6 +62,29 @@
         </div>
     </div>
 @endforeach
+<div class="col-md-4 quest-box quest-totals">
+    <div class="panel panel-success" style="min-height: 140px">
+        <div class="panel-heading">
+        Totals
+        </div>
+        <div class="panel-body">
+            <ul class="list-unstyled">
+                @foreach($data->skills as $skill)
+                    <li>{{$skill['label']}}
+                        <span class="pull-right">
+                        @if($skill['amount'])
+                            {{$skill['amount']}}
+                        @else
+                            0
+                        @endif
+                        </span>
+                    </li>
+                @endforeach
+            </ul>
+
+        </div>
+    </div>
+</div>
 
 @else
 <p class="lead">No quests available, stay tuned!</p>

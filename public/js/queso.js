@@ -5,11 +5,15 @@
 
   ga('create', 'UA-12049001-13', 'conque.so');
   ga('send', 'pageview');
+//extend jquery
+jQuery.expr[':'].Contains = function(a, i, m) { 
+  return jQuery(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; 
+};
 
 var selectedQuestIndex = 0;
 
 $(function() {
-	$('.wysiwyg-area').wysihtml5();	
+    $('.wysiwyg-area').wysihtml5();	
 	$('table.sortable').tablesorter({
 		theme : "bootstrap", // this will 
 		headerTemplate : '{content} {icon}', 
@@ -25,10 +29,6 @@ $(function() {
 			filter_hideFilters: false,
 			}
 		});
-	$('table.chart').visualize({
-							type: 'area'
-						});
-
 
 	$('a.btn-remove-file').click(function() {
 		event.preventDefault();
@@ -49,7 +49,11 @@ $(function() {
     $('select.tablesorter-filter').selectpicker();
     $('input.tablesorter-filter').addClass('form-control');
     $('.selectpicker').selectpicker();
+	$('table.chart').visualize({
+							type: 'area'
+						});
 
+    $('.visualize').trigger('visualizeRefresh');
 });
 
 $('#quest-select').change(function() {
@@ -119,6 +123,25 @@ jQuery(".pager .page").click(function() {
 	}
 });
 
+$('#quest_filter').on('input', function() {
+	$(".quest-box").hide();
+	var filterText = $(this).val();
+	$(".quest-box h3:Contains(" + filterText + ")").parent().parent().parent().show()
+    $(".quest-box.quest-totals").show();
+});
+
+$('#category-select').change(function() {
+    if ($(this).val() == 0) {
+        $(".quest-box").show();
+    }
+    else {
+        var filterText = $("#category-select option:selected" ).text();
+        $(".quest-box").hide();
+        $(".quest-box .quest_category:Contains(" + filterText + ")").parent().show()
+        $(".quest-box.quest-totals").show();
+    
+    }
+});
 $('.btn-submit').click(function () {
         $(this).button('loading')
     });

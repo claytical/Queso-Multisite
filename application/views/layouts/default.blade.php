@@ -21,15 +21,15 @@
 <script type="text/javascript" src="{{ URL::to('js/bootstrap-wysihtml5.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/bootstrap-slider.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/bootstrap-select.min.js') }}"></script>
-
+<script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ URL::to('css/bootstro.min.css') }}">
+<!--<link rel="stylesheet" type="text/css" href="{{ URL::to('css/bootstro.min.css') }}">-->
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/visualize-light.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/tablesorter.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/slider.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/bootstrap-select.min.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ URL::to('css/queso.css') }}">
-
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 <script>
 filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
@@ -56,26 +56,13 @@ filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
 			  <div class="collapse navbar-collapse navbar-queso" role="navigation">
 				<ul class="nav navbar-nav">
 				@if(Session::get('current_course') && Sentry::check())
-                    <li><a href="{{ URL::to('posts') }}">{{ Session::get('course_name')}}</a>          
+                    <li class="dropdown"><a class="navbar-brand" href="{{ URL::to('posts') }}">{{ Session::get('course_name')}}</a>          
 </li>
                     @if(Course::has_post_menu())
 				  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">{{Course::posts_name()}}</a>
 					@render('posts.menu')
 				  </li>
-				  @endif
-				  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Quests</a>
-				  	<ul class="dropdown-menu">
-				  		<li><a href="{{ URL::to('quests/available');}}">Available</a></li>
-				  		<li><a href="{{ URL::to('quests/completed');}}">Completed</a></li>
-				  	</ul>
-				  
-				  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Q&A</a>
-				  	<ul class="dropdown-menu">
-				  		<li><a href="{{ URL::to('question/ask');}}">New Question</a></li>
-				  		<li><a href="{{ URL::to('questions');}}">Questions</a></li>
-				  	</ul>
-				  				  
-				  </li>
+				  @endif				  
 				@endif
 
 				
@@ -94,7 +81,6 @@ filepicker.setKey('A3wHASwlySGqI2Krs6veZz');
         </div>
     </div>
 <script type="text/javascript" src="{{ URL::to('js/queso.js') }}"></script>
-
   </body>
 </html>
 

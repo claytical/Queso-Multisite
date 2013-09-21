@@ -7,7 +7,7 @@
     <h2>{{$data['title']}}</h2>
     <form class="form-inline form-group pull-right" role="form">
       <div class="form-group">
-          {{ Form::text('quest_title', '', array('placeholder' => 'Quest Title', 'class' => 'form-control input-md')); }}
+          {{ Form::text('quest_title', '', array('id' => 'quest_filter', 'placeholder' => 'Quest Title', 'class' => 'form-control input-md')); }}
       </div>
       <div class="form-group">
           {{ Form::select('category', $data['categories'], '', array('class' => 'selectpicker', 'data-placeholder' => 'Category Filter', 'id' => 'category-select')) }}
@@ -18,6 +18,7 @@
 @if (count($data['quests']) > 0)
 @foreach($data['quests'] as $quest)
 <div class="col-md-4 quest-box">
+    <span style="display:none" class="quest_category">{{$quest['category']}}</span>    
     <div class="panel panel-default"  style="min-height: 140px">
     <div class="panel-heading">             
      <button class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#quest{{$quest->id}}" type="button">
