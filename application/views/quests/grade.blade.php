@@ -12,12 +12,11 @@
 			
 			
 		@foreach($data->skills as $skill)
-			<h4>{{$skill['name']}}</h4>		
+			<h4>{{$skill['name']}}  <span class="label label-info grade{{$skill['id']}}"></span></h4>		
 
 			<div class="controls">
                 <div class="input-group">
-				<input class="form-control" type="range" name="grade[{{$skill['id']}}]" min="{{$skill['rewards']['Minimum']}}" max="{{$skill['rewards']['Maximum']}}" value="{{$skill['rewards']['Maximum']}}">
-                    <span class="badge input-group-addon" for="grade[{{$skill['id']}}]" onforminput="value = grade[{{$skill['id']}}].valueAsNumber;"></span>
+				<input class="form-control" type="range" id="grade{{$skill['id']}}" name="grade[{{$skill['id']}}]" min="{{$skill['rewards']['Minimum']}}" max="{{$skill['rewards']['Maximum']}}" value="{{$skill['rewards']['Maximum']}}">
                     </div>
 				
 			</div>

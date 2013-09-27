@@ -40,7 +40,8 @@ $(function() {
 	//$("#create-quest").nod(questCreateMetrics);
      // Select all range inputs, watch for change
 	 $("input[type='range']").change(function() {
-         $("#badgegrade"+$(this).val()).text($(this).val());
+	 	var labelId = $(this).attr("id")
+         $("." + labelId).text($(this).val());
 	   
 	   // Move bubble
 	 })

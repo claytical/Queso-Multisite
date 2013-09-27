@@ -35,7 +35,7 @@
         <div class="pull-right">
             <div class="btn-toolbar">
                 <div class="btn-group">
-                  <a data-toggle="modal" href="#levelEdit{{$level->id}}" class="btn btn-default btn-xs">Edit</a>
+                  <a rel="tooltip" data-original-title='Edit Level' data-toggle="modal" href="#levelEdit{{$level->id}}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
                   <div class="modal fade" id="levelEdit{{$level->id}}" tabindex="-1" role="dialog" aria-labelledby="levelEdit{{$level->id}}Label" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -65,7 +65,7 @@
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                   </div><!-- /.modal -->                                    
-        <a class="btn btn-danger btn-xs" href="{{URL::to('admin/level/delete/'.$level->id)}}">Delete</a>
+        <a class="btn btn-danger btn-xs" href="{{URL::to('admin/level/delete/'.$level->id)}}"><span class="glyphicon glyphicon-trash"></span></a>
             </div>
         </div>
     </div>

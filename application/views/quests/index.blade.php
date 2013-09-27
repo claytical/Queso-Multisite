@@ -34,8 +34,14 @@
             @endif
 
             <h5>{{$quest->category}}</h5>
+            
+                        
             <div id="quest{{$quest->id}}" class="more-info collapse">
-            <div style="padding-top: 10px">{{$quest->instructions}}</div>
+            @foreach($quest->max_skills as $skill)
+              <h6>{{$skill->amount}} {{$skill->name}}</h6>
+            @endforeach
+
+            <div>{{$quest->instructions}}</div>
             @if($quest->filename)
                 <h6>Files</h6>
                 <ul class="list-unstyled">
@@ -45,11 +51,6 @@
                 </ul>
             @endif
 
-                @foreach($quest->max_skills as $skill)
-              <p>
-                <em>{{$skill->amount}} {{$skill->name}}</em>
-              </p>
-            @endforeach
 
 
             

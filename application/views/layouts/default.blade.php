@@ -14,7 +14,6 @@
  <script type="text/javascript" src="{{ URL::to('js/wysihtml5-0.3.0.min.js') }}"></script>   
 {{ Asset::container('bootstrapper')->scripts(); }} 
 <link href='http://fonts.googleapis.com/css?family=Lato|Londrina+Solid|Londrina+Shadow' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
 <script type="text/javascript" src="{{ URL::to('js/visualize.jQuery.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.min.js') }}"></script>
 <script type="text/javascript" src="{{ URL::to('js/jquery.tablesorter.widgets.js') }}"></script>
