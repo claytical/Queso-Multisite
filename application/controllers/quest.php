@@ -435,9 +435,21 @@ class Quest_Controller extends Base_Controller {
 	*
 	*/ 
     
-    public function get_available() {
+    public function get_available($id = NULL) {
 		//Get Completed Quests
-		$playerQuests = User::find(Session::get('uid'))->quests();
+		$admin = FALSE;
+		$title = "Available Quests";
+		if ($id == NULL) {
+			$id = Session::get('uid');
+			$admin = TRUE;
+		}
+		else {
+			$student = User::find($id)->email;
+			$title = $title . " for " . $student;
+		
+		}		
+		
+		$playerQuests = User::find($id)->quests();
 		$ids = $playerQuests->lists('id');
         
         $categories = DB::table('quests')
@@ -469,10 +481,12 @@ class Quest_Controller extends Base_Controller {
 		}
            // $questsWithPoints['categories'] = $categories;
 
+
 			$view = View::make('quests.index')
-			->with('data', array('quests' => $questsWithPoints,
+			->with('data', array('admin' => $admin, 
+								 'quests' => $questsWithPoints,
                                  'categories' => $categories,
-								 'title' => 'Available Quests')
+								 'title' => $title)
 				
 			);
 
