@@ -268,8 +268,7 @@ class User_Controller extends Base_Controller {
 	public function get_logout() {
 		Sentry::logout();
 		Session::flush();
-		return View::make('user.login');
-		
+        return Redirect::to('/');
 	}	
 	
 	
@@ -488,27 +487,37 @@ class User_Controller extends Base_Controller {
 	
 	}
 	public function post_change_password() {
-		try {
-			// update the user
+		if (Input::get('password') == Input::get('password_confirm')) {
+			try {
+				// update the user
 			
-			$user = Sentry::user(Session::get('uid'));
+				$user = Sentry::user(intval(Session::get('uid')));
+	//			$user = User::find(Session::get('uid'));
 			
-			if ($user->change_password(Input::get('password'), Input::get('password_old'))) {
-				// password has been updated
+				if ($user->change_password(Input::get('password'), Input::get('password_old'))) {
+					// password has been updated
+					return View::make('user.reset')->with('data',array("success" => TRUE));	
+
+				}
+				else {
+					// something went wrong
+					return View::make('user.reset')->with('data',array("success" => FALSE));	
+
+				}
+			}
+
+			catch (Sentry\SentryException $e) {
+				$errors = $e->getMessage(); // catch errors such as incorrect old password
+					return View::make('user.reset')->with('data', array("success" => FALSE, "error" => $errors));	
 
 			}
-			else {
-				// something went wrong
-			}
 		}
+		else {
+					return View::make('user.reset')->with('data', array("success" => FALSE, "error" => "New password doesn't match"));	
 
-		catch (Sentry\SentryException $e) {
-			$errors = $e->getMessage(); // catch errors such as incorrect old password
 		}
-				return View::make('user.reset');	
 	}
 	
-
 	
 		
 	public function get_index()

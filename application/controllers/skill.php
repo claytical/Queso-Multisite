@@ -23,16 +23,22 @@ class Skill_Controller extends Base_Controller {
 				  ));
 
 		$skills = Skill::where('group_id', '=', Session::get('current_course'));
-			return View::make('skills.index')
+		if (Input::has('tab')) {
+            return Redirect::to('admin/course#skills')
+					->with_message($skill->name . " created.", 'success');
+        
+        }
+        else {
+            return View::make('skills.index')
 					->with('skills', $skills->order_by('name', 'asc')->get());
-				
+        }	
 	
 	}
 
 	public function get_remove($id) {
 		
 		$skill = Skill::find($id);
-
+        $skillName = $skill->name;
 		if ($skill->group_id == Session::get('current_course')) {
 			$skill->delete();
 			DB::table('quest_skill')
@@ -42,8 +48,8 @@ class Skill_Controller extends Base_Controller {
 				->where('skill_id', '=', $id)
 				->delete();
 		}
-		return Redirect::to('admin/skills');
-
+		return Redirect::to('admin/course#skills')
+            ->with_message($skillName . " deleted.", 'success');  
 	}
 
 	public function post_edit() {
@@ -54,8 +60,14 @@ class Skill_Controller extends Base_Controller {
 			$skill->name = Input::get('skill');
 			$skill->save();
 		}
-		return Redirect::to('admin/skills');
-
+		if (Input::has('tab')) {
+            return Redirect::to('admin/course#skills')
+					->with_message($skill->name . " created.", 'success');
+        
+        }
+        else {
+            return Redirect::to('admin/skills');
+        }
 	}
 
 

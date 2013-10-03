@@ -5,13 +5,13 @@
 	<?php echo Form::open('admin/student/quest/remove', 'POST', array('class' => '')); ?>
 
 	<h3>Completed</h3>
-	<?php echo Form::submit('Remove Checked Quests', array('class' => 'btn btn-danger btn-mini pull-right'));?>
+	<?php echo Form::submit('Remove Checked Quests', array('class' => 'btn btn-danger btn-xs pull-right'));?>
 	<?php echo Form::hidden('quest_id', $data->quest->id);?>
-	<table class="table table-hover sortable">
+	<table class="table table-hover">
 				  <thead>
 					<tr>
 					  <th>Student</th>
-	                  <th class="filter-false" data-sorter="false">Skills</th>
+	                  <th>Skills</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -42,12 +42,12 @@
 						</span>
 						</td>
 					  <td>
-						<ul class="unstyled">
+						<ul class="list-unstyled">
 							@if($user['skills'])								
 								@foreach ($user['skills'] as $skill)
-								<li><em>{{$skill['label']}}</em>
-									<div class="progress progress-success">
-										<div class="bar" style="width: {{$skill['amount']/$data->skills[$skill['label']] * 100}}%;">{{$skill['amount']}} / {{$data->skills[$skill['label']]}}</div>
+								<li><em>{{$skill['amount']}} {{$skill['label']}}</em>
+                                    <div class="progress">
+										<div class="progress-bar progress-bar-success" style="width: {{$skill['amount']/$data->skills[$skill['label']] * 100}}%;" role="progressbar" aria-valuenow="{{$skill['amount']}}" aria-valuemin="0" aria-valuemax="$data->skills[$skill['label']]"><span class="sr-only">{{$skill['amount']}}</span></div>
 									</div>	
 								</li>
 								@endforeach
@@ -70,23 +70,20 @@
 	@if (count($data->available_users) > 0)
 	
 	<h3>Not Completed</h3>
-	<table class="table table-hover sortable">
+	<table class="table table-hover">
 				  <thead>
 					<tr>
 					  <th>Student</th>
-	                  <th class="filter-false" data-sorter="false"></th>
 					</tr>
 				  </thead>
 				  <tbody>
 					@foreach($data->available_users as $user)
 					<tr>
 					  <td>
-						<span style="white-space:nowrap;"><strong>{{$user->username}}</strong></span>
+						<span style="white-space:nowrap;">{{$user->username}}</span>
 						</td>
 	
-					  <td>
-	
-					  </td>
+
 					</tr>
 					@endforeach
 	

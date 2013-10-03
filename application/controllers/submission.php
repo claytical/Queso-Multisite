@@ -164,7 +164,7 @@ class Submission_Controller extends Base_Controller {
 
 	public function get_new_submissions() {
 		$data = new stdClass();
-		$data->title = "New Submissions";
+		$data->title = "Ungraded Submissions";
 
 		$submissions = Group::find(Session::get('current_course'))
 					->submissions()
@@ -181,6 +181,7 @@ class Submission_Controller extends Base_Controller {
 			if ($newer_submissions == 0) {
 						
 				$data->submissions[] = array('id' => $submission->id,
+                                             'revision' => $submission->revision,
 										 'quest' => DB::table('quests')
 													->where('id', '=', $submission->quest_id)
 													->first()
@@ -190,41 +191,34 @@ class Submission_Controller extends Base_Controller {
 										 'username' => User::find($submission->user_id)->username);
 				}
 		}
-		return View::make('submission.index')
-				->with('data', $data);
-	}
-	
-	
-	public function get_latest_revisions() {
-		$data = new stdClass();
-		$data->title = "Latest Revisions";
-		$submissions = Group::find(Session::get('current_course'))
+        
+		$revisions = Group::find(Session::get('current_course'))
 					->submissions()
 					->where('graded', '=', 0)
 					->where('revision', '>', 0)
 					->order_by('created_at')
 					->get();
 
-		if($submissions) {
-			foreach ($submissions as $submission) {
-				$data->submissions[] = array('id' => $submission->id,
+		if($revisions) {
+			foreach ($revisions as $revision) {
+				$data->revisions[] = array('id' => $revision->id,                               
+                                             'revision' => $revision->revision,
 											 'quest' => DB::table('quests')
-														->where('id', '=', $submission->quest_id)
+														->where('id', '=', $revision->quest_id)
 														->first()
 														->name,
-											 'created' => $submission->created_at,
+											 'created' => $revision->created_at,
 											 'type' => 'text',
-											 'username' => User::find($submission->user_id)->username);
+											 'username' => User::find($revision->user_id)->username);
 			}
-			
-		}
-		else {
-			$data->submissions = NULL;		
-		}
+        }
+        else {
+            $data->revisions = NULL;
+        }
 		return View::make('submission.index')
 				->with('data', $data);
 	}
-
+	
 	
 }
 

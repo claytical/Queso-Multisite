@@ -155,6 +155,7 @@ Route::post('question/(:any)', array('uses' => 'question@answer'));
 Route::get('answer/(:any)/thanks',array('uses' => 'question@thanks'));
 Route::get('questions', array('uses' => 'question@index'));
 Route::get('quests', array('uses' => 'quest@index'));
+Route::get('quests/available', array('uses' => 'quest@available'));
 Route::get('quests/online', array('uses' => 'quest@available_online'));
 Route::get('quests/in-class', array('uses' => 'quest@available_in_class'));
 Route::get('quests/completed', array('uses' => 'quest@completed_by_student'));
@@ -236,6 +237,9 @@ Route::get('admin/quest/trash/(:any)', array('uses' => 'quest@remove'));
 Route::get('admin/course/export', array('uses' => 'course@export'));
 Route::get('admin/skills/quest/(:num)', array('uses' => 'quest@quest_skills'));
 Route::post('admin/skill/bulk/remove', array('uses' => 'quest@remove_skills'));
+Route::get('admin/question/delete/(:num)', array('uses' => 'question@delete_question'));
+Route::get('admin/answer/delete/(:num)', array('uses' => 'question@delete_answer'));
+
 Route::filter('sentry', function()
 {
 	if (!Sentry::check() || !Session::get('current_course')) {

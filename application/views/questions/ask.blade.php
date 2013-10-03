@@ -1,21 +1,20 @@
 @layout('layouts.default')
 @section('content')
 		<h2>Ask a Question</h2>
-	<?php echo Form::open('question/ask', 'POST', array('class' => 'well')); ?>
-	<fieldset>
+<div class="container">
+	<?php echo Form::open('question/ask', 'POST', array('class' => 'form-horizontal')); ?>
 	
-	
-	<div class="control-group">	
+	<div class="form-group">	
 			<div class="controls">
-				    {{ Form::textarea('question', '', array('placeholder' => "What's your question?", 'class' => 'wysiwyg-area', 'id' => 'question-content', 'style' => 'width: 98%')); }}
+				    {{ Form::textarea('question', '', array('placeholder' => "What's your question?", 'class' => 'wysiwyg-area form-control', 'id' => 'question-content', 'style' => 'width: 100%')); }}
 			</div>
 	</div>
 		
 	
-	<div class="form-actions">
-	    <?php echo Form::submit('Ask', array('class' => 'btn btn-primary pull-right btn-large'));?>
-	</fieldset>
+	<div class="form-group">
+	    <?php echo Form::submit('Ask', array('class' => 'btn btn-primary pull-right'));?>
 	</div>
-<?php echo Form::close(); ?>
 
+        <?php echo Form::close(); ?>
+</div>
 @endsection

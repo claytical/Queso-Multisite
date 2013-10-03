@@ -24,9 +24,16 @@ class Level_Controller extends Base_Controller {
 				  ));
 
 		$levels = Level::where('group_id', '=', Session::get('current_course'));
-			return View::make('levels.index')
+        if (Input::has('tab')) {
+
+            return Redirect::to('admin/course#levels')
+					->with_message($level->label . " created.", 'success');        
+        }
+        else {
+            return View::make('levels.index')
 					->with('levels', $levels->order_by('amount', 'asc')->get());
-				
+
+        }
 	
 	}
 	public function post_edit() {
@@ -34,24 +41,31 @@ class Level_Controller extends Base_Controller {
 		$level = Level::find(Input::get('level_id'));
 
 		if ($level->group_id == Session::get('current_course')) {
-			$level->label = Input::get('level');
-			$level->amount = Input::get('level_amount');
+			$level->label = Input::get('label');
+			$level->amount = Input::get('amount');
             $level->save();
 		}
-		return Redirect::to('admin/levels');
+        if (Input::has('tab')) {
 
+            return Redirect::to('admin/course#levels')
+					->with_message($level->label . " modified.", 'success');  
+        }
+        else {
+
+            return Redirect::to('admin/levels');
+        }
 	}
 	public function get_delete($id) {
 		$level = Level::find($id);
 		if ($level->group_id == Session::get('current_course')) {
 			$label = $level->label;
 			$level->delete();			
-			return Redirect::to('admin/levels')
+			return Redirect::to('admin/course/#levels')
 					->with_message($label . " deleted.", 'success');
 
 		}
 		else {
-			return Redirect::to('admin/levels')
+			return Redirect::to('admin/course#levels')
 					->with_message("Access denied", 'error');
 
 		}
