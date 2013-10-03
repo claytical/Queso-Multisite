@@ -1,42 +1,39 @@
 @layout('layouts.noclass')
 @section('content')
-
-	  <div class="row-fluid">
-       <div class="span6 well">
-        <p class="lead">Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo.</p>
-      </div>
-
-        <div class="span6">
+<div class="container">
+    <div class="col-md-3">
           <h2>Classes</h2>
-          @foreach($info->courses as $course)
-          <p><a href="{{URL::to('course/'.$course->id)}}">{{$course->name}}</a></p>
+        <div class="list-group">
+        @foreach($info->courses as $course)
+          <a class="list-group-item" href="{{URL::to('course/'.$course->id)}}">{{$course->name}}</a>       
           @endforeach
         </div>
-
-        <div class="span6">
-          <h2>Notices</h2>
+    </div>
+    <div class="col-md-9">
+    <h2>Notices</h2>
           @if($info->notices)
-            <ul class="unstyled">
+            <ul class="list-unstyled">
             @foreach($info->notices as $notice)
             <li>
               <div>
-              <a class="btn btn-info pull-right" href="{{URL::to('notice/show/'.$notice->id)}}"><i class="icon-arrow-right"></i></a>
-
               {{$notice->notification}}
               </div>
             </li>
             @endforeach
             </ul>
           @else
-          Nothing new!
+            <p class="lead">
+            Nothing new!
+            </p>
           @endif
-       </div>
-
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; Clay Ewing 2013</p>
-      </footer>
-@endsection
+     </div>
+</div>    
+<div class="container">
+    <div class="col-md-12">
+            <hr>
+            <footer>
+            <p>&copy; Clay Ewing 2013</p>
+          </footer>
+    </div>
+</div>
+    @endsection

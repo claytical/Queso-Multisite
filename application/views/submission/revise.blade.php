@@ -30,7 +30,7 @@ Revising {{$data->quest->name}}
 			@endif
 
 			@if ($data->quest->allow_text)
-			    {{ Form::textarea('body', $data->submission->submission, array('placeholder' => 'Starting over?', 'class' => 'wysiwyg-area', 'id' => 'submission-attempt', 'required' => '', 'style' => 'width: 98%')); }}
+			    {{ Form::textarea('body', $data->submission->submission, array('placeholder' => 'Starting over?', 'class' => 'wysiwyg-area form-control', 'id' => 'submission-attempt', 'required' => '', 'style' => 'width: 98%')); }}
 			@endif
 	
 			</div>

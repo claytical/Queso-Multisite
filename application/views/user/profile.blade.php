@@ -1,10 +1,14 @@
 @layout('layouts.default')
 @section('content')
 <h2>{{$data->user->username}}</h2>
+
 @if(!empty($data->dates))
 <h4>{{$data->current_level->label}}</h4>
-	@if(count($data->dates) > 1)
-		<table class="chart" style="display:none;" width="65%" height="50%">
+
+@if(count($data->dates) > 1)
+<div class="container">
+
+<table class="chart" style="display:none;" width="95%" height="65%">
 			<thead>
 				<tr>
 					<td></td>
@@ -34,6 +38,7 @@
 
 			</tbody>
 		</table>
+    </div>
 	@endif
 @endif
 @if (!empty($data->quests))
@@ -50,36 +55,30 @@
 	            	@foreach($data->quests as $quest)
 	                <tr class="{{str_replace(' ', '', $quest['category'])}} quest">
 	                  <td>
-	                  	<span style="white-space:nowrap;">						
-						@if ($quest['submission'])
-		                  	@if($quest['type'] == 2)
-		    	              	<a href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">
-							@endif
-	            	
-	            	      	@if($quest['type'] == 3)
-	                		  	<a href="{{URL::to('upload/revise/'.$quest['submission']->id)}}">
-							@endif
-						@endif
-							{{$quest['name']}}						
-						@if ($quest['submission'])
-							</a>
-						@endif
+                          <span style="white-space:nowrap;">						
 
+                          @if ($quest['submission'])
+                              <a href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">{{$quest['name']}}</a>
+						@else
+                              {{$quest['name']}}
+                        @endif
+					
 	                  	</span>
-	                  	<div>
+	                  	
 		                  	<?php $created_date = strtotime($quest['completed']);?>
-							{{date("F j, Y", $created_date);}}
-	                  	<div>
-	                  	</td>
+						<div>
+                          {{date("F j, Y", $created_date);}}
+	                  	</div>
+                        </td>
 	                  <td>
 						@if($quest['skills'])
 
-							<ul class="unstyled">
+							<ul class="list-unstyled">
 									@foreach($quest['skills'] as $skill)
-									<li><em>{{$skill->name}}</em>
+									<li><em>{{$skill->amount}} {{$skill->name}}</em>
 
-										<div class="progress progress-success">
-											<div class="bar" style="width: {{$skill->amount/$data->questPoints[$quest['quest_id']][$skill->id] * 100}}%;">{{$skill->amount}} / {{$data->questPoints[$quest['quest_id']][$skill->id]}}</div>
+										<div class="progress">
+											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{$skill->amount}}" aria-valuemin="0" aria-valuemax="{{$data->questPoints[$quest['quest_id']][$skill->id]}}" style="width: {{$skill->amount/$data->questPoints[$quest['quest_id']][$skill->id] * 100}}%;"><span class="sr-only">{{$skill->amount}}</span> </div>
 										</div>	
 									</li>
 									@endforeach
@@ -97,7 +96,7 @@
 			<hr>
 			<div class="offset6">
 				<h5>Totals</h5>
-				<ul class="unstyled">
+				<ul class="list-unstyled">
 				@foreach($data->skills as $skill)
 					<li>
 						{{$skill['label']}}
@@ -118,6 +117,5 @@
 @else
 	<p class="lead">No quests have been completed</p>
 @endif
-
 
 @endsection

@@ -5,10 +5,10 @@
 		<div class="row-fluid">{{$question->question}}</div>
 		@if($question->answers)
 			<h4>Answers</h4>
-				<div class="row-fluid">
+				<div class="row">
 	        		@foreach($question->answers as $answer)
 	        			<a href="{{URL::to('answer/'.$answer->id.'/thanks')}}" class='btn btn-success pull-right'>
-	        				<i class="icon-white icon-thumbs-up"></i>
+	        				<i class="glyphicon glyphicon-white glyphicon glyphicon-thumbs-up"></i>
 		        			@if($answer->thanks > 0)
 	        					{{$answer->thanks}}
 							@endif
@@ -34,7 +34,7 @@
 		
 	
 	<div class="form-actions">
-	    <?php echo Form::submit('Answer', array('class' => 'btn btn-primary pull-right btn-large'));?>
+	    <?php echo Form::submit('Answer', array('class' => 'btn btn-primary pull-right btn-lg'));?>
 	</fieldset>
 	</div>
 <?php echo Form::close(); ?>

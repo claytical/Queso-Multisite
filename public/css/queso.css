@@ -46,3 +46,8 @@ input[type="range"] {
 	background-color: #999;
 	height: 10px;
 }
+.cc-icon {
+    background: url('../img/csg-523db8cdd0ece.png') no-repeat top left;
+}
+.sprite-clone{ background-position: 0 0; width: 16px; height: 18px; display: block;} 
+.sprite-duplicate{ background-position: -21px 0; width: 16px; height: 18px; display:block;} 

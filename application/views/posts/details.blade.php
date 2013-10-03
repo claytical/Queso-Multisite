@@ -5,10 +5,10 @@
 		@if($post->filename)
 			<div class="row-fluid">
 				<h5>Files</h5>
-	        		<ul class="inline">
+	        		<ul class="list-inline">
 	        		@foreach(explode(",",$post->filename) as $file)
 						<li>
-						<a class='btn btn-small btn-info pull-right' href='{{$file}}'>{{Filepicker::metadata($file)->filename}}</a>
+						<a class='btn btn-sm btn-info pull-right' href='{{$file}}'>{{Filepicker::metadata($file)->filename}}</a>
 						</li>
 					@endforeach
 				</ul>

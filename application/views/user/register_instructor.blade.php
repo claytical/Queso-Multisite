@@ -2,58 +2,64 @@
 @section('content')
 <h2>Instructor Registration</h2>
 <p class="lead">Please enter your information below</p>
-<?php echo Form::open('register/instructor', 'POST', array('class' => 'form-horizontal well')); ?>
-	<fieldset>
-		
-	<div class="control-group">	
+
+<div class="container">
+<?php echo Form::open('register/instructor', 'POST', array('class' => 'form-horizontal')); ?>
+
+    <div class="col-md-5">
+
+    <div class="form-group">	
 	    <?php echo Form::label('course', 'Course Name', array('class' => 'control-label')); ?>
 			<div class="controls">
-    			<?php echo Form::text('course'); ?>
+    			<?php echo Form::text('course', '', array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
-
-	<div class="control-group">	
+		
+	<div class="form-group">	
 	    <?php echo Form::label('firstname', 'First Name', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::text('firstname'); ?>
+			    <?php echo Form::text('firstname', '', array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
 
 
-	<div class="control-group">	
+	<div class="form-group">	
 	    <?php echo Form::label('lastname', 'Last Name', array('class' => 'control-label')); ?>
 			<div class="controls">
-    			<?php echo Form::text('lastname'); ?>
+    			<?php echo Form::text('lastname', '', array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
-	
-	<div class="control-group">	
+	</div>
+    <div class="col-md-5 col-md-offset-1">
+	<div class="form-group">	
 	    <?php echo Form::label('email', 'Email', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::text('email'); ?>
+			    <?php echo Form::text('email', '', array('class' => 'input-md form-control')); ?>
     		</div>
     </div>
 
-	<div class="control-group">	
+	<div class="form-group">	
 	    <?php echo Form::label('password', 'Password', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::password('password'); ?>
+			    <?php echo Form::password('password', array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
 
-	<div class="control-group">	
+	<div class="form-group">	
 	    <?php echo Form::label('password_confirm', 'Confirm Password', array('class' => 'control-label')); ?>
 			<div class="controls">
-			    <?php echo Form::password('confirm_password'); ?>
+			    <?php echo Form::password('confirm_password', array('class' => 'input-md form-control')); ?>
 			</div>
 	</div>
+</div>
+    <div class="col-md-11">
+        <div class="form-group">
+	    {{ Form::submit('Register', array('class' => 'btn btn-primary pull-right btn-submit btn-lg', 'data-loading-text' => 'Registering...')); }}
+    
+        <?php echo Form::close(); ?>
+        </div>
+    </div>
+</div>
+        @endsection
 
-
-	<div class="form-actions">
-    <!-- login button -->
-    <?php echo Form::submit('Register', array('class' => 'btn btn-primary pull-right btn-large'));?>
-	</fieldset>
-	</div>
-<?php echo Form::close(); ?>
-
-@endsection
+	
