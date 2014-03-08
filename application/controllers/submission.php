@@ -58,6 +58,21 @@ class Submission_Controller extends Base_Controller {
 				->with_message('That submission no longer exists!', 'error');
 
 		}
+		
+		$student = User::find($submission->user_id)->username;
+			$revisions = Submission::where('quest_id', '=', $submission->quest_id)
+									->where('user_id', '=', $submission->user_id)
+									->get();
+			$latest_revision_number = Submission::where('quest_id', '=', $submission->quest_id)
+									->where('user_id', '=', $submission->user_id)
+									->max('revision');
+									
+		if($submission->revision == $latest_revision_number) {
+			$latest_revision = true;
+		}
+		else {
+			$latest_revision = false;
+		}
 		$comments = Comment::where('quest_id', '=', $submission->quest_id)
 							->where('user_id', '=', $submission->user_id)
 							->get();
@@ -68,7 +83,10 @@ class Submission_Controller extends Base_Controller {
 						->lists('skill_id');
 		//deduplicate the skills
 		$skills = array_unique($skills);
-
+		
+							
+		
+		
 		//get the info for each skill
 		foreach($skills as $skill) {
 			$rewardOptions = new stdClass();
@@ -98,14 +116,17 @@ class Submission_Controller extends Base_Controller {
 			}
 			$rewards[] = $rewardOptions;
 		}
-
+		
 		
 		return View::make('submission.grade')
 		->with('data', 
 				array('quest' => $quest,
 				 	  'submission' => $submission,
+				 	  'revisions' => $revisions,
 				 	  'rewards' => $rewards,
-				 	  'comments' => $comments)
+				 	  'comments' => $comments,
+				 	  'student' => $student,
+				 	  'latest' => $latest_revision)
 				 	  );
 	
 	}
