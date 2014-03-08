@@ -5,7 +5,7 @@
 				<h6>
 					@if (!$info->skills)
 					@else
-						<i class="icon-ok"></i>
+						<i class="glyphicon glyphicon-ok"></i>
 					@endif
 					<a href='{{URL::to("admin/skills")}}'>Skills</a>
 				</h6>
@@ -13,14 +13,14 @@
 				<h6>
 					@if(!$info->current_level)
 					@else 
-						<i class="icon-ok"></i>
+						<i class="glyphicon glyphicon-ok"></i>
 					@endif
 				<a href='{{URL::to("admin/levels")}}'>Levels</a>
 				</h6>
 				<h6>
 				    @if(!$info->has_quests)
 					@else 
-						<i class="icon-ok"></i>
+						<i class="glyphicon glyphicon-ok"></i>
 					@endif
 				<a href='{{URL::to("admin/quest/create")}}'>Quests</a>
 				</h6>
@@ -28,7 +28,7 @@
 				<h6>
 					@if(!$info->has_posts)
 					@else 
-						<i class="icon-ok"></i>
+						<i class="glyphicon glyphicon-ok"></i>
 					@endif
 				<a href='{{URL::to("admin/post/create")}}'>Posts</a>
 				</h6>
@@ -41,7 +41,7 @@
 
                     <ul class="nav nav-stacked">
                         <li><h6>Grade</h6></li>
-                        <li><a href="{{ URL::to('admin/submissions');}}">Submissions <span class="badge">{{$info->ungraded}}</span></a></li>
+                        <li><a class="nowrap" href="{{ URL::to('admin/submissions');}}">Submissions <span class="badge">{{$info->ungraded}}</span></a></li>
 				  		<li><a href="{{ URL::to('admin/grade');}}">In Class Work</a></li>
                         <li><h6>Manage</h6></li>
 				  		<li><a href="{{ URL::to('admin/quests');}}">Quests</a></li>

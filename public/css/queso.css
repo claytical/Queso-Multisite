@@ -51,3 +51,6 @@ input[type="range"] {
 }
 .sprite-clone{ background-position: 0 0; width: 16px; height: 18px; display: block;} 
 .sprite-duplicate{ background-position: -21px 0; width: 16px; height: 18px; display:block;} 
+.nowrap {
+	white-space:nowrap;
+}
