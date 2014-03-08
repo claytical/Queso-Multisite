@@ -41,7 +41,7 @@
 	<h4>Notes</h4>
     <div class="container">
         <div class="form-group">
-		{{ Form::textarea('notes', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area', 'id' => 'grade-notes', 'class' => 'form-control', 'style' => 'width: 100%')); }}
+		{{ Form::textarea('notes', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area form-control', 'id' => 'grade-notes', 'style' => 'width: 100%')); }}
         </div>
 	<div class="form-group">
 	    <?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-lg btn-submit', 'data-loading-text' => 'Grading...'));?>
@@ -49,7 +49,7 @@
         @foreach($data['rewards'] as $reward)
 		<div class="form-group">
  <h4>{{$reward->name}} <span class="label label-info rewards{{$reward->id}}"></span></h4>
-			<input type="range" id="rewards{{$reward->id}}" name="rewards[{{$reward->id}}]" min="{{$reward->rewards['Minimum']}}" max="{{$reward->rewards['Maximum']}}" value="{{$reward->rewards['Maximum']}}" class="form-control">
+			<input type="range" id="rewards{{$reward->id}}" name="rewards[{{$reward->id}}]" min="{{$reward->rewards['Minimum']}}" max="{{$reward->rewards['Maximum']}}" value="{{$reward->rewards['current']}}" class="form-control">
 			</div>		
 	   @endforeach
 
