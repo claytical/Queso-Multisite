@@ -288,7 +288,12 @@ class Quest_Controller extends Base_Controller {
 		if ($id == NULL) {
 			$id = Session::get('uid');
 		}
-		
+		$categories = DB::table('quests')
+                        ->where('group_id', '=', Session::get('current_course'))
+                        ->distinct('category')
+                        ->lists('category');;
+        array_unshift($categories, "All Categories");
+
 		$playerQuests = User::find($id)->quests();
 		$ids = $playerQuests->lists('id');
 		if (!empty($ids)) {
@@ -317,7 +322,8 @@ class Quest_Controller extends Base_Controller {
 
 			$view = View::make('quests.index')
 			->with('data', array('quests' => $questsWithPoints, 
-								 'title' => 'Available Quests')
+								 'title' => 'Available Quests',
+								 'categories' => $categories)
 				
 			);
 		
