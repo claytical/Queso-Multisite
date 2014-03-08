@@ -289,6 +289,7 @@ class User_Controller extends Base_Controller {
 		$users = Group::find(Session::get('current_course'))
 						->users()
 						->where('activated', '=', 1)
+						->where('instructor', '=', 0)
 						->get();
 		foreach ($users as $user) {
 			$usersWithLevels[] = array('personal' => $user,
