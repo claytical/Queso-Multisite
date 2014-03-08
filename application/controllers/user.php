@@ -293,6 +293,7 @@ class User_Controller extends Base_Controller {
 						->get();
 		foreach ($users as $user) {
 			$usersWithLevels[] = array('personal' => $user,
+									   'team' => $user->teams(),
 									   'current_level' => Student::current_level($user->id, Session::get('current_course')));
 		}	
 		return View::make('user.list')

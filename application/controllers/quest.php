@@ -289,11 +289,10 @@ class Quest_Controller extends Base_Controller {
 			$id = Session::get('uid');
 		}
 		$categories = DB::table('quests')
-                        ->where('group_id', '=', Session::get('current_course'))
-                        ->distinct('category')
-                        ->lists('category');;
+				->where('group_id', '=', Session::get('current_course'))
+				->distinct('category')
+				->lists('category');;
         array_unshift($categories, "All Categories");
-
 		$playerQuests = User::find($id)->quests();
 		$ids = $playerQuests->lists('id');
 		if (!empty($ids)) {
@@ -306,12 +305,18 @@ class Quest_Controller extends Base_Controller {
 			->quests();
 		
 		}
-
 		if ($quests->get()) {
 
 			foreach($quests->get() as $quest) {
-				$quest = Merge::max_skill_points($quest);
-				$questsWithPoints[] = $quest;
+				$level_required = DB::table('quest_lock')->where('quest_id', '=', $quest->id)->get();
+				//loop through and check requirements
+				foreach($level_required as $lock) {
+				//if it's ok, add it to the array
+					if ($student_skill_levels[$lock->skill_id] >= $lock->requirement) {
+						$quest = Merge::max_skill_points($quest);
+						$questsWithPoints[] = $quest;					
+					}
+				}
 
 			}
 		}
@@ -323,7 +328,8 @@ class Quest_Controller extends Base_Controller {
 			$view = View::make('quests.index')
 			->with('data', array('quests' => $questsWithPoints, 
 								 'title' => 'Available Quests',
-								 'categories' => $categories)
+								 'categories' => $categories,
+								 'locks' => $locks)
 				
 			);
 		
@@ -441,21 +447,9 @@ class Quest_Controller extends Base_Controller {
 	*
 	*/ 
     
-    public function get_available($id = NULL) {
+    public function get_available() {
 		//Get Completed Quests
-		$admin = FALSE;
-		$title = "Available Quests";
-		if ($id == NULL) {
-			$id = Session::get('uid');
-			$admin = TRUE;
-		}
-		else {
-			$student = User::find($id)->email;
-			$title = $title . " for " . $student;
-		
-		}		
-		
-		$playerQuests = User::find($id)->quests();
+		$playerQuests = User::find(Session::get('uid'))->quests();
 		$ids = $playerQuests->lists('id');
         
         $categories = DB::table('quests')
@@ -473,13 +467,29 @@ class Quest_Controller extends Base_Controller {
 			->quests();
 		
 		}
-
+		$student_skill_levels = Student::skill_levels_check(Session::get('uid'), Session::get('current_course'));
+		$questsWithPoints = array();
+		$crazy = array();
         if ($quests->get()) {
-
+		
 			foreach($quests->get() as $quest) {
-				$quest = Merge::max_skill_points($quest);
-				$questsWithPoints[] = $quest;
-
+				$level_required = DB::table('quest_lock')->where('quest_id', '=', $quest->id)->get();
+				//open lock
+				$allowed = true;					
+				//loop through and check requirements
+				foreach($level_required as $lock) {
+					//student amount is less than the threshold for the skill
+					if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
+						//close lock
+						$allowed = false;
+					}
+				}
+				//still open, add it to the list
+				if ($allowed) {
+					$quest = Merge::max_skill_points($quest);
+					$questsWithPoints[] = $quest;				
+				}
+				
 			}
 		}
 		else {
@@ -487,12 +497,10 @@ class Quest_Controller extends Base_Controller {
 		}
            // $questsWithPoints['categories'] = $categories;
 
-
 			$view = View::make('quests.index')
-			->with('data', array('admin' => $admin, 
-								 'quests' => $questsWithPoints,
+			->with('data', array('quests' => $questsWithPoints,
                                  'categories' => $categories,
-								 'title' => $title)
+								 'title' => 'Available Quests')
 				
 			);
 
