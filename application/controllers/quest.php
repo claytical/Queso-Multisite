@@ -738,7 +738,7 @@ class Quest_Controller extends Base_Controller {
 								->lists('skill_id','amount');
 				$skill_list = array_unique($quest_skills);
 				foreach ($skill_list as $skill) {
-					$data->questMaxPoints[$skill] = DB::table('quest_skill')
+					$data->questMaxPoints[$quest->quest_id][$skill] = DB::table('quest_skill')
 								->where('quest_id', '=', $quest->quest_id)
 								->where('skill_id', '=', $skill)
 								->max('amount');
