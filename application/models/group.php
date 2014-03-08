@@ -17,6 +17,10 @@ class Group extends Eloquent
 		return $this->has_many('Post');
 	}
 	
+	public function teams() {
+		return $this->has_many('Team');
+	}
+	
 	public function levels() {
 		return $this->has_many('Level');
 	}

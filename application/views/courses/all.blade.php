@@ -8,7 +8,9 @@
           <li><a href="#general">General</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#levels">Levels</a></li>
+		  <li><a href="#teams">Teams</a></li>
           <li><a href="#share">Share</a></li>
+
         </ul>
     </div>
     <div class="tab-content">
@@ -24,10 +26,17 @@
         <div class="tab-pane" id="levels">
         @include ('levels.panel')
         </div>
+
+        <div class="tab-pane" id="teams">
+        @include ('teams.panel')
+        </div>
         
         <div class="tab-pane" id="share">
         @include ('courses.sharing')
         </div>
+
+
+        
     </div>
 </div>
 <script>
