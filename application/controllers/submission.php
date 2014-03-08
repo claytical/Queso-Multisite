@@ -84,11 +84,21 @@ class Submission_Controller extends Base_Controller {
 		//add each reward value for the skill
 			foreach ($questSkills as $reward) {
 				$rewardOptions->rewards[$reward->label] = $reward->amount;
-
+				if ($submission->graded == 0) {
+					$rewardOptions->rewards['current'] = $reward->amount;
+				}
+				else {
+					$user_quest_skills = DB::table('skill_user')
+										->where('quest_id', '=', $quest->id)
+										->where('user_id', '=', $submission->user_id)
+										->where('skill_id', '=', $skill)
+										->first()->amount;
+					$rewardOptions->rewards['current'] = $user_quest_skills;
+				}
 			}
 			$rewards[] = $rewardOptions;
 		}
-		
+
 		
 		return View::make('submission.grade')
 		->with('data', 
