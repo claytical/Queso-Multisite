@@ -88,7 +88,19 @@ class User_Controller extends Base_Controller {
 		return View::make('user.register');
 	}
 
-	public function post_register() {
+		public function post_register() {
+		if (Input::get('password') != Input::get('confirm_password')) {
+				return Redirect::to('register')
+				->with_message("Passwords do not match", 'danger');
+
+		}
+		if(User::where('email', '=', Input::get('email'))->count() == 1) {
+				return Redirect::to('register')
+				->with_message("Account already exists", 'danger');
+		
+		}
+		
+		Course::lookup(Input::get('regcode'));
 		$course = Course::lookup(Input::get('regcode'));
 		if ($course) {
 			try {
@@ -124,12 +136,12 @@ class User_Controller extends Base_Controller {
 			    }
 			    else {
 			        // Group was not assigned
+			        return View::make('user.registered')
+						->with_message('Account created. Unable to join course.', 'error');
+
 			    }
 			}
 			
-			else {
-				// something went wrong - shouldn't really happen
-			}
 		}
 
 		catch (Sentry\SentryException $e) {
