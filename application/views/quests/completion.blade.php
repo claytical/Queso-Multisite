@@ -7,11 +7,19 @@
 	<h3>Completed</h3>
 	<?php echo Form::submit('Remove Checked Quests', array('class' => 'btn btn-danger btn-xs pull-right'));?>
 	<?php echo Form::hidden('quest_id', $data->quest->id);?>
-	<table class="table table-hover">
+	@if($data->teams)
+
+		<table class="table sortable table-hover">
+	@else
+		<table class="table table-hover">
+	@endif
 				  <thead>
 					<tr>
 					  <th>Student</th>
-	                  <th>Skills</th>
+					  @if($data->teams)
+	                  <th>Team</th>
+	                  @endif
+	                  <th class="filter-false" data-sorter="false">Skills</th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -41,6 +49,10 @@
 
 						</span>
 						</td>
+						@if($data->teams)
+						<td>{{$user['team']}}
+						</td>
+						@endif
 					  <td>
 						<ul class="list-unstyled">
 							@if($user['skills'])								
@@ -70,10 +82,19 @@
 	@if (count($data->available_users) > 0)
 	
 	<h3>Not Completed</h3>
+	@if($data->teams)
+	<table class="table sortable table-hover">
+	@else
 	<table class="table table-hover">
+
+	@endif
 				  <thead>
 					<tr>
 					  <th>Student</th>
+					@if($data->teams)
+					  <th>Team</th>
+					@endif
+					
 					</tr>
 				  </thead>
 				  <tbody>
@@ -82,8 +103,11 @@
 					  <td>
 						<span style="white-space:nowrap;">{{$user->username}}</span>
 						</td>
-	
+					@if($data->teams)
 
+						<td>{{$user->team}}
+						</td>
+					@endif
 					</tr>
 					@endforeach
 	
