@@ -130,9 +130,13 @@ class User_Controller extends Base_Controller {
 						Session::put('current_course', $course->id);
 						Session::put('course_name', $course->name);
 						Sentry::login(Input::get('email'), Input::get('password'), true);
-
-						return Redirect::to('/');
-		
+						//check course for teams, if they exist, join one
+						if (Group::find($course->id)->teams()->count() > 0) {
+							return Redirect::to('user/join');						
+						}
+						else {						
+							return Redirect::to('/posts');
+						}	
 			    }
 			    else {
 			        // Group was not assigned
@@ -160,6 +164,21 @@ class User_Controller extends Base_Controller {
 
 	}
 
+	public function get_join_team() {
+		$teams = Team::where('group_id', '=', Session::get('current_course'))->lists('label', 'id');
+		return View::make('user.jointeam')
+				->with('teams', $teams);
+	}
+	
+	public function post_join_team() {
+		DB::table('users_teams')->insert(
+								  array('user_id' => Session::get('uid'),
+								  'team_id' => Input::get('team'),
+								  'group_id' => Session::get('current_course'))
+								  );			
+		return Redirect::to('posts');
+
+	}
 	public function post_add_course() {
 		$course = Course::lookup(Input::get('regcode'));
 		if ($course) {	    
@@ -170,12 +189,18 @@ class User_Controller extends Base_Controller {
 				Session::put('current_course', $course->id);
 				Session::put('course_name', $course->name);
 
-				return Redirect::to('/');
+				if (Group::find($course->id)->teams()->count() > 0) {
+					return Redirect::to('user/join');						
 				}
+				else {						
+					return Redirect::to('posts');
+				}	
+
 			}
 			else {
 				return View::make('user.badcode');
 			}
+		}
 	}
 	public function post_remove_quest() {
 		$in_class = Input::get('removeQuest');
@@ -286,16 +311,38 @@ class User_Controller extends Base_Controller {
 	
 	
 	public function get_list() {
+		$data = new stdClass();
+
 		$users = Group::find(Session::get('current_course'))
 						->users()
 						->where('activated', '=', 1)
+						->where('instructor', '=', 0)
 						->get();
+		$usersWithLevels = array();
 		foreach ($users as $user) {
+			$teams = $user->teams()
+						->where('users_teams.group_id', '=', Session::get('current_course'))
+						->get();
+			if ($teams) {
+			
+				foreach($teams as $team) {
+					$team = $team->label;
+				}
+			}
+			else {
+				$team = "";
+			}
 			$usersWithLevels[] = array('personal' => $user,
+									   'team' => $team,
 									   'current_level' => Student::current_level($user->id, Session::get('current_course')));
 		}	
+		$data->teams = Team::where('group_id', '=', Session::get('current_course'))
+							->lists('label', 'id');
+								
+		$data->users = $usersWithLevels;
 		return View::make('user.list')
-		->with('users',$usersWithLevels);
+			->with('data', $data);
+
 	}
 
 	public function get_remove($id) {
@@ -326,6 +373,37 @@ class User_Controller extends Base_Controller {
 					->update(array('active' => '0'));
 		return Redirect::to('admin/students');
 	}
+
+	public function post_assign() {
+		$team_additions = Input::get('addToTeam');
+		$team_id = Input::get('team');
+		
+		DB::table('users_teams')->where('group_id', '=', Session::get('current_course'))
+								->where_in('user_id', $team_additions)
+								->delete();
+		
+								
+//		$teams = Group::find(Session::get('current_course'))->teams();
+		//remove current students from existing team in group
+
+/*		foreach($teams as $team) {
+			DB::table('users_teams')->where_in('user_id', $team_additions)
+									->where('team_id', '=', $team)
+									->delete();
+		}
+*/
+		foreach($team_additions as $id) {
+			DB::table('users_teams')->insert(
+										  array('user_id' => $id,
+										  'team_id' => $team_id,
+										  'group_id' => Session::get('current_course'))
+										  );			
+		}
+		return Redirect::to('admin/students')
+					->with_message("Students have been added to team", 'success');
+
+	}
+
 
 	public function get_profile($id = NULL) {
 		$data = new stdClass();
@@ -393,12 +471,7 @@ class User_Controller extends Base_Controller {
 
 		//student quests with skills acquired
 		foreach ($completed_quests->get() as $quest) {
-/*			$quest_skills = DB::table('quest_skill')
-				->join('skills', 'quest_skill.skill_id', '=', 'skills.id')
-				->where('quest_id', '=', $quest->quest_id)
-				->lists('skill_id','amount');*/
 		$quest_skills = Quest::find($quest->quest_id)->skills()->get();
-//		$data->qskillz[] = $quest_skills;
 			foreach ($quest_skills as $skill) {
 				$data->questPoints[$quest->quest_id][$skill->id] =  DB::table('quest_skill')
 							->where('quest_id', '=', $quest->quest_id)

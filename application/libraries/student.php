@@ -41,6 +41,28 @@ class Student {
 		}
 		return $skills;			
 	}
+	public static function skill_levels_check($user_id, $group_id) {
+		
+		$group_skills = Group::find($group_id)->skills()->get();
+		foreach($group_skills as $skill) {
+			$amount = DB::table('skill_user')
+						->where('user_id', '=', $user_id)
+						->where('skill_id', '=', $skill->id)
+						->sum('amount');
+			if ($amount) {
+				$skills[$skill->id] = $amount;
+			}
+			else {
+				$skills[$skill->id] = 0;
+			}
+		}
+		if (empty($skills)) {
+			return NULL;
+		}
+		return $skills;			
+	}
+		
+	
 	
 	public static function current_level($user_id, $group_id) {
 
@@ -111,11 +133,39 @@ class Student {
 	
 	public static function available_quests($user_id, $group_id) {
 		$ids = Student::completed_quest_list($user_id, $group_id);
+		$questCount = 0;
 		if ($ids) {
-			return Group::find($group_id)
-								->quests()
-								->where_not_in('id',$ids)
-								->count();			
+			$quests = Group::find($group_id)
+							->quests()
+							->where_not_in('id',$ids);
+
+
+		$student_skill_levels = Student::skill_levels_check($user_id, $group_id);
+
+		$questsWithPoints = array();
+        if ($quests->get()) {
+		
+			foreach($quests->get() as $quest) {
+				$level_required = DB::table('quest_lock')->where('quest_id', '=', $quest->id)->get();
+				//open lock
+				$allowed = true;					
+				//loop through and check requirements
+				foreach($level_required as $lock) {
+					//student amount is less than the threshold for the skill
+					if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
+						//close lock
+						$allowed = false;
+					}
+				}
+				//still open, add it to the list
+				if ($allowed) {
+					$questCount++;
+				}
+				
+			}
+		}
+
+		return $questCount;
 		}
 		else {
 			return Group::find($group_id)

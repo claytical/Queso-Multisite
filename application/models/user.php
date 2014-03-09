@@ -17,6 +17,10 @@ class User extends Eloquent
 		return $this->has_many('Upload');
 	}
 	
+	public function teams() {
+		return $this->has_many_and_belongs_to('Team', 'users_teams');
+	}
+	
 	public function submissions() {
 		return $this->has_many('Submission');
 	}
