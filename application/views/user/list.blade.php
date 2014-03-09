@@ -2,6 +2,7 @@
 @section('content')
 <h2>Students</h2>
 <div class="container">
+@if($data->users)
 	@if($data->teams)
 		<a data-toggle="modal" href="#teamModal" class="btn btn-default pull-right btn-xs">Assign Selected Students to a Team</a>
 		  <div class="modal fade" id="teamModal" tabindex="-1" role="dialog" aria-labelledby="teamModalLabel" aria-hidden="true">
@@ -101,5 +102,8 @@
 	@endforeach
   </tbody>
 	</table>
+@else
+<h3>There are no students in this course yet!</h3>
+@endif
 </div>
 @endsection

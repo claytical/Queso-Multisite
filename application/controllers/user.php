@@ -318,6 +318,7 @@ class User_Controller extends Base_Controller {
 						->where('activated', '=', 1)
 						->where('instructor', '=', 0)
 						->get();
+		$usersWithLevels = array();
 		foreach ($users as $user) {
 			$teams = $user->teams()
 						->where('users_teams.group_id', '=', Session::get('current_course'))
