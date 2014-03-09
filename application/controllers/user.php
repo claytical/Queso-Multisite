@@ -286,18 +286,37 @@ class User_Controller extends Base_Controller {
 	
 	
 	public function get_list() {
+		$data = new stdClass();
+
 		$users = Group::find(Session::get('current_course'))
 						->users()
 						->where('activated', '=', 1)
 						->where('instructor', '=', 0)
 						->get();
 		foreach ($users as $user) {
+			$teams = $user->teams()
+						->where('users_teams.group_id', '=', Session::get('current_course'))
+						->get();
+			if ($teams) {
+			
+				foreach($teams as $team) {
+					$team = $team->label;
+				}
+			}
+			else {
+				$team = "";
+			}
 			$usersWithLevels[] = array('personal' => $user,
-									   'team' => $user->teams(),
+									   'team' => $team,
 									   'current_level' => Student::current_level($user->id, Session::get('current_course')));
 		}	
+		$data->teams = Team::where('group_id', '=', Session::get('current_course'))
+							->lists('label', 'id');
+								
+		$data->users = $usersWithLevels;
 		return View::make('user.list')
-		->with('users',$usersWithLevels);
+			->with('data', $data);
+
 	}
 
 	public function get_remove($id) {
@@ -328,6 +347,37 @@ class User_Controller extends Base_Controller {
 					->update(array('active' => '0'));
 		return Redirect::to('admin/students');
 	}
+
+	public function post_assign() {
+		$team_additions = Input::get('addToTeam');
+		$team_id = Input::get('team');
+		
+		DB::table('users_teams')->where('group_id', '=', Session::get('current_course'))
+								->where_in('user_id', $team_additions)
+								->delete();
+		
+								
+//		$teams = Group::find(Session::get('current_course'))->teams();
+		//remove current students from existing team in group
+
+/*		foreach($teams as $team) {
+			DB::table('users_teams')->where_in('user_id', $team_additions)
+									->where('team_id', '=', $team)
+									->delete();
+		}
+*/
+		foreach($team_additions as $id) {
+			DB::table('users_teams')->insert(
+										  array('user_id' => $id,
+										  'team_id' => $team_id,
+										  'group_id' => Session::get('current_course'))
+										  );			
+		}
+		return Redirect::to('admin/students')
+					->with_message("Students have been added to team", 'success');
+
+	}
+
 
 	public function get_profile($id = NULL) {
 		$data = new stdClass();
