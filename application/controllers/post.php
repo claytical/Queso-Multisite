@@ -93,6 +93,7 @@ class Post_Controller extends Base_Controller {
 		$post->post = Input::get('body');
 		$post->menu = Input::has('menuitem');
 		$post->frontpage = Input::has('frontpage');
+		$post->video_url = Input::get('vimeo');
 			if (Input::get('existingFiles') && Input::get('files')) {
 				$existingFiles = Input::get('existingFiles');
 				$newFiles = explode(",", Input::get('files'));
@@ -132,6 +133,7 @@ class Post_Controller extends Base_Controller {
 					  'menu' => Input::has('menuitem'),
 					  'frontpage' => Input::has('frontpage'),
 					  'filename' => Input::get('files'),
+					  'video_url' => Input::get('vimeo'),
 					  'user_id' => Session::get('uid'),
 					  'group_id' => Session::get('current_course')
 					  ));

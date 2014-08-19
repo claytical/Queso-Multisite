@@ -152,6 +152,9 @@ class Quest_Controller extends Base_Controller {
 		$quest->category = $questInfo->category;
 		$quest->levels = $levels;
 		$quest->all_skills = $all_skills;
+		$quest->type = $questInfo->type;
+		$quest->uploads = $questInfo->allow_upload;
+		$quest->text = $questInfo->allow_text;
 		$quest->locks = $locks;
 		$encoded_files = explode(",", $questInfo->filename);
 
@@ -179,6 +182,8 @@ class Quest_Controller extends Base_Controller {
 			$quest->name = Input::get('title');
 			$quest->instructions = Input::get('instructions');
 			$quest->category = Input::get('category');
+			$quest->allow_text = Input::get('allow_text');
+			$quest->allow_upload = Input::get('allow_upload');
 			if (Input::get('existingFiles') && Input::get('files')) {
 				$existingFiles = Input::get('existingFiles');
 				$newFiles = explode(",", Input::get('files'));
@@ -298,11 +303,13 @@ class Quest_Controller extends Base_Controller {
 		if (!empty($ids)) {
 			$quests = Group::find(Session::get('current_course'))
 				->quests()
-				->where_not_in('id',$ids);			
+				->where_not_in('id',$ids)
+				->where('visible', '=', 1);;			
 		}
 		else {
 			$quests = Group::find(Session::get('current_course'))
-			->quests();
+			->quests()
+			->where('visible','=', 1);
 		
 		}
 		$student_skill_levels = Student::skill_levels_check(Session::get('uid'), Session::get('current_course'));
@@ -371,7 +378,7 @@ class Quest_Controller extends Base_Controller {
 		$data->students = Group::find(Session::get('current_course'))
 								->users()
 								->where('active', '=', 1)
-//								->where_not_in('user_id', $user_ids)
+								->where_not_in('user_id', $user_ids)
 								->order_by('username', 'asc')
 								->lists('username', 'id');
 		foreach($data->quest->skills()->lists('name', 'id') as $key => $skill) {
@@ -436,7 +443,7 @@ class Quest_Controller extends Base_Controller {
 			$notice = new Notice;
 			$notice->user_id = $student;
 			$notice->group_id = Session::get('current_course');
-			$notice->notification = "<p>".Input::get('note')."</p>";
+			//$notice->notification = "<p>".Input::get('note')."</p>";
 			$quest = Quest::find(Input::get('quest_id'));
 			$notice->title = $quest->name . " has been graded";
 			$notice->url = "quests/completed#".Input::get('quest_id');
@@ -468,11 +475,13 @@ class Quest_Controller extends Base_Controller {
         if (!empty($ids)) {
 			$quests = Group::find(Session::get('current_course'))
 				->quests()
-				->where_not_in('id',$ids);
+				->where_not_in('id',$ids)
+				->where('visible', '=', 1);
 		}
 		else {
 			$quests = Group::find(Session::get('current_course'))
-			->quests();
+			->quests()
+			->where('visible', '=', 1);
 		
 		}
 		$student_skill_levels = Student::skill_levels_check(Session::get('uid'), Session::get('current_course'));
@@ -732,6 +741,7 @@ class Quest_Controller extends Base_Controller {
 								  'quest_id' => $quest->quest_id,
 								  'completed' => $quest->created_at,
 								  'category' => $quest->category,
+								  'note' => $quest->note,
 								  'submission' => $submission,
 								  'type' => $quest->type,
 								  'skills' => DB::table('skill_user')
@@ -951,8 +961,19 @@ class Quest_Controller extends Base_Controller {
 		$data = new stdClass();
 		$quests = Group::find(Session::get('current_course'))
 						->quests();
-		$data->quests = $quests->get();
+//		$data->quests = $quests->get();
+		foreach($quests->get() as $quest) {
+			$level_required = DB::table('quest_lock')->where('quest_id', '=', $quest->id)->get();
+			$quest->required = $level_required;
+			$questsWithLocks[] = $quest;
+							
+		}
+		$data->quests = $questsWithLocks;
 		$data->categories = array_unique($quests->lists('category'));
+		$data->skills = Group::find(Session::get('current_course'))->skills()->get();
+        array_unshift($data->categories, "All Categories");
+        $data->levels = Group::find(Session::get('current_course'))->levels()->lists('label', 'amount');
+
 		if(($key = array_search("", $data->categories)) !== false) {
 			   unset($data->categories[$key]);
 		}
@@ -963,8 +984,7 @@ class Quest_Controller extends Base_Controller {
 	}
 
 
-
-
+	
 
 }
 

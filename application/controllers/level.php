@@ -27,8 +27,7 @@ class Level_Controller extends Base_Controller {
         if (Input::has('tab')) {
 
             return Redirect::to('admin/course#levels')
-					->with_message($level->label . " created.", 'success');        
-        }
+					->with_message($level->label . " created.", 'success');        }
         else {
             return View::make('levels.index')
 					->with('levels', $levels->order_by('amount', 'asc')->get());
@@ -48,8 +47,7 @@ class Level_Controller extends Base_Controller {
         if (Input::has('tab')) {
 
             return Redirect::to('admin/course#levels')
-					->with_message($level->label . " modified.", 'success');  
-        }
+					->with_message($level->label . " modified.", 'success');        }
         else {
 
             return Redirect::to('admin/levels');

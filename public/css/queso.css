@@ -51,6 +51,26 @@ input[type="range"] {
 }
 .sprite-clone{ background-position: 0 0; width: 16px; height: 18px; display: block;} 
 .sprite-duplicate{ background-position: -21px 0; width: 16px; height: 18px; display:block;} 
+
 .nowrap {
 	white-space:nowrap;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+ 
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.froala-box {
+	background:white;
 }

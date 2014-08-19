@@ -23,7 +23,7 @@
         <td>
         <div class="btn-toolbar pull-right">
         <div class="btn-group">    
-        <a data-toggle="modal" href="#skillEdit{{$skill->id}}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a data-toggle="modal" href="#skillEdit{{$skill->id}}" class="btn btn-default btn-xs">Edit</a>
           <div class="modal fade" id="skillEdit{{$skill->id}}" tabindex="-1" role="dialog" aria-labelledby="skillEdit{{$skill->id}}Label" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -49,7 +49,7 @@
             </div><!-- /.modal-dialog -->
           </div><!-- /.modal -->                                    
 
-    <a class="btn btn-danger btn-xs" href="{{URL::to('admin/skill/remove/'.$skill->id)}}"><span class="glyphicon glyphicon-trash"></span></a>
+    <a class="btn btn-danger btn-xs" href="{{URL::to('admin/skill/remove/'.$skill->id)}}">Delete</a>
                             </div>
                         </div>
         </td>

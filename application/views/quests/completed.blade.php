@@ -30,14 +30,55 @@
             @if($quest['type'] != 1)
                 <a class="btn btn-primary btn-sm pull-right" href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">Revise</a>
             @else
-            <span class="btn btn-default disabled pull-right">In Class</span>
+            <span class="label label-info">In Class</span>
             @endif
+			@if($quest['note'])
+			<button class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#modalQuestNote{{$quest['quest_id']}}">
+  <span class="glyphicon glyphicon-comment"></span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="modalQuestNote{{$quest['quest_id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{{$quest['name']}}</h4>
+      </div>
+      <div class="modal-body">
+						{{$quest['note']}}
+      					@if($quest['skills'])
+						<ul class="list-unstyled">
+								@foreach($quest['skills'] as $skill)
+								<li><em>{{$skill->amount}} {{$skill->name}}</em>        
+                                    <div class="progress">
+                                        @if($data->questMaxPoints[$quest['quest_id']][$skill->id] != 0)
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{$skill->amount}}" aria-valuemin="0" aria-valuemax="{{$data->questMaxPoints[$quest['quest_id']][$skill->id]}}" style="width: {{$skill->amount/$data->questMaxPoints[$quest['quest_id']][$skill->id] * 100}}%;">
+                                            <span class="sr-only">{{$skill->amount}}</span>
+                                        @endif
+                                        </div>
+                                    </div>                                    
+								</li>
+								@endforeach
+						</ul>
+						@endif
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+			
+			
+			@endif
 
             <h5>
                 <?php $created_date = strtotime($quest['completed']);?>
 				{{date("F j, Y", $created_date);}}
             </h5>
             <div id="quest{{$quest['quest_id']}}" class="more-info collapse">
+				
                 <h6>{{$quest['category']}}</h6>
 					@if($quest['skills'])
 						<ul class="list-unstyled">

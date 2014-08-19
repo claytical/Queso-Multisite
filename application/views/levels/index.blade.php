@@ -38,8 +38,14 @@ You probably want more than one level.  Traditionally, most classes require over
                     
                     <td>
       	            <div class="btn-toolbar pull-right">
-							<a class="btn btn-danger" href="{{URL::to('admin/level/delete/'.$level->id)}}"><span class="glyphicon glyphicon-trash"></span></a>
+  						<div class="btn-group">
+                        <a class="btn btn-edit-level" href="#"><i class="icon-pencil"></i></a>
+                      <?php echo Form::submit('<i class="icon-ok"></i>', array('class' => 'btn btn-edit-level-save', 'style' => "display:none;" ));?>                          
+
+							<a class="btn btn-danger" href="{{URL::to('admin/level/delete/'.$level->id)}}"><i class="icon-trash icon-white"></i></a>
+					   </div>
 					</div>
+ <?php echo Form::close(); ?>
                     </td>
                 </tr>
                   @endforeach

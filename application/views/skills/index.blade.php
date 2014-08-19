@@ -21,12 +21,21 @@
               <tbody>
 			@foreach($skills as $skill)
                 <tr>
+                <?php echo Form::open('admin/skill/edit', 'POST', array('class' => 'form-inline')); ?>
+
                   <td><span class="skill-name">{{$skill->name}}</span>
+                    <?php echo Form::text('skill', $skill->name, array('placeholder' => '', 'class' => 'input-large skill-input', 'style' => 'display:none;')); ?>
+                    <?php echo Form::hidden('skill_id', $skill->id); ?></td>
                   <td>
       	            <div class="btn-toolbar pull-right">
-        							<a class="btn btn-danger" href="{{URL::to('admin/skill/remove/'.$skill->id)}}"><span class="glyphicon glyphicon-trash"></span></a>
-        			</div>
-                </td>
+          						<div class="btn-group">
+        							<a class="btn btn-edit-skill" href="#"><i class="icon-pencil"></i></a>
+                      <?php echo Form::submit('<i class="icon-ok"></i>', array('class' => 'btn btn-edit-skill-save', 'style' => "display:none;" ));?>                          
+        							<a class="btn btn-danger" href="{{URL::to('admin/skill/remove/'.$skill->id)}}"><i class="icon-trash icon-white"></i></a>
+        					   </div>
+        					</div>
+                          </td>
+                <?php echo Form::close(); ?>
 
                 </tr>
 

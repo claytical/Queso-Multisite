@@ -315,7 +315,7 @@ class User_Controller extends Base_Controller {
 
 		$users = Group::find(Session::get('current_course'))
 						->users()
-						->where('activated', '=', 1)
+						->where('active', '=', 1)
 						->where('instructor', '=', 0)
 						->get();
 		$usersWithLevels = array();
@@ -375,23 +375,17 @@ class User_Controller extends Base_Controller {
 	}
 
 	public function post_assign() {
+
 		$team_additions = Input::get('addToTeam');
+		if (is_array($team_additions)) {
+
 		$team_id = Input::get('team');
 		
 		DB::table('users_teams')->where('group_id', '=', Session::get('current_course'))
 								->where_in('user_id', $team_additions)
 								->delete();
 		
-								
-//		$teams = Group::find(Session::get('current_course'))->teams();
-		//remove current students from existing team in group
 
-/*		foreach($teams as $team) {
-			DB::table('users_teams')->where_in('user_id', $team_additions)
-									->where('team_id', '=', $team)
-									->delete();
-		}
-*/
 		foreach($team_additions as $id) {
 			DB::table('users_teams')->insert(
 										  array('user_id' => $id,
@@ -399,9 +393,15 @@ class User_Controller extends Base_Controller {
 										  'group_id' => Session::get('current_course'))
 										  );			
 		}
+
 		return Redirect::to('admin/students')
 					->with_message("Students have been added to team", 'success');
-
+		}
+		else {
+		return Redirect::to('admin/students')
+					->with_message("Something went wrong, students not added to team.", 'error');
+		
+		}
 	}
 
 

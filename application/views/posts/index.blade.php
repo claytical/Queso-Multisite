@@ -31,7 +31,9 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                         <h4 class="panel-title">
+                        <? $instructor = false; ?>
                           @if(Course::is_instructor())
+                          <? $instructor = true; ?>
                           <a href="{{URL::to('admin/question/delete/'.$question->id)}}" class="btn btn-xs pull-right btn-default"><span class="glyphicon glyphicon-trash"></span></a>
                           @endif
 
@@ -42,10 +44,13 @@
                         @endif
 
                             {{$question->question}} 
-                                
                     </a> 
+							                             
 
                     </h4>
+                    @if($instructor)
+                    	&mdash;{{User::find($question->user_id)->username}}
+                	@endif
                 </div>
                 <div id="question{{$question->id}}" class="panel-collapse collapse">
                   <div class="panel-body">

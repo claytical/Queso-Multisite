@@ -76,6 +76,8 @@ class Course_Controller extends Base_Controller {
 		$teams = Team::where('group_id', '=', Session::get('current_course'))->order_by('label', 'asc')->get();
         $data->teams = $teams;
 	        
+       // $sections = Section::where('group_id', '=', Session::get('current_course'))->order_by('name', 'asc');
+       // $data->sections = $sections->get();
         return View::make('courses.all')
 		->with('course', $data);
 	}

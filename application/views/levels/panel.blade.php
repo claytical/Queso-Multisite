@@ -35,7 +35,7 @@
         <div class="pull-right">
             <div class="btn-toolbar">
                 <div class="btn-group">
-                  <a rel="tooltip" data-original-title='Edit Level' data-toggle="modal" href="#levelEdit{{$level->id}}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>
+                  <a rel="tooltip" data-original-title='Edit Level' data-toggle="modal" href="#levelEdit{{$level->id}}" class="btn btn-default btn-xs">Edit</a>
                   <div class="modal fade" id="levelEdit{{$level->id}}" tabindex="-1" role="dialog" aria-labelledby="levelEdit{{$level->id}}Label" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -53,19 +53,20 @@
                             <label for="label" class="control-label">Amount</label>
                                 <?php echo Form::text('amount', $level->amount, array('placeholder' => 'Points Required', 'class' => 'input-md form-control')); ?>
                                 <?php echo Form::hidden('level_id', $level->id); ?>
+                          <?php echo Form::hidden('tab', 'levels'); ?> 
         
                             </div>
                           </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <?php echo Form::hidden('tab', 'levels'); ?> 
-                            <?php echo Form::submit('Save', array('class' => 'btn btn-primary'));?>
-                        </div>
+                          <a class="btn btn-danger btn" href="{{URL::to('admin/level/delete/'.$level->id)}}">Delete</a> 
+                          <?php echo Form::submit('Save', array('class' => 'btn btn-primary'));?>
                             <?php echo Form::close(); ?>
+
+                        </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
                   </div><!-- /.modal -->                                    
-        <a class="btn btn-danger btn-xs" href="{{URL::to('admin/level/delete/'.$level->id)}}"><span class="glyphicon glyphicon-trash"></span></a>
             </div>
         </div>
     </div>

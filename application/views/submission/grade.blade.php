@@ -69,14 +69,11 @@
 			<?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-lg btn-submit', 'data-loading-text' => 'Grading...'));?>
 		</div>
 			@foreach($data['rewards'] as $reward)
-			<div class="form-group">
-				<?php echo Form::label('reward', $reward->name, array('class' => 'control-label', 'style' => '')); ?>
-				<input type="range" name="rewards[{{$reward->id}}]" min="{{$reward->rewards['Minimum']}}" max="{{$reward->rewards['Maximum']}}" value="{{$reward->rewards['current']}}" class="form-control">
-			
-				<span class="badge" for="rewards[{{$reward->id}}]" onforminput="value = rewards[{{$reward->id}}].valueAsNumber;"></span>
-			</div>		
+				<div class="form-group">
+					<h4>{{$reward->name}} <span class="label label-info rewards{{$reward->id}}"></span></h4>
+					<input type="range" id="rewards{{$reward->id}}" name="rewards[{{$reward->id}}]" min="{{$reward->rewards['Minimum']}}" max="{{$reward->rewards['Maximum']}}" value="{{$reward->rewards['Maximum']}}" class="form-control">
+				</div>		
 		   @endforeach
-
 			<?php echo Form::hidden('submission_id', $data['submission']->id); ?>
 			<?php echo Form::hidden('quest_type', $data['quest']->type); ?>
 			<?php echo Form::hidden('quest_id', $data['submission']->quest_id); ?>

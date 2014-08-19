@@ -13,7 +13,17 @@ jQuery.expr[':'].Contains = function(a, i, m) {
 var selectedQuestIndex = 0;
 
 $(function() {
-    $('.wysiwyg-area').wysihtml5();	
+ $('.wysiwyg-area').editable({inlineMode: false})
+/*    $('.wysiwyg-area').wysihtml5({
+	"font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
+	"emphasis": true, //Italics, bold, etc. Default true
+	"lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
+	"html": false, //Button which allows you to edit the generated HTML. Default false
+	"link": true, //Button to insert a link. Default true
+	"image": true, //Button to insert an image. Default true,
+	"color": false //Button to change color of font  
+});	
+*/
 	$('table.sortable').tablesorter({
 		theme : "bootstrap", // this will 
 		headerTemplate : '{content} {icon}', 
@@ -205,4 +215,96 @@ function changeQuestPage(direction) {
 function swapPhoto(url) {
 	$('#photo_url').val(url);
 	$('#profile_photo').attr('src', url);
+}
+// function taken from http://stackoverflow.com/questions/9552883/regex-to-extract-domain-and-video-id-from-youtube-vimeo-url
+
+function parseVideoURL(url) {
+
+    function getParm(url, base) {
+        var re = new RegExp("(\\?|&)" + base + "\\=([^&]*)(&|$)");
+        var matches = url.match(re);
+        if (matches) {
+            return(matches[2]);
+        } else {
+            return("");
+        }
+    }
+
+    var retVal = {};
+    var matches;
+
+    if (url.indexOf("youtube.com/watch") != -1) {
+        retVal.provider = "youtube";
+        retVal.id = getParm(url, "v");
+    } else if (matches = url.match(/vimeo.com\/(\d+)/)) {
+        retVal.provider = "vimeo";
+        retVal.id = matches[1];
+    }
+    return(retVal);
+}
+
+$('.select-all').click(function() {
+	if($(this).hasClass( "select-all" )) {
+		//select all
+		
+           $('.user-checkbox').each(function() { //loop through each checkbox
+                this.checked = true;  //select all checkboxes with class "checkbox1"               
+            });
+ 	
+		$(this).removeClass("select-all");
+		$(this).text("Select None");
+	}
+	else {
+
+           $('.user-checkbox').each(function() { //loop through each checkbox
+                this.checked = false;  //select all checkboxes with class "checkbox1"               
+            });
+		$(this).addClass("select-all");
+		$(this).text("Select All");
+
+	}
+});
+
+function emailSelectedStudents() {
+	var addressList = "";
+	 $('.user-checkbox').each(function() { //loop through each checkbox
+        if(this.checked) {
+    		addressList += $(this).parent().children('.email').text() + ",";    
+        }
+    });
+    	if (addressList.length > 0) {
+         document.location.href = "mailto:" + addressList;
+		}
+		else {
+			alert("You need to select students in order to email them");
+		}
+}
+
+function filterQuests() {
+$(".category").parent().parent().parent().show();
+	
+
+	if ($('select#category-select :selected').val() != 0) {
+		$(".category").filter(function() {
+			return $(this).text() != $('select#category-select :selected').text();
+		}).parent().parent().parent().hide();
+	}
+	$( "select.selectskill" ).each(function( index ) {
+	  var skillId = $( this ).attr('rel');
+	  var skillLevel = $('select#skill-select-' + skillId + ' :selected').val()
+	  console.log("Searching for Skill " + skillId + " with level of " + skillLevel);
+		$(".required_skill_id").filter(function() {
+			return $(this).text() === skillId;
+		}).each(function() {
+			//check if level is greater than or equal to selected level
+			if ($(this).parent().children('.required_skill_amount').text() >= skillLevel) {
+				console.log("match and level found");
+			}
+			else {
+				console.log("no match for level found");
+				$(this).parent().parent().parent().parent().hide();
+			}
+		});
+	});
+
 }

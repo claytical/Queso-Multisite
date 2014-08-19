@@ -24,6 +24,9 @@ class Submission_Controller extends Base_Controller {
 	public function get_view($id) {
 		$data = new stdClass();
 		$data->submission = Submission::find($id);
+		$data->revisions = Submission::where('quest_id', '=', $data->submission->quest_id)
+									->where('user_id', '=', $data->submission->user_id)
+									->get();
 		$data->quest = Quest::find($data->submission->quest_id);
 		
 		return View::make('submission.view')
@@ -34,6 +37,9 @@ class Submission_Controller extends Base_Controller {
 	public function get_revise($id) {
 		$data = new stdClass();
 		$data->submission = Submission::find($id);
+		$data->revisions = Submission::where('quest_id', '=', $data->submission->quest_id)
+									->where('user_id', '=', $data->submission->user_id)
+									->get();		
 		$data->quest = Quest::find($data->submission->quest_id);
 		$data->comments = Comment::where('quest_id', '=', $data->submission->quest_id)
 									->where('user_id', '=', $data->submission->user_id)

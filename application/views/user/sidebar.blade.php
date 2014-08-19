@@ -5,7 +5,7 @@
 				<h6>
 					@if (!$info->skills)
 					@else
-						<i class="glyphicon glyphicon-ok"></i>
+						<i class="icon-ok"></i>
 					@endif
 					<a href='{{URL::to("admin/skills")}}'>Skills</a>
 				</h6>
@@ -13,14 +13,14 @@
 				<h6>
 					@if(!$info->current_level)
 					@else 
-						<i class="glyphicon glyphicon-ok"></i>
+						<i class="icon-ok"></i>
 					@endif
 				<a href='{{URL::to("admin/levels")}}'>Levels</a>
 				</h6>
 				<h6>
 				    @if(!$info->has_quests)
 					@else 
-						<i class="glyphicon glyphicon-ok"></i>
+						<i class="icon-ok"></i>
 					@endif
 				<a href='{{URL::to("admin/quest/create")}}'>Quests</a>
 				</h6>
@@ -28,7 +28,7 @@
 				<h6>
 					@if(!$info->has_posts)
 					@else 
-						<i class="glyphicon glyphicon-ok"></i>
+						<i class="icon-ok"></i>
 					@endif
 				<a href='{{URL::to("admin/post/create")}}'>Posts</a>
 				</h6>

@@ -191,6 +191,7 @@ Route::get('admin/student/demote/(:any)', array('uses' => 'user@demote'));
 Route::get('admin/student/switch', array('uses' => 'user@switch'));
 Route::post('admin/student/switch', array('uses' => 'user@switch'));
 Route::get('admin/student/details/(:any)', array('uses' => 'user@profile'));
+Route::post('admin/user/assign', array('uses' => 'user@assign'));
 Route::get('admin/course', array('uses' => 'course@setup'));
 Route::post('admin/course', array('uses' => 'course@setup'));
 Route::get('admin/course/new', array('uses' => 'course@create'));
@@ -221,6 +222,7 @@ Route::post('admin/student/quest/remove', array('uses' => 'user@remove_quest'));
 Route::get('admin/skills', array('uses' => 'skill@index'));
 Route::post('admin/skills', array('uses' => 'skill@index'));
 Route::get('admin/skill/remove/(:any)', array('uses' => 'skill@remove'));
+Route::get('admin/skill/remove/(:any)/confirm', array('uses' => 'skill@remove_confirm'));
 Route::post('admin/skill/edit', array('uses' => 'skill@edit'));
 Route::get('admin/levels', array('uses' => 'level@index'));
 Route::post('admin/levels', array('uses' => 'level@index'));
@@ -306,10 +308,15 @@ Event::listen('500', function()
 */
 
 Route::filter('pattern: admin/*', 'admin');
+/* add routine for checking post group_id vs. current course id*/
 Route::filter('pattern: post/*', 'student');
 Route::filter('pattern: posts/*', 'student');
+/* add routine for checking quest group_id vs. current course id*/
+
 Route::filter('pattern: quest/*', 'student');
 Route::filter('pattern: quests/*', 'student');
+/* add routine for checking question group_id vs. current course id*/
+
 Route::filter('pattern: question/*', 'student');
 Route::filter('pattern: questions/*', 'student');
 Route::filter('pattern: answer/*', 'student');

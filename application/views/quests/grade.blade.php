@@ -25,7 +25,9 @@
 
 	</div>
 		<div class="form-group">
-			{{ Form::text('note', '', array('placeholder' => 'Note', 'class' => 'input-md form-control')); }}
+
+			{{ Form::textarea('note', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area form-control', 'id' => 'grade-notes', 'style' => 'width: 100%')); }}
+			
 			{{ Form::hidden('quest_id', $data->quest->id); }}
 		</div>
 

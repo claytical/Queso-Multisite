@@ -5,6 +5,17 @@ Attempting {{$quest->name}}
 @section('content')
 <h2>{{$quest->name}}</h2>
 	{{$quest->instructions}}
+@if($quest->filename)
+	<h6>Files</h6>
+		<ul class="list-inline">
+		@foreach(explode(",",$quest->filename) as $file)
+			<li>
+			<a class='btn btn-sm btn-info pull-right' href='{{$file}}'>{{Filepicker::metadata($file)->filename}}</a>
+			</li>
+		@endforeach
+	</ul>
+@endif
+	
 <hr>
 <?php echo Form::open('quest/attempt', 'POST', array('class' => '')); ?>
 	<fieldset>

@@ -2,9 +2,18 @@
 @section('content')
 <h2>Students</h2>
 <div class="container">
-@if($data->users)
 	@if($data->teams)
-		<a data-toggle="modal" href="#teamModal" class="btn btn-default pull-right btn-xs">Assign Selected Students to a Team</a>
+<div class="dropdown pull-right">
+  <button class="btn btn-default dropdown-toggle" type="button" id="student-actions" data-toggle="dropdown">
+    Options
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="student-actions">
+  	<li><a data-toggle="modal" href="#teamModal" class="">Assign Selected Students to a Team</a></li>
+	<li><a href="#email" class="" onclick="emailSelectedStudents()">Email Selected Students</a></li>
+  </ul>
+</div>	
+		
 		  <div class="modal fade" id="teamModal" tabindex="-1" role="dialog" aria-labelledby="teamModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 			  <div class="modal-content">
@@ -25,8 +34,14 @@
 			  </div>
 			</div>
 		  </div>
+	@else
+<div class="row">
+	<a href="#email" class="btn btn-default pull-right btn-xs" onclick="emailSelectedStudents()">Email Selected Students</a>
+</div>
 	@endif
-	
+<div class="row">
+	<button type="button" class="btn btn-default pull-left btn-md select-all">Select All</button>
+</div>
 	
 	
 	
@@ -38,7 +53,10 @@
 	@if($data->teams)
 		<th>Team</th>
 	@endif
-	<th class="filter-false" data-sorter="false"></th>
+	<th class="filter-false" data-sorter="false">
+
+	</th>
+
 	</thead>
   	<tbody>
 	@foreach ($data->users as $user)
@@ -46,17 +64,13 @@
 	
 	
 		  	<td>
-	@if($data->teams)
 
 		  		<label class="checkbox">
-					{{ Form::checkbox('addToTeam[]', $user['personal']->id);}}	
+					{{ Form::checkbox('addToTeam[]', $user['personal']->id, false, array('class' => 'user-checkbox'));}}	
+						<span class="email hidden">{{$user['personal']->email}}</span>
+
 					  <a href="{{ URL::to('/admin/student/details/'.$user['personal']->id);}}">{{$user['personal']->username}}</a>
 			  </label>
-	@else
-					  <a href="{{ URL::to('/admin/student/details/'.$user['personal']->id);}}">{{$user['personal']->username}}</a>
-	
-	@endif			
-
 			</td>
 		  <td>
 		  
@@ -102,8 +116,5 @@
 	@endforeach
   </tbody>
 	</table>
-@else
-<h3>There are no students in this course yet!</h3>
-@endif
 </div>
 @endsection

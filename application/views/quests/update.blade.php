@@ -25,6 +25,15 @@
 
         {{ Form::textarea('instructions', $quest->instructions, array('placeholder' => 'Instructions go here...', 'class' => 'wysiwyg-area form-control', 'id' => 'quest-instructions', 'required' => '', 'style' => 'width: 100%')); }}
             </div>
+        @if($quest->type == 2)
+			<div class="controls" id="submission_options">
+				<label class="checkbox"><?php echo Form::checkbox('allow_text', '1', $quest->text); ?> Allow students to submit written text</label>
+				<label class="checkbox"><?php echo Form::checkbox('allow_upload', '1', $quest->uploads); ?> Allow students to upload a file</label>
+
+			</div>
+        
+        @endif
+            
 		<a href="#createquest" class="btn btn-default pull-right next-step">Next</a>
     </div>
 
