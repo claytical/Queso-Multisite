@@ -113,7 +113,7 @@ View::composer('user.sidebar', function($view) {
 View::composer('user.menu', function($view) {
 	if(Sentry::check() && Session::get('uid') && Session::get('current_course')) {
 		$user = Sentry::user(Session::get(Config::get('sentry::sentry.session.user')));
-		$groups = $user->groups();
+		$groups = User::find(Session::get('uid'))->groups()->where('groups.active', '=', 1)->get();
 		$info = array('user' => $user['user'], 'groups' => $groups);
 	}
 	else {

@@ -31,7 +31,10 @@
 			{{ Form::hidden('quest_id', $data->quest->id); }}
 		</div>
 
+<div class="form-group">
+	<label class="checkbox"><?php echo Form::checkbox('notify_student', '1', true); ?> Notify student</label>
 
+</div>
 		<div class="form-group">
 	    {{ Form::submit('Grade Quest', array('class' => 'btn btn-primary pull-right btn-submit btn-lg', 'data-loading-text' => 'Grading...')); }}
 		</div>

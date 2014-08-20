@@ -8,7 +8,7 @@
 	  <ul class="dropdown-menu" role="menu" aria-labelledby="usermenu">
           <li role="presentation" class="dropdown-header">Courses</li>          
 				@foreach($info['groups'] as $course)
-					<li role="presentation"><a role="menuitem" href="{{ URL::to('/course/'.$course['id']);}}">{{$course['name']}}</a>                      </li>
+					<li role="presentation"><a role="menuitem" href="{{ URL::to('/course/'.$course->id);}}">{{$course->name}}</a>                      </li>
 				@endforeach
           <li role="presentation" class="divider"></li>
           

@@ -65,6 +65,11 @@
 			<div class="form-group">
 			{{ Form::textarea('notes', '', array('placeholder' => 'Your feedback to the student...', 'class' => 'wysiwyg-area form-control', 'id' => 'grade-notes', 'style' => 'width: 100%')); }}
 			</div>
+<div class="form-group">
+	<label class="checkbox"><?php echo Form::checkbox('notify_student', '1', true); ?> Notify student</label>
+
+</div>
+			
 		<div class="form-group">
 			<?php echo Form::submit('Grade', array('class' => 'btn btn-primary pull-right btn-lg btn-submit', 'data-loading-text' => 'Grading...'));?>
 		</div>

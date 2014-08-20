@@ -139,10 +139,6 @@ class Submission_Controller extends Base_Controller {
 
 	
 	public function post_grade() {
-			$notice = new Notice;
-
-			$notice->notification = Input::get('notes');
-		
 		//save comment
 		$comment_submission_field = "";
 
@@ -155,11 +151,7 @@ class Submission_Controller extends Base_Controller {
 			}
 			$submission->save();
 			$quest = Quest::find($submission->quest_id);
-			$notice->title = $quest->name . " has been graded";
-			$notice->user_id = $submission->user_id;
-			$notice->group_id = Session::get('current_course');			
-			$notice->url = "submission/revise/".$submission->id;
-
+			
 			$comment = Comment::create(
 							array($comment_submission_field => Input::get('submission_id'),
 								  'comment' => Input::get('notes'),
@@ -168,10 +160,21 @@ class Submission_Controller extends Base_Controller {
 								  'quest_id' => Input::get('quest_id'),
 								  ));	
 		}
+		else {
+			$quest = Quest::find(Input::get('quest_id'));
+		}
 
-			$notice->save();
-			$message = "<p>".Input::get('notes')."</p><p>For more information, visit <a href='".URL::to($notice->url)."'>the class website</a></p>";
-			Info::notify($submission->user_id, $notice->title, $message);
+			if (Input::has('notify_student')) {
+				$notice = new Notice;
+				$notice->notification = Input::get('notes');
+				$notice->title = $quest->name . " has been graded";
+				$notice->user_id = $submission->user_id;
+				$notice->group_id = Session::get('current_course');			
+				$notice->url = "submission/revise/".$submission->id;
+				$notice->save();
+				$message = "<p>".Input::get('notes')."</p><p>For more information, visit <a href='".URL::to($notice->url)."'>the class website</a></p>";
+				Info::notify($submission->user_id, $notice->title, $message);
+			}
 
 			DB::table('skill_user')
 					->where('user_id', '=', Input::get('user_id'))

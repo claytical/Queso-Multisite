@@ -46,7 +46,9 @@ class Home_Controller extends Base_Controller {
                 ->update(array('hidden' => TRUE));
 
             $info->quests = $quests;
-			$info->courses = User::find(Session::get('uid'))->groups()->get();
+			$info->courses = User::find(Session::get('uid'))->groups()->where('groups.active', '=', 1)->get();
+			$info->previous_courses = User::find(Session::get('uid'))->groups()->where('groups.active', '=', 0)->get();
+
 			$info->user = $user->first()->username;
 			return View::make('home.dashboard')
 					->with('info', $info);

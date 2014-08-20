@@ -20,9 +20,39 @@
                 </div>
             </div>
 
+          <div class="form-group">	
+                <label for="course_active" class="col-md-3 control-label">In Session</label>
+                <div class="col-md-9">
+					<div class="btn-group" data-toggle="buttons">
+						@if($course->active == 1)
+						  <label class="btn btn-default active">
+							<input type="radio" name="active" value=1 id="course_active" checked> Yes
+
+						@else
+						  <label class="btn btn-default">
+							<input type="radio" name="active" value=1 id="course_active" > Yes
+	
+						@endif
+
+					  </label>
+						@if($course->active == 0)
+	
+						  <label class="btn btn-default active">
+							<input type="radio" name="active" value=0 id="course_deactive" checked> No
+						@else
+						  <label class="btn btn-default">
+							<input type="radio" name="active" value=0 id="course_deactive" > No
+						@endif						
+					  </label>
+				</div>
+			</div>
+		</div>			
             <div class="form-group">
                 <?php echo Form::hidden('tab', 'levels'); ?> 
+
+
                 <?php echo Form::submit('Update Course', array('class' => 'btn btn-primary pull-right'));?>		
+
             </div>
         <?php echo Form::close(); ?>
     
