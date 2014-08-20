@@ -26,6 +26,12 @@
       <hr>
 
       <footer>
-        <p>&copy; Clay Ewing 2013</p>
+				<div class="col-md-12">
+					<div class="col-md-6">&copy; Clay Ewing 2013</div>
+					<div class="col-md-6">
+						<div class="pull-right"><a href="{{URL::to('credits')}}">Credit where credit is due</a></div>
+					</div>
+					
+				</div>
       </footer>
 @endsection

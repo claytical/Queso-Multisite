@@ -35,7 +35,7 @@ Post Administration
 						@if($post->position == 0)		
 						<a href="{{ URL::to('/admin/post/sticky/'.$post->id);}}" class="btn btn-default btn-block" title="Make Post Sticky"><span class="glyphicon glyphicon-star"></span> Make Sticky</a>
 						@else
-						<a href="{{ URL::to('/admin/post/unstick/'.$post->id);}}" class="btn btn-default btn-block" title="Unstick Post"><span class="glyphicon glyphicon-star-empty"></span> Remove Sticky</a>
+						<a href="{{ URL::to('/admin/post/unstick/'.$post->id);}}" class="btn btn-default btn-block" title="Unstick Post"><span class="glyphicon glyphicon-arrow-down"></span> Remove Sticky</a>
 						@endif
 
 						@if($post->frontpage)

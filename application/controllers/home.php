@@ -58,4 +58,8 @@ class Home_Controller extends Base_Controller {
 		}
 	}
 
+	public function action_credits() {
+		return View::make('home.credits');
+	}
+
 }

@@ -122,7 +122,9 @@ View::composer('user.menu', function($view) {
 
 	$view->with('info',$info);
 });
+
 Route::get('/', array('uses' => 'home@index'));
+Route::get('credits', array('uses' => 'home@credits'));
 Route::get('posts', array('uses' => 'post@index'));
 Route::get('comments', array('uses' => 'comment@index'));
 Route::post('comments', array('uses' => 'comments@index'));
