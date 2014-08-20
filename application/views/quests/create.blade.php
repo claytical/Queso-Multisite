@@ -113,6 +113,25 @@
 			<div class="controls form-group">
 			    {{ Form::text('category', '', array('placeholder' => 'Category name', 'class' => 'input-md form-control', 'list' => 'categories', 'autocomplete' => 'off')); }}
 			</div>
+		<p class="">Quests can also be given colors to so that students can visually identify sets of quests.</p>
+			<div class="controls form-group">
+
+				<input type="color" name="catcolor" value="#f5f5f5" class="input-md form-control" list="colors" pattern="^#([A-Fa-f0-9]{6})$" title='Hexidecimal value required'>
+					<datalist id=colors>
+					<option>#ffffff</option>
+					<option>#ff0000</option>
+					<option>#996633</option>
+					<option>#FF99FF</option>
+					<option>#3399FF</option>
+					<option>#FF9933</option>
+					<option>#CC0066</option>
+					<option>#666699</option>
+					<option>#33CC33</option>
+					<option>#E0CCF5</option>
+
+					</datalist>
+			</div>
+
         <div class="controls">
             <a href="#createquest" class="btn btn-default pull-left step-back">Back</a>	
             <a href="#createquest" class="btn btn-default pull-right next-step">Next</a>

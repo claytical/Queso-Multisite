@@ -18,7 +18,12 @@
 <div class="col-md-4 quest-box">
     <span style="display:none" class="quest_category">{{$quest['category']}}</span>
     <div class="panel panel-default"  style="min-height: 140px">
-    <div class="panel-heading">   
+    @if(!isset($quest['color']))
+    <div class="panel-heading">
+    @else
+    <div class="panel-heading" style="background-color: {{$quest['color']}}">
+
+    @endif
      <button class="btn btn-default btn-xs pull-right" data-toggle="collapse" data-target="#quest{{$quest['quest_id']}}" type="button">
          <span class="glyphicon glyphicon-chevron-down"></span>
      </button>

@@ -88,6 +88,25 @@
 			<div class="controls">
 			    {{ Form::text('category', $quest->category, array('placeholder' => 'Category name', 'class' => 'input-md form-control')); }}
 			</div>
+		<p class="">Quests can also be given colors to so that students can visually identify sets of quests.</p>
+			<div class="controls">
+
+				<input type="color" name="catcolor" value="{{$quest->color}}" class="input-md form-control" list="colors" pattern="^#([A-Fa-f0-9]{6})$" title='Hexidecimal value required'>
+					<datalist id=colors>
+					<option>#ffffff</option>
+					<option>#ff0000</option>
+					<option>#996633</option>
+					<option>#FF99FF</option>
+					<option>#3399FF</option>
+					<option>#FF9933</option>
+					<option>#CC0066</option>
+					<option>#666699</option>
+					<option>#33CC33</option>
+					<option>#E0CCF5</option>
+
+					</datalist>
+			</div>
+			
         </div>
 		<a href="#createquest" class="btn btn-default pull-right next-step">Next</a>
 	</div>

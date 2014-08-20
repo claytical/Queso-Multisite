@@ -58,6 +58,7 @@ class Quest_Controller extends Base_Controller {
 					  'allow_text' => Input::has('allow_text'),
 					  'visible' => 1,
 					  'position' => 0,
+					  'color' => Input::get('catcolor'),
 					  'group_id' => Session::get('current_course')
 					  ));	
 			//insert skill amounts
@@ -147,6 +148,7 @@ class Quest_Controller extends Base_Controller {
 					->where('quest_id', '=', $id)
 					->lists('requirement', 'skill_id');
 		$quest->name = $questInfo->name;
+		$quest->color = $questInfo->color;
 		$quest->instructions = $questInfo->instructions;
 		$quest->id = $questInfo->id;
 		$quest->category = $questInfo->category;
@@ -184,6 +186,7 @@ class Quest_Controller extends Base_Controller {
 			$quest->category = Input::get('category');
 			$quest->allow_text = Input::get('allow_text');
 			$quest->allow_upload = Input::get('allow_upload');
+			$quest->color = Input::get('catcolor');
 			if (Input::get('existingFiles') && Input::get('files')) {
 				$existingFiles = Input::get('existingFiles');
 				$newFiles = explode(",", Input::get('files'));
@@ -741,6 +744,7 @@ class Quest_Controller extends Base_Controller {
 								  'quest_id' => $quest->quest_id,
 								  'completed' => $quest->created_at,
 								  'category' => $quest->category,
+								  'color' => $quest->color,
 								  'note' => $quest->note,
 								  'submission' => $submission,
 								  'type' => $quest->type,
