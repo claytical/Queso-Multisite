@@ -1,22 +1,24 @@
 @layout('layouts.default')
 @section('content')
-	@if($notices)
-	<div>
-		@if($notices)
-		<a href="{{URL::to('notices/hide')}}" class="btn btn-danger pull-right">Dismiss All</a>
-		@endif
 
-		<h2>Notifications</h2>
-	</div>
-		@foreach($notices as $notice)
-			<div class="notice well">
-				 <a class="close" href="{{URL::to('notice/hide/'.$notice->id)}}">×</a>
-				<h3>{{$notice->title}}</h3>
-				<a class="btn btn-info pull-right" href="{{URL::to('notice/show/'.$notice->id)}}">More Info</a>
-				{{$notice->notification}}
+<div class="container">
+<h2>Something Went Wrong!</h2>
+<?php echo Form::open('report', 'POST', array('class' => 'form-horizontal')); ?>
+	
+	<div class="form-group">	
+			<div class="controls">
+				{{ Form::textarea('bug', '', array('placeholder' => 'What were you trying to do?', 'class' => 'wysiwyg-area form-control', 'id' => 'bug-instructions', 'style' => 'width: 100%')); }}
+				{{Form::hidden('exception', $data->exception)}}
 			</div>
-		@endforeach
-	@else
-		<h2>There are no new notifications</h2>
-	@endif
+	</div>
+	
+
+	<hr>
+<div class="form-group">
+	<?php echo Form::submit('Submit Bug', array('class' => 'btn btn-primary pull-right btn-lg'));?>
+</div>
+    <?php echo Form::close(); ?>
+</div>
+
+
 @endsection
