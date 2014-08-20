@@ -58,20 +58,6 @@
 			  </div>
 			</div>
 		  </div>
-		  <div class="panel panel-default">
-			<div class="panel-heading">
-			  <h4 class="panel-title">
-				<a data-toggle="collapse" data-parent="#accordion" href="#embed">
-				  Embed
-				</a>
-			  </h4>
-			</div>
-			<div id="embed" class="panel-collapse collapse">
-			  <div class="panel-body">
-			    <?php echo Form::text('vimeo', '', array('placeholder' => 'Vimeo URL', 'class' => 'input-md form-control')); ?>
-			  </div>
-			</div>
-		  </div>
 		</div>
 
 

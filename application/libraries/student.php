@@ -2,6 +2,8 @@
 
 class Student {
 
+
+	
 	public static function lowest_skill_amount($user_id, $group_id) {
 		$group_skills = Group::find($group_id)->skills()->get();
 		$lowest_amount = 9999999999999999;
@@ -199,4 +201,66 @@ class Student {
 		}
 	
 	}
+	
+	
+	public static function projected_level($user_id, $group_id) {
+		//Get Completed Quests
+		$playerQuests = User::find($user_id)->quests();
+		$ids = $playerQuests->lists('id');
+		$projection = array();
+		if (!empty($ids)) {
+			//find quests that haven't been completed
+			$quests = Group::find(Session::get('current_course'))
+				->quests()
+				->where_not_in('id',$ids)
+				->where('visible', '=', 1)->get();
+			//get all course skills
+			$skills = Skill::where('group_id', '=', $group_id)->get();
+		//find remaining amounts of potential skill points
+			foreach($skills as $skill) {
+				$skills_to_gain = DB::table('quest_skill')
+					->where('skill_id', '=', $skill->id)
+					->where('label', '=', 'Maximum')
+					->where_not_in('quest_id', $ids)
+					->sum('amount');
+
+				$current_amount = DB::table('skill_user')
+							->where('user_id', '=', $user_id)
+							->where('skill_id', '=', $skill->id)
+							->sum('amount');
+
+				$projection['skills'][] = array(
+							'id' => $skill->id,
+							'label' => $skill->name,
+							'left' => $skills_to_gain,
+							'current' => $current_amount,
+							'projected' => $current_amount + $skills_to_gain,);
+
+			}
+			$lowest_projected_skill_amount = 9999999999999999;
+			foreach ($projection['skills'] as $projected_skill) {
+				if ($projected_skill['projected'] == NULL) {
+					$projected_skill['projected'] = 0;
+				}
+				
+				if ($projected_skill['projected'] < $lowest_projected_skill_amount) {
+					$lowest_projected_skill_amount = $projected_skill['projected'];
+				}
+
+			}
+			$best_level = Group::find($group_id)
+			->levels()
+			->where('amount', '<=', $lowest_projected_skill_amount)
+			->order_by('amount', 'desc');
+			if ($best_level) {
+				$projection['level'] =  $best_level->first()->label;
+			}
+			else {
+				$projection['level'] = 0;
+			}
+			
+			return $projection;
+		}
+	return NULL;
+}
 }

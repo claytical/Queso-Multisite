@@ -332,8 +332,12 @@ class User_Controller extends Base_Controller {
 			else {
 				$team = "";
 			}
+			$projection = Student::projected_level($user->id, Session::get('current_course'));
+			
+			
 			$usersWithLevels[] = array('personal' => $user,
 									   'team' => $team,
+									   'projection' => $projection,
 									   'current_level' => Student::current_level($user->id, Session::get('current_course')));
 		}	
 		$data->teams = Team::where('group_id', '=', Session::get('current_course'))
@@ -504,7 +508,7 @@ class User_Controller extends Base_Controller {
 										->where('quest_id', '=', $quest->quest_id)
 										->get());
 		}
-		
+/*		
 		$lowest_skill_amount = 99999999;
 		foreach($skills as $skill) {
 			$amount = DB::table('skill_user')
@@ -520,8 +524,9 @@ class User_Controller extends Base_Controller {
 			}
 			
 		}
-
+*/
 		$data->current_level = Student::current_level($id, Session::get('current_course'));				
+		$data->projected_level = Student::projected_level($id, Session::get('current_course'));
 		return View::make('user.profile')
 			->with('data', $data);
 	

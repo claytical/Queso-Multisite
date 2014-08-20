@@ -1,11 +1,14 @@
 @layout('layouts.default')
 @section('content')
+<div class="">
 <h2>{{$data->user->username}}</h2>
 
 @if(!empty($data->dates))
 <h4>{{$data->current_level->label}}</h4>
-
+</div>
+<hr>
 @if(count($data->dates) > 1)
+
 <div class="container">
 
 <table class="chart" style="display:none;" width="95%" height="65%">
@@ -41,6 +44,7 @@
     </div>
 	@endif
 @endif
+
 @if (!empty($data->quests))
 	@if (count($data->quests) > 0)
 	<table class="table table-hover">
@@ -94,8 +98,9 @@
 	              </tbody>
 	            </table>
 			<hr>
+			
 			<div class="offset6">
-				<h5>Totals</h5>
+				<h4>Totals</h4>
 				<ul class="list-unstyled">
 				@foreach($data->skills as $skill)
 					<li>
@@ -108,9 +113,39 @@
 						@endif
 					 	</span>
 					</li>
+		
 				@endforeach
+					<li>Current Level<span class="pull-right">{{$data->current_level->label}}</span></li>
+
 				</ul>
 			</div>
+<div class="offset6">
+		<h4>Points From Remaining Quests</h4>
+		<ul class="list-unstyled">
+		
+		@foreach($data->projected_level['skills'] as $projection)
+			<li>
+				{{$projection['label']}}
+				<span class="pull-right">
+				@if($projection['left'])
+					{{$projection['left']}}
+				@else
+				0
+				@endif
+				</span>
+			
+			</li>
+		@endforeach
+			<li>Projected Level<span class="pull-right">{{$data->projected_level['level']}}</span></li>
+		</ul>
+</div>
+<hr>
+
+
+
+
+
+
 
 	@endif
 
