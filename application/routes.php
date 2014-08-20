@@ -178,7 +178,8 @@ Route::get('super/courses', array('uses' => 'course@index'));
 Route::get('super/users', array('uses' => 'user@index'));
 Route::get('admin/course/remove/(:any)', array('uses' => 'course@remove'));
 Route::get('course/(:any)', array('uses' => 'course@course'));
-
+Route::get('courses/public', array('uses' => 'course@public'));
+Route::get('courses', array('uses' => 'course@public'));
 Route::get('admin/user/changepw/(:any)', array('uses' => 'user@change_any_password'));
 Route::post('admin/user/changepw', array('uses' => 'user@change_any_password'));
 

@@ -58,6 +58,7 @@ class Course_Controller extends Base_Controller {
 		$data->name = $course->name;
         $data->code = $course->code;
 		$data->id = $course->id;
+		$data->public = $course->public;
 		$data->active = $course->active;
 		$dropdown = $course->variables()->where('label', '=', 'dropdown')->first();
 		if ($dropdown) {
@@ -88,6 +89,7 @@ class Course_Controller extends Base_Controller {
 		$course->name = Input::get('course');
         $course->code = Input::get('code');
         $course->active = Input::get('active');
+        $course->public = Input::get('public');
 		Session::put('course_name', $course->name);
 		$course->save();
 		if (Input::has('dropdown')) {
@@ -303,6 +305,25 @@ class Course_Controller extends Base_Controller {
 	    }
 
 	}
+
+	public function get_public() {
+		$user_groups = User::find(Session::get('uid'))->groups();
+		$ids = $user_groups->lists('id');
+		
+		if (!empty($ids)) {
+			$courses = Group::where('public', '=', 1)
+							->where_not_in('id', $ids)
+							->get();		
+		}
+		else {
+			$courses = Group::where('public', '=', 1)->get();	
+		}
+
+		return View::make('courses.public')
+				->with('courses', $courses);
+
+	}
+
 
 	public function get_generate() {
 

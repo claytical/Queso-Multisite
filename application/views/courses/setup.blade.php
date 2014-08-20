@@ -47,6 +47,41 @@
 				</div>
 			</div>
 		</div>			
+
+          <div class="form-group">	
+                <label for="course_active" class="col-md-3 control-label">Public</label>
+                <div class="col-md-9">
+					<div class="btn-group" data-toggle="buttons">
+						@if($course->public == 1)
+						  <label class="btn btn-default active">
+							<input type="radio" name="public" value=1 id="course_public" checked> Yes
+
+						@else
+						  <label class="btn btn-default">
+							<input type="radio" name="public" value=1 id="course_public" > Yes
+	
+						@endif
+
+					  </label>
+						@if($course->public == 0)
+	
+						  <label class="btn btn-default active">
+							<input type="radio" name="public" value=0 id="course_public" checked> No
+						@else
+						  <label class="btn btn-default">
+							<input type="radio" name="public" value=0 id="course_public" > No
+						@endif						
+					  </label>
+				</div>
+			</div>
+		</div>			
+
+
+
+
+
+
+
             <div class="form-group">
                 <?php echo Form::hidden('tab', 'levels'); ?> 
 

@@ -179,9 +179,30 @@ class User_Controller extends Base_Controller {
 		return Redirect::to('posts');
 
 	}
+
+	public function get_add_auto($code) {
+		$course = Course::lookup($code);
+		$user = Sentry::user(intval(Session::get('uid')));
+		if ($user->add_to_group($course->id)) {
+
+		// Group assigned successfully
+			Session::put('current_course', $course->id);
+			Session::put('course_name', $course->name);
+
+			if (Group::find($course->id)->teams()->count() > 0) {
+				return Redirect::to('user/join');						
+			}
+			else {						
+				return Redirect::to('posts');
+			}	
+
+		}
+		
+	}
+
 	public function post_add_course() {
 		$course = Course::lookup(Input::get('regcode'));
-		if ($course) {	    
+		if (isset($course->name)) {	    
 			$user = Sentry::user(intval(Session::get('uid')));
 			if ($user->add_to_group($course->id)) {
 
@@ -200,7 +221,10 @@ class User_Controller extends Base_Controller {
 			else {
 				return View::make('user.badcode');
 			}
+
 		}
+			return Redirect::to('courses');
+
 	}
 	public function post_remove_quest() {
 		$in_class = Input::get('removeQuest');
