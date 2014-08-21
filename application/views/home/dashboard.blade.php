@@ -11,7 +11,7 @@
           @endforeach
         </div>
 		@endif
-		@if($info->previous_courses)
+		@if(isset($info->previous_courses))
           <h2>Archived Classes</h2>
         <div class="list-group">
         @foreach($info->previous_courses as $course)
