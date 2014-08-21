@@ -29,8 +29,10 @@ class Home_Controller extends Base_Controller {
 	|		}
 	|
 	*/
-
-	public function action_index()
+	public $restful = true;
+	
+	
+	public function get_index()
 	{
 		if(Sentry::check() && Session::get('uid')) {
 			$info = new StdClass;
@@ -58,8 +60,32 @@ class Home_Controller extends Base_Controller {
 		}
 	}
 
-	public function action_credits() {
+	public function get_credits() {
 		return View::make('home.credits');
+	}
+	
+	public function get_report() {
+		$data = new stdClass();
+		$data->exception = "something happened";
+		return View::make('home.bug')
+					->with('data', $data);
+	
+	}
+	
+	public function post_report() {
+		$body = Input::get('bug');
+		$from = Session::get('course_name');
+		$subject = "#bug ".Input::get('subject');
+		$email = "trigger@ifttt.com";
+		Message::send(function($message) use ($email, $body, $subject, $from) {
+			$message->to($email);
+			$message->from('info@conque.so', $from);
+			$message->subject($subject);
+			$message->body($body);
+			$message->html(true);
+
+			});		
+		return View::make('home.reported');
 	}
 
 }

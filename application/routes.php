@@ -179,6 +179,9 @@ Route::get('super/users', array('uses' => 'user@index'));
 Route::get('admin/course/remove/(:any)', array('uses' => 'course@remove'));
 Route::get('course/(:any)', array('uses' => 'course@course'));
 Route::get('courses/public', array('uses' => 'course@public'));
+Route::get('report', array('uses' => 'home@report'));
+Route::post('report', array('uses' => 'home@report'));
+
 Route::get('courses', array('uses' => 'course@public'));
 Route::get('admin/user/changepw/(:any)', array('uses' => 'user@change_any_password'));
 Route::post('admin/user/changepw', array('uses' => 'user@change_any_password'));
