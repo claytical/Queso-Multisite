@@ -154,9 +154,12 @@ class Student {
 				//loop through and check requirements
 				foreach($level_required as $lock) {
 					//student amount is less than the threshold for the skill
-					if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
-						//close lock
-						$allowed = false;
+					if(array_key_exists($lock->skill_id, $student_skill_levels)) {
+
+						if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
+							//close lock
+							$allowed = false;
+						}
 					}
 				}
 				//still open, add it to the list

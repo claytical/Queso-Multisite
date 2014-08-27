@@ -81,9 +81,14 @@
 									@foreach($quest['skills'] as $skill)
 									<li><em>{{$skill->amount}} {{$skill->name}}</em>
 
-										<div class="progress">
-											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{$skill->amount}}" aria-valuemin="0" aria-valuemax="{{$data->questPoints[$quest['quest_id']][$skill->id]}}" style="width: {{$skill->amount/$data->questPoints[$quest['quest_id']][$skill->id] * 100}}%;"><span class="sr-only">{{$skill->amount}}</span> </div>
-										</div>	
+											@if($data->questPoints[$quest['quest_id']][$skill->id] <= 0)
+
+											@else
+												<div class="progress">
+												<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{$skill->amount}}" aria-valuemin="0" aria-valuemax="{{$data->questPoints[$quest['quest_id']][$skill->id]}}" style="width: {{$skill->amount/$data->questPoints[$quest['quest_id']][$skill->id] * 100}}%;"><span class="sr-only">{{$skill->amount}}</span> </div>
+												</div>	
+
+											@endif
 									</li>
 									@endforeach
 							</ul>
