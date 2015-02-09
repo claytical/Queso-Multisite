@@ -1,6 +1,6 @@
 # Queso
 
-Queso is a gameful learning management system.  
+Queso is a gameful classroom management system.  
 [Official Website](http://class.conque.so)
 
 ## Wanna Help?
