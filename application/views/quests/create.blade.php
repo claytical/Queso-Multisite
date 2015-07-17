@@ -30,29 +30,53 @@
 			</div>
 			<div class="help-block">
 				<dl>
-					<dt>In Class<dt>
-					<dd>Assignments that are handed in or completed during class.  Students will be able to see the quest description but ultimately will rely upon you to assign the completed quest to them.</dd>
+					<dt>Activity<dt>
+					<dd>Assignments that are completed without a physical submissions.  Students will be able to see the quest description but ultimately will rely upon you to assign the completed quest to them. You can also allow them to redeem a code to automate this process a bit.</dd>
 					<br/>
 					<dt>Submission</dt>
 			 		<dd>Assignments that can be completed online.  Students can submit written work via WYSIWYG interface as well as upload files that you will be able to download.</dd>
 					<br/>
+					<dt>Video<dt>
+					<dd>Video assignments that are completed by watching a YouTube video online.  Students will receive credit when they watch the video in it's entirety. They can pause the video, but not rewind or fast forward.</dd>
 
 				</dl>
 			</div>
+			<div class="controls" id="activity_options">
+				<label class="checkbox"><?php echo Form::checkbox('allow_instant', '1', false); ?> Allow students to receive credit after entering a unique code</label>
+
+			</div>
+
 			<div class="controls" id="submission_options" style="display:none;">
 				<label class="checkbox"><?php echo Form::checkbox('allow_text', '1', true); ?> Allow students to submit written text</label>
 				<label class="checkbox"><?php echo Form::checkbox('allow_upload', '1'); ?> Allow students to upload a file</label>
+				<label class="checkbox"><?php echo Form::checkbox('allow_revisions', '1', true); ?> Allow students to revise their work after submission</label>
 
 			</div>
-			<a href="#createquest" class="btn btn-default pull-right next-step">Next</a>
 
+			<div class="controls" id="video_options" style="display:none;">
+			    {{ Form::text('youtube_url', '', array('placeholder' => 'YouTube URL', 'class' => 'input-md form-control', 'id' => 'youtube-url', 'title' => 'YouTube URL')); }}
+
+			</div>
+
+			<div class="controls form-group">
+			<br/>
+				<a href="#createquest" class="btn btn-default pull-right next-step">Next</a>
+			</div>
 		</div>
 	
 	<div class="form-group quest-wizard-page" id="quest-info" style="display:none">	
 
 			<div class="controls form-group">
 			    {{ Form::text('title', '', array('placeholder' => 'Quest Name', 'class' => 'input-md form-control', 'id' => 'quest-name', 'required' => '', 'title' => 'Quest name')); }}
-		<p class="help-block">When a student views a quest online, this is the set of instructions they'll see. This could be a prompt for writing, a guideline for an upload, or whatever else you want your students to do.</p>
+
+			<p class="help-block">If you would like this quest to expire at a certain point, add a date below. When a quest expires, students will no longer be able to see it under available quests.</p>
+			<div class="controls">
+			    {{ Form::date('expires', '', array('placeholder' => 'Expiration Date', 'class' => 'input-md form-control', 'id' => 'expiration-date', 'title' => 'Expiration Date')); }}
+
+			</div>
+
+
+			<p class="help-block">When a student views a quest online, this is the set of instructions they'll see. This could be a prompt for writing, a guideline for an upload, or whatever else you want your students to do.</p>
 			<div class="controls">
 	
 			    {{ Form::textarea('body', '', array('placeholder' => 'Instructions go here...', 'class' => 'wysiwyg-area form-control', 'id' => 'quest-instructions', 'required' => '', 'style' => 'width: 98%', 'title' => 'Quest instructions')); }}

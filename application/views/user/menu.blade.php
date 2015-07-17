@@ -15,7 +15,7 @@
         @if(Course::is_instructor())
             <li role="presentation"><a role="menuitem" href="{{ URL::to('admin/course');}}">Course Setup</a></li>
             <li role="presentation"><a role="menuitem" href="{{ URL::to('admin/course/export');}}">Export</a></li>
-            <li role="presentation"><a role="menuitem" href="{{ URL::to('admin/course/new');}}">New Course</a></li>
+            <li role="presentation"><a role="menuitem" href="{{ URL::to('course/new');}}">New Course</a></li>
           @else
             <li role="presentation"><a role="menuitem" href="{{ URL::to('user');}}"><span class="glyphicon glyphicon-stats"></span> Progress</a></li>
         @endif

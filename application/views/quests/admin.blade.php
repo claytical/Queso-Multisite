@@ -50,16 +50,37 @@ Quest Admin
 									  <h4 class="modal-title">{{$quest->name}}</h4>
 									</div>
 									<div class="modal-body">
-		<a class="btn btn-default btn-block" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest"><span class="glyphicon glyphicon-tasks"></span> Show Progress</a>
-					<a class="btn btn-default btn-block" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest"><span class="cc-icon sprite-clone"> </span>Clone This Quest</a>
-	
-								@if ($quest->visible)
-								<a class="btn btn-default btn-block" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-close"></span> Hide This Quest</a>
-								@else
-								<a class="btn btn-default btn-block" title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-open"></span> Show This Quest</a>
+										<a class="btn btn-default btn-block" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest"><span class="glyphicon glyphicon-tasks"></span> Show Progress</a>
+										@if($quest->type == 2)
+											<a class="" href="{{URL::to('admin/quest/attempt/'.$quest->id);}}" data-original-title="Submit on Student's Behalf">Submit on Student's Behalf</a>
+										@endif
+		
+										@if ($quest->visible)
+											<a class="btn btn-default btn-block" title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-close"></span> Hide This Quest</a>
+										@else
+											<a class="btn btn-default btn-block" title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}"><span class="glyphicon glyphicon-eye-open"></span> Show This Quest</a>									
+										@endif
+
+										@if ($quest->type ==1)
+											@if($quest->allow_instant)
+												<a class="btn btn-default btn-block" title="Generate Instant Codes" href="{{ URL::to('/admin/quest/'.$quest->id.'/codes');}}">Generate Redemption Codes</a>
+												<a class="btn btn-default btn-block" title="Disable Instant Redemption" href="{{ URL::to('admin/quest/'.$quest->id.'/disable_codes');}}">Disable Instant Redemption</a>
+
+											@else
+												<a class="btn btn-default btn-block" title="Enable Instant Redemption" href="{{ URL::to('admin/quest/'.$quest->id.'/enable_codes');}}">Enable Instant Redemption</a>
+											@endif								
+										@endif
+
+
+										<a class="btn btn-default btn-block" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest"><span class="cc-icon sprite-clone"> </span>Clone This Quest</a>
+
+										@if ($quest->allow_revisions)
+											<a class="btn btn-default btn-block" title="Turn Off Revisions" href="{{ URL::to('/admin/quest/revisions/'.$quest->id.'/0');}}">Turn Revisions Off</a>
+										@else
+											<a class="btn btn-default btn-block" title="Turn On Revisions" href="{{ URL::to('/admin/quest/revisions/'.$quest->id.'/1');}}">Turn Revisions On</a>
+										@endif
 							
-								@endif
-								<a class="btn btn-danger btn-block" href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it"><span class="glyphicon glyphicon-eye-close"></span> Delete This Quest</a>
+										<a class="btn btn-danger btn-block" href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it"><span class="glyphicon glyphicon-eye-close"></span> Delete This Quest</a>
 									  </div>
 									<div class="modal-footer">
 									  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -78,17 +99,37 @@ Quest Admin
 		Options <span class="caret"></span>
 	  </button>
 	  <ul class="dropdown-menu" role="menu">
-			
+		@if($quest->type == 2)
+			<li><a class="" href="{{URL::to('admin/quest/attempt/'.$quest->id);}}" data-original-title="Submit on Student's Behalf">Submit on Student's Behalf</a></li>
+		@endif
+
+		
 		<li><a class="" href="{{URL::to('admin/quests/completed/'.$quest->id);}}" data-original-title="Student Progress on Quest">Student Progress</a></li>
-		<li><a class="" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest">Clone Quest</a></li>
+		@if ($quest->allow_revisions)
+			<li><a class="" title="Turn Off Revisions" href="{{ URL::to('/admin/quest/revisions/'.$quest->id.'/0');}}">Turn Revisions Off</a></li>
+		@else
+			<li><a class="" title="Turn On Revisions" href="{{ URL::to('/admin/quest/revisions/'.$quest->id.'/1');}}">Turn Revisions On</a></li>
+		@endif
+
 		<li>
 			@if ($quest->visible)
 			<a title="Hide" href="{{ URL::to('/admin/quest/hide/'.$quest->id);}}">Hide Quest</a>
 			@else
 			<a title="Show" href="{{ URL::to('/admin/quest/show/'.$quest->id);}}">Show Quest</a>						
 			@endif
-		</li>
 
+			@if ($quest->type ==1)
+				@if($quest->allow_instant)
+					<li><a title="Generate Instant Codes" href="{{ URL::to('/admin/quest/'.$quest->id.'/codes');}}">Generate Redemption Codes</a></li>
+					<li><a title="Disable Instant Redemption" href="{{ URL::to('admin/quest/'.$quest->id.'/disable_codes');}}">Disable Instant Redemption</a></li>
+
+				@else
+					<li><a title="Enable Instant Redemption" href="{{ URL::to('admin/quest/'.$quest->id.'/enable_codes');}}">Enable Instant Redemption</a></li>
+				@endif								
+			@endif
+
+		</li>
+		<li><a class="" href="{{URL::to('admin/quest/clone/'.$quest->id);}}" data-original-title="Clone Quest">Clone Quest</a></li>
 		<li><a href="{{ URL::to('/admin/quest/trash/'.$quest->id);}}" title="Remove this quest and everything related to it">Remove Quest</a></li>
 	  </ul>
 	</div>

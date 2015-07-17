@@ -113,7 +113,8 @@ View::composer('user.sidebar', function($view) {
 View::composer('user.menu', function($view) {
 	if(Sentry::check() && Session::get('uid') && Session::get('current_course')) {
 		$user = Sentry::user(Session::get(Config::get('sentry::sentry.session.user')));
-		$groups = User::find(Session::get('uid'))->groups()->where('groups.active', '=', 1)->get();
+		
+		$groups = User::find(Session::get('uid'))->groups()->where('users_groups.active', '=', 1)->where('groups.active', '=', 1)->get();
 		$info = array('user' => $user['user'], 'groups' => $groups);
 	}
 	else {
@@ -165,6 +166,10 @@ Route::get('quests/in-class', array('uses' => 'quest@available_in_class'));
 Route::get('quests/completed', array('uses' => 'quest@completed_by_student'));
 Route::get('quest/attempt/(:any)', array('uses' => 'quest@attempt'));
 Route::post('quest/attempt', array('uses' => 'quest@attempt'));
+Route::get('quest/(:num)/redeem', array('uses' => 'quest@redeem'));
+Route::post('quest/redeem', array('uses' => 'quest@redeem'));
+Route::get('quest/watch/(:any)', array('uses' => 'quest@watch'));
+Route::post('quest/watch', array('uses' => 'quest@watch'));
 Route::get('submission/revise/(:any)', array('uses' => 'submission@revise'));
 
 /* what's this doing here?*/
@@ -189,6 +194,11 @@ Route::post('admin/user/changepw', array('uses' => 'user@change_any_password'));
 Route::get('admin/posts', array('uses' => 'post@admin'));
 Route::get('admin/quests', array('uses' => 'quest@admin'));
 Route::get('admin/quests/available/student/(:any)', array('uses' => 'quest@index'));
+Route::get('admin/quest/attempt/(:any)', array('uses' => 'quest@admin_attempt'));
+Route::get('admin/quest/(:num)/codes', array('uses' => 'quest@generate_codes'));
+Route::get('admin/quest/(:num)/enable_codes', array('uses' => 'quest@enable_instant'));
+Route::get('admin/quest/(:num)/disable_codes', array('uses' => 'quest@disable_instant'));
+Route::post('admin/quest/codes', array('uses' => 'quest@generate_codes'));
 Route::get('admin/students', array('uses' => 'user@list'));
 Route::get('admin/student/deactivate/(:any)', array('uses' => 'user@deactivate'));
 Route::get('super/student/deactivate/(:any)', array('uses' => 'user@deactivate'));
@@ -200,8 +210,8 @@ Route::get('admin/student/details/(:any)', array('uses' => 'user@profile'));
 Route::post('admin/user/assign', array('uses' => 'user@assign'));
 Route::get('admin/course', array('uses' => 'course@setup'));
 Route::post('admin/course', array('uses' => 'course@setup'));
-Route::get('admin/course/new', array('uses' => 'course@create'));
-Route::post('admin/course/new', array('uses' => 'course@create'));
+Route::get('course/new', array('uses' => 'course@create'));
+Route::post('course/new', array('uses' => 'course@create'));
 Route::get('admin/course/generate', array('uses' => 'course@generate'));
 Route::get('admin/course/share', array('uses' => 'course@share'));
 Route::post('admin/course/share', array('uses' => 'course@share'));
@@ -219,6 +229,7 @@ Route::post('admin/quest/update', array('uses' => 'quest@update'));
 Route::get('admin/quests/completed/(:any)', array('uses' => 'quest@completed_by'));
 Route::get('admin/submissions', array('uses' => 'submission@new_submissions'));
 Route::get('admin/revisions', array('uses' => 'submission@latest_revisions'));
+Route::get('admin/quest/revisions/(:num)/(:num)', array('uses' => 'quest@update_revision'));
 Route::get('admin/submission/grade/(:any)', array('uses' => 'submission@grade'));
 Route::post('admin/submission/grade', array('uses' => 'submission@grade'));
 Route::get('admin/grade', array('uses' => 'quest@grade_in_class'));

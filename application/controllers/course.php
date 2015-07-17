@@ -4,8 +4,17 @@ class Course_Controller extends Base_Controller {
 	public $restful = TRUE;
 	
 	public function get_index() {
+		$data = new stdClass();
+		$groups = Group::all();
+		$data->courses = array();
+		foreach($groups as $group) {
+			$instructors = $group->users()->where('instructor', '=', 1)->get();
+
+			$data->courses[] = array("class" => $group, "instructors" => $instructors);
+		}
+
 		return View::make('courses.index')
-					->with('courses', Group::all());
+					->with('data', $data);
 	}
 
 	public function get_remove($id) {

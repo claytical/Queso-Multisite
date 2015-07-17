@@ -73,7 +73,7 @@
                         <li><h6>Quests</h6></li>
     
                     @if ($info->available_quests)
-                        <li><a href="{{ URL::to('quests/available');}}">{{$info->available_quests}} Available</a></li>
+                        <li><a href="{{ URL::to('quests');}}">{{$info->available_quests}} Available</a></li>
                     @endif
                         
                     @if($info->completed_quests)

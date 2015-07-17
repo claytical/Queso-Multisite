@@ -34,10 +34,20 @@
             <h3 class="panel-title" data-toggle="collapse" data-target="#quest{{$quest->id}}">{{$quest->name}}</h3>
         </div>
         <div class="panel-body">
-            @if($quest->type != 1)
-                    <a class="btn btn-primary btn-sm pull-right" href="{{ URL::to('quest/attempt/'.$quest->id);}}">Attempt</a>
-            @else
-            <span class="btn btn-default disabled pull-right">In Class</span>
+            @if($quest->type == 1)
+              @if($quest->allow_instant)
+                <a class="btn btn-primary btn-sm pull-right" href="{{ URL::to('quest/'.$quest->id.'/redeem')}}">Redeem</a>
+              @else
+                <span class="btn btn-default disabled pull-right">Activity</span>
+              @endif
+            @endif
+
+            @if($quest->type == 2)
+              <a class="btn btn-primary btn-sm pull-right" href="{{ URL::to('quest/attempt/'.$quest->id);}}">Attempt</a>
+            @endif
+
+            @if($quest->type == 3)
+              <a class="btn btn-primary btn-sm pull-right" href="{{ URL::to('quest/watch/'.$quest->id);}}">Watch</a>
             @endif
 
             <h5>{{$quest->category}}</h5>

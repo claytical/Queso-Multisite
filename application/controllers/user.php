@@ -69,6 +69,8 @@ class User_Controller extends Base_Controller {
 			    }
 			    else {
 			        // Group was not assigned
+			        			return Redirect::to('/');
+
 			    }
 			}
 			
@@ -532,23 +534,8 @@ class User_Controller extends Base_Controller {
 										->where('quest_id', '=', $quest->quest_id)
 										->get());
 		}
-/*		
-		$lowest_skill_amount = 99999999;
-		foreach($skills as $skill) {
-			$amount = DB::table('skill_user')
-						->where('user_id', '=', $id)
-						->where('skill_id', '=', $skill->id)
-						->sum('amount');
-			
-			if ($amount == NULL) {
-				$amount = 0;
-			}		
-			if ($amount < $lowest_skill_amount) {
-				$lowest_skill_amount = $amount;	
-			}
-			
-		}
-*/
+
+		$data->levels = Group::find(Session::get('current_course'))->levels()->order_by('amount', 'desc')->get();
 		$data->current_level = Student::current_level($id, Session::get('current_course'));				
 		$data->projected_level = Student::projected_level($id, Session::get('current_course'));
 		return View::make('user.profile')

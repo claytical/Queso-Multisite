@@ -68,12 +68,28 @@ $(function() {
 });
 
 $('#quest-select').change(function() {
+   if ($('#quest-select').val() == 1) {
+		$("#activity_options").show();       
+   }
+    else {
+		$("#activity_options").hide();    
+    }
+
    if ($('#quest-select').val() == 2) {
 		$("#submission_options").show();       
    }
     else {
 		$("#submission_options").hide();    
+   }
+
+   if ($('#quest-select').val() == 3) {
+		$("#video_options").show();       
+   }
+    else {
+		$("#video_options").hide();    
     }
+
+
 });
 
 $('#skills-select').change(function() {

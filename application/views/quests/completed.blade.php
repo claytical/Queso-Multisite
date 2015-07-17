@@ -32,10 +32,8 @@
         </h3>
         </div>
         <div class="panel-body">
-            @if($quest['type'] != 1)
+            @if($quest['type'] == 2 && $quest['allow_revisions'] == 1)
                 <a class="btn btn-primary btn-sm pull-right" href="{{URL::to('submission/revise/'.$quest['submission']->id)}}">Revise</a>
-            @else
-            <span class="label label-info">In Class</span>
             @endif
 			@if($quest['note'])
 			<button class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#modalQuestNote{{$quest['quest_id']}}">
@@ -90,11 +88,6 @@
 								@foreach($quest['skills'] as $skill)
 								<li><em>{{$skill->amount}} {{$skill->name}}</em>        
                                     <div class="progress">
-                                        @if($data->questMaxPoints[$quest['quest_id']][$skill->id] != 0)
-                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{$skill->amount}}" aria-valuemin="0" aria-valuemax="{{$data->questMaxPoints[$quest['quest_id']][$skill->id]}}" style="width: {{$skill->amount/$data->questMaxPoints[$quest['quest_id']][$skill->id] * 100}}%;">
-                                            <span class="sr-only">{{$skill->amount}}</span>
-                                        @endif
-                                        </div>
                                     </div>                                    
 								</li>
 								@endforeach

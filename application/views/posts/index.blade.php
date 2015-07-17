@@ -1,9 +1,12 @@
 @layout('layouts.default')
 @section('content')
+<? $instructor = false; ?>
+
     <div class="col-md-7">
 	@if($data->posts)
 		@foreach($data->posts as $post)
-			<h2>{{$post->headline}}</h2>
+        <?php $date = new DateTime($post->created_at);?>
+			<h2>{{$post->headline}} <span class="badge pull-right">{{ date_format($date, "F j, Y") }}</span></h2>
 			<div class="row container">{{$post->post}}</div>
 			@if($post->filename)
         		<div class="row container">
@@ -31,7 +34,6 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                         <h4 class="panel-title">
-                        <? $instructor = false; ?>
                           @if(Course::is_instructor())
                           <? $instructor = true; ?>
                           <a href="{{URL::to('admin/question/delete/'.$question->id)}}" class="btn btn-xs pull-right btn-default"><span class="glyphicon glyphicon-trash"></span></a>
@@ -48,7 +50,7 @@
 							                             
 
                     </h4>
-                    @if($instructor)
+                    @if(Course::is_instructor())
                     	&mdash;{{User::find($question->user_id)->username}}
                 	@endif
                 </div>

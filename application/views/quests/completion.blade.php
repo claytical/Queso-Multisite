@@ -59,7 +59,13 @@
 								@foreach ($user['skills'] as $skill)
 								<li><em>{{$skill['amount']}} {{$skill['label']}}</em>
                                     <div class="progress">
+                                    @if($skill['amount'] > 0)
 										<div class="progress-bar progress-bar-success" style="width: {{$skill['amount']/$data->skills[$skill['label']] * 100}}%;" role="progressbar" aria-valuenow="{{$skill['amount']}}" aria-valuemin="0" aria-valuemax="$data->skills[$skill['label']]"><span class="sr-only">{{$skill['amount']}}</span></div>
+									@else
+										<div class="progress-bar progress-bar-success" style="width: 100%;" role="progressbar" aria-valuenow="0" aria-valuemin="{{$skill['amount']}}" aria-valuemax="$data->skills[$skill['label']]"><span class="sr-only">{{$skill['amount']}}</span></div>
+									
+									@endif
+									
 									</div>	
 								</li>
 								@endforeach

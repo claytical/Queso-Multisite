@@ -80,8 +80,8 @@
 							<ul class="list-unstyled">
 									@foreach($quest['skills'] as $skill)
 									<li><em>{{$skill->amount}} {{$skill->name}}</em>
-
 											@if($data->questPoints[$quest['quest_id']][$skill->id] <= 0)
+
 
 											@else
 												<div class="progress">
@@ -103,47 +103,61 @@
 	              </tbody>
 	            </table>
 			<hr>
-			
-			<div class="offset6">
-				<h4>Totals</h4>
-				<ul class="list-unstyled">
-				@foreach($data->skills as $skill)
-					<li>
-						{{$skill['label']}}
-					 	<span class="pull-right">
-					 	@if($skill['amount'])
-					 		{{$skill['amount']}}
-						@else
-						0
-						@endif
-					 	</span>
-					</li>
-		
-				@endforeach
-					<li>Current Level<span class="pull-right">{{$data->current_level->label}}</span></li>
+			<div class="col-md-6">
+					<h4>Levels</h4>
+					<ul class="list-unstyled">
+						@foreach($data->levels as $level)
+							<li>{{$level->label}}<span class="pull-right">{{$level->amount}}</span></li>
+						@endforeach
 
-				</ul>
-			</div>
-<div class="offset6">
-		<h4>Points From Remaining Quests</h4>
-		<ul class="list-unstyled">
-		
-		@foreach($data->projected_level['skills'] as $projection)
-			<li>
-				{{$projection['label']}}
-				<span class="pull-right">
-				@if($projection['left'])
-					{{$projection['left']}}
-				@else
-				0
-				@endif
-				</span>
+					</ul>
+					</div>
+
+			<div class="col-md-6">
 			
-			</li>
-		@endforeach
-			<li>Projected Level<span class="pull-right">{{$data->projected_level['level']}}</span></li>
-		</ul>
-</div>
+
+				<div class="offset6">
+					<h4>Totals</h4>
+					<ul class="list-unstyled">
+					@foreach($data->skills as $skill)
+						<li>
+							{{$skill['label']}}
+						 	<span class="pull-right">
+						 	@if($skill['amount'])
+						 		{{$skill['amount']}}
+							@else
+							0
+							@endif
+						 	</span>
+						</li>
+			
+					@endforeach
+						<li>Current Level<span class="pull-right">{{$data->current_level->label}}</span></li>
+
+					</ul>
+				</div>
+				<div class="offset6">
+							<h4>Points From Remaining Quests</h4>
+							<ul class="list-unstyled">
+							
+							@foreach($data->projected_level['skills'] as $projection)
+								<li>
+									{{$projection['label']}}
+									<span class="pull-right">
+									@if($projection['left'])
+										{{$projection['left']}}
+									@else
+									0
+									@endif
+									</span>
+								
+								</li>
+							@endforeach
+								<li>Projected Level<span class="pull-right">{{$data->projected_level['level']}}</span></li>
+							</ul>
+				</div>
+		</div>
+
 <hr>
 
 

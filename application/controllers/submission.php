@@ -93,8 +93,21 @@ class Submission_Controller extends Base_Controller {
 							
 		
 		
+		$skill_history = array();
 		//get the info for each skill
 		foreach($skills as $skill) {
+
+			$history = DB::table('skill_user_history')->where('quest_id', '=', $quest->id)
+											->where('user_id', '=', $submission->user_id)
+											->where('skill_id', '=', $skill)
+											->get();
+			foreach($history as $h) {
+				$date = new DateTime($h->created_at);
+				$skill_history[$h->submission_id]["info"] = $date->format('F j, Y');
+				$skill_history[$h->submission_id]["skill"][$h->skill_id] = array('name' => Skill::where('id', '=', $skill)->first()->name, 'amount' => $h->amount);
+			}
+
+
 			$rewardOptions = new stdClass();
 			$rewardOptions->name = Skill::where('id', '=', $skill)
 											->first()
@@ -123,6 +136,7 @@ class Submission_Controller extends Base_Controller {
 			$rewards[] = $rewardOptions;
 		}
 		
+
 		
 		return View::make('submission.grade')
 		->with('data', 
@@ -132,7 +146,8 @@ class Submission_Controller extends Base_Controller {
 				 	  'rewards' => $rewards,
 				 	  'comments' => $comments,
 				 	  'student' => $student,
-				 	  'latest' => $latest_revision)
+				 	  'latest' => $latest_revision,
+				 	  'history' => $skill_history)
 				 	  );
 	
 	}
@@ -196,6 +211,20 @@ class Submission_Controller extends Base_Controller {
 											  'updated_at' => DB::raw('NOW()')
 											)
 										);
+
+			DB::table('skill_user_history')->insert(							
+											array('user_id' => Input::get('user_id'),
+												  'quest_id' => Input::get('quest_id'),
+												  'submission_id' => $submission->id,
+												  'group_id' => Session::get('current_course'),
+												  'skill_id' => $skill,
+												  'amount' => $reward,
+												  'created_at' => DB::raw('NOW()'),
+												  'updated_at' => DB::raw('NOW()')
+												)
+											);
+
+
 		}
 		//TODO: go somewhere else
 		return Redirect::to('/admin/submissions');

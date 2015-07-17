@@ -22,13 +22,20 @@
 			<div class="controls form-group">
 
         {{ Form::text('title', $quest->name, array('placeholder' => 'Quest Name', 'class' => 'input-lg form-control')); }}
-
+<p class="help-block">If you would like this quest to expire at a certain point, add a date below. When a quest expires, students will no longer be able to see it under available quests.</p>
+			<div class="controls">
+			    {{ Form::date('expires', $quest->expires, array('placeholder' => 'Expiration Date', 'class' => 'input-md form-control', 'id' => 'expiration-date', 'title' => 'Expiration Date')); }}
+			    <br/>
+			</div>
+			<div class="controls">
         {{ Form::textarea('instructions', $quest->instructions, array('placeholder' => 'Instructions go here...', 'class' => 'wysiwyg-area form-control', 'id' => 'quest-instructions', 'required' => '', 'style' => 'width: 100%')); }}
+            </div>
             </div>
         @if($quest->type == 2)
 			<div class="controls" id="submission_options">
 				<label class="checkbox"><?php echo Form::checkbox('allow_text', '1', $quest->text); ?> Allow students to submit written text</label>
 				<label class="checkbox"><?php echo Form::checkbox('allow_upload', '1', $quest->uploads); ?> Allow students to upload a file</label>
+				<label class="checkbox"><?php echo Form::checkbox('allow_revisions', '1', $quest->revisions); ?> Allow students to revise their work after submission</label>
 
 			</div>
         

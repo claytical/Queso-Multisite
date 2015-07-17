@@ -61,6 +61,7 @@ class Student {
 		if (empty($skills)) {
 			return NULL;
 		}
+	
 		return $skills;			
 	}
 		
@@ -216,7 +217,12 @@ class Student {
 			$quests = Group::find(Session::get('current_course'))
 				->quests()
 				->where_not_in('id',$ids)
-				->where('visible', '=', 1)->get();
+				->where('visible', '=', 1)
+				->where(function ($query) {
+					$query->where('expires', '>', new DateTime('today'))
+							->or_where('expires', 'IS', DB::raw('null'));
+							})
+				->get();
 			//get all course skills
 			$skills = Skill::where('group_id', '=', $group_id)->get();
 		//find remaining amounts of potential skill points

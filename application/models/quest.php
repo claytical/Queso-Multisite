@@ -24,4 +24,8 @@ class Quest extends Eloquent
     	return $this->has_one('Group');
     }
 
+    public function redemptions() {
+    	return $this->has_many('Redemption');
+    }
+
 }

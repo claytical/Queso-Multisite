@@ -4,7 +4,7 @@
 <p class="lead">Please enter your information below</p>
 
 <div class="container">
-<?php echo Form::open('register', 'POST', array('class' => 'form-horizontal')); ?>
+<?php echo Form::open('register/instructor', 'POST', array('class' => 'form-horizontal')); ?>
 
     <div class="col-md-5">
 

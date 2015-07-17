@@ -1,6 +1,7 @@
 @layout('layouts.default')
 @section('content')
-		<h2>{{$post->headline}}</h2>
+<?php $date = new DateTime($post->created_at);?>
+		<h2>{{$post->headline}} <span class="badge pull-right">{{ date_format($date, "F j, Y") }}</span></h2>
 		@if($post->video_url)
 		<div class="row">
 			<div class="video-container">

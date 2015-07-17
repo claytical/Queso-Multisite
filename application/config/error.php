@@ -43,7 +43,7 @@ return array(
 	|
 	*/
 
-	'log' => true,
+	'log' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -63,11 +63,7 @@ return array(
 
 	'logger' => function($exception)
 	{
-		$data = new stdClass();
-		$data->exception = $exception;
-		return View::make('home.bug')
-					->with('data', $data);
-//		Log::exception($exception);
+		Log::exception($exception);
 	},
 
 );

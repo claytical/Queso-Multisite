@@ -44,10 +44,147 @@ class Quest_Controller extends Base_Controller {
 
 		}
 	}
+
+	public function get_generate_codes($id) {
+		$quest = Quest::find($id);
+		return View::make('quests.generate')->with('quest', $quest);
+
+	}
+
+	public function get_enable_instant($id) {
+		$quest = Quest::find($id);
+		$quest->allow_instant = true;
+		$quest->save();
+		return Redirect::to('admin/quest/'.$id.'/codes');
+	}
+
+	public function get_disable_instant($id) {
+		$quest = Quest::find($id);
+		$quest->allow_instant = false;
+		$quest->save();
+		return Redirect::to('admin/quests');
+	}
+
+	public function get_redeem($id) {
+		$quest = Quest::find($id);
+		return View::make('quests.redeem')->with('quest', $quest);
+	}
+
+	public function post_redeem() {
+		$quest_id = Input::get('quest_id');
+		$code = strtoupper(Input::get('code'));
+		$redeem = Redemption::where('quest_id', '=', $quest_id)
+					->where('code', '=', $code);
+		$student = Session::get('uid');
+		$skills_added = array();
+		if ($redeem->count() > 0) {
+			//ASSIGN POINTS
+			$quest = User::find($student)->quests()->where('quest_id', '=', $quest_id)->first();
+			if ($quest) {
+				//update quest
+				DB::table('quest_user')
+					->where('quest_id', '=', $quest_id)
+					->where('user_id', '=', $student)
+					->update(array('note' => "REDEEMED!",
+								   'updated_at' => DB::raw('NOW()')));
+			}
+			else {
+			//insert new quest
+				DB::table('quest_user')->insert(
+										array('quest_id' => $quest_id,
+											  'user_id' => $student,
+											  'note' => "REDEEMED!",
+											  'created_at' => DB::raw('NOW()'),
+											  'updated_at' => DB::raw('NOW()')
+											  ));
+
+			}
+			
+			//add to skill_user
+			DB::table('skill_user')
+					->where('user_id', '=', $student)
+					->where('quest_id', '=', $quest_id)
+					->delete();					
+			
+			$skills = DB::table('quest_skill')->where('quest_id', '=', $quest_id)
+											->where('label', '=', 'Maximum')->get();
+
+			foreach($skills as $skill) {
+				$skills_added[] = $skill;
+				DB::table('skill_user')->insert(
+											array('user_id' => $student,
+												  'quest_id' => $quest_id,
+												  'group_id' => Session::get('current_course'),
+												  'skill_id' => $skill->skill_id,
+												  'amount' => $skill->amount,
+												  'created_at' => DB::raw('NOW()'),
+												  'updated_at' => DB::raw('NOW()')
+												)
+											);							
+
+			}
+
+			
+			$notice = new Notice;
+			$notice->user_id = $student;
+			$notice->group_id = Session::get('current_course');
+			//$notice->notification = "<p>".Input::get('note')."</p>";
+			$quest = Quest::find($quest_id);
+			$notice->title = $quest->name . " redeemed";
+			$notice->url = "quests/completed#".$quest_id;
+			$notice->save();
+			$message = "For more information, visit <a href='".URL::to($notice->url)."'>the class website</a>";
+			Info::notify($student, $notice->title, $message);
+			//DELETE CODE
+			$redeem->delete();
+			return View::make('quests.redeemed')->with('skills', $skills_added);
+
+		}
+		else {
+			//INVALID CODE, NO POINTS
+			return Redirect::to('quest/'.$quest_id.'/redeem')
+			->with_message("Invalid Code", 'danger');
+
+		}
+
+	}
+
+	public function post_generate_codes() {
+		$quest_id = Input::get('quest_id');
+		$amount = Input::get('code_count');
+		for ($i = 0; $i < $amount; $i++) {
+			$code = Course::generate_code();
+			Redemption::create(array('quest_id' => $quest_id,
+								 	 'code' => strtoupper($code)
+								  	));	
+
+		}
+
+		$data = new stdClass();
+		$data->quest = Quest::find($quest_id);
+		$data->amount = $amount;
+	
+		return View::make('quests.codes')->with('data', $data);
+
+
+	}
 	
 	public function post_create() {
 		//create quest
+			$youtube_id = NULL;
+			$expires = NULL;
 
+			if (Input::has('expires')) {
+				$expiration = date_create(Input::get('expires'));
+				$expires = date_format($expiration, 'Ymd');
+			}
+
+			if (Input::has('youtube_url')) {
+				//PREGMATCH
+				$youtube_url_parts = array();
+				preg_match("/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&\"'>]+)/", Input::get('youtube_url'), $youtube_url_parts);
+				$youtube_id = $youtube_url_parts[5];
+			}
 			$quest = Quest::create(
 				array('name' => Input::get('title'),
 					  'instructions' => Input::get('body'),
@@ -56,6 +193,10 @@ class Quest_Controller extends Base_Controller {
 					  'filename' => Input::get('files'),
 					  'allow_upload' => Input::has('allow_upload'),
 					  'allow_text' => Input::has('allow_text'),
+					  'allow_revisions' => Input::has('allow_revisions'),
+					  'allow_instant' => Input::has('allow_instant'),
+					  'youtube_id' => $youtube_id,
+					  'expires' => $expires,
 					  'visible' => 1,
 					  'position' => 0,
 					  'color' => Input::get('catcolor'),
@@ -107,6 +248,10 @@ class Quest_Controller extends Base_Controller {
 					  'filename' => $questToClone->filename,
 					  'allow_upload' => $questToClone->allow_upload,
 					  'allow_text' => $questToClone->allow_text,
+					  'allow_revisions' => $questToClone->allow_revisions,
+					  'allow_instant' => $questToClone->allow_instant,
+					  'expires' => $questToClone->expires,
+					  'youtube_id' => $questToClone->youtube_id,
 					  'visible' => 1,
 					  'position' => 0,
 					  'group_id' => Session::get('current_course')
@@ -147,6 +292,17 @@ class Quest_Controller extends Base_Controller {
 		$locks = DB::table('quest_lock')
 					->where('quest_id', '=', $id)
 					->lists('requirement', 'skill_id');
+		if ($questInfo->expires != NULL) {
+			$expiration = date_create($questInfo->expires);
+			$expires = date_format($expiration, 'm/d/Y');
+
+		}
+		else {
+			$expires = '';
+		}
+
+		$quest->expires = $questInfo->expires;
+
 		$quest->name = $questInfo->name;
 		$quest->color = $questInfo->color;
 		$quest->instructions = $questInfo->instructions;
@@ -157,6 +313,7 @@ class Quest_Controller extends Base_Controller {
 		$quest->type = $questInfo->type;
 		$quest->uploads = $questInfo->allow_upload;
 		$quest->text = $questInfo->allow_text;
+		$quest->revisions = $questInfo->allow_revisions;
 		$quest->locks = $locks;
 		$encoded_files = explode(",", $questInfo->filename);
 
@@ -180,6 +337,7 @@ class Quest_Controller extends Base_Controller {
 	}
 	
 	public function post_update() {
+
 			$quest = Quest::find(Input::get('quest_id'));
 			$quest->name = Input::get('title');
 			$quest->instructions = Input::get('instructions');
@@ -187,6 +345,13 @@ class Quest_Controller extends Base_Controller {
 			$quest->allow_text = Input::get('allow_text');
 			$quest->allow_upload = Input::get('allow_upload');
 			$quest->color = Input::get('catcolor');
+			$expires = NULL;
+			if (Input::has('expires')) {
+				$expiration = date_create(Input::get('expires'));
+				$expires = date_format($expiration, 'Ymd');
+			}
+			$quest->expires = $expires;
+
 			if (Input::get('existingFiles') && Input::get('files')) {
 				$existingFiles = Input::get('existingFiles');
 				$newFiles = explode(",", Input::get('files'));
@@ -274,6 +439,10 @@ class Quest_Controller extends Base_Controller {
 			DB::table('skill_user')
 				->where('quest_id', '=', $quest->id)
 				->delete();
+			DB::table('redemptions')
+				->where('quest_id', '=', $quest->id)
+				->delete();
+
 			$quest->delete();
 		}
 		
@@ -307,12 +476,21 @@ class Quest_Controller extends Base_Controller {
 			$quests = Group::find(Session::get('current_course'))
 				->quests()
 				->where_not_in('id',$ids)
-				->where('visible', '=', 1);;			
+				->where('visible', '=', 1)
+				->where(function ($query) {
+					$query->where('expires', '>', new DateTime('today'))
+							->or_where('expires', 'IS', DB::raw('null'));
+				});
+//				->where('expires', '>', new DateTime('today'));
 		}
 		else {
 			$quests = Group::find(Session::get('current_course'))
 			->quests()
-			->where('visible','=', 1);
+			->where('visible','=', 1)
+				->where(function ($query) {
+					$query->where('expires', '>', new DateTime('today'))
+							->or_where('expires', 'IS', DB::raw('null'));
+				});
 		
 		}
 		$student_skill_levels = Student::skill_levels_check(Session::get('uid'), Session::get('current_course'));
@@ -326,9 +504,11 @@ class Quest_Controller extends Base_Controller {
 				//loop through and check requirements
 				foreach($level_required as $lock) {
 					//student amount is less than the threshold for the skill
-					if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
-						//close lock
-						$allowed = false;
+					if(array_key_exists($lock->skill_id, $student_skill_levels)) {
+						if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
+							//close lock
+							$allowed = false;
+						}
 					}
 				}
 				//still open, add it to the list
@@ -378,12 +558,22 @@ class Quest_Controller extends Base_Controller {
 		$quest = Quest::find($id);
 		$data->quest = $quest;
 		$user_ids = $quest->users()->lists('id');
+		if ($user_ids) {
 		$data->students = Group::find(Session::get('current_course'))
 								->users()
 								->where('active', '=', 1)
 								->where_not_in('user_id', $user_ids)
 								->order_by('username', 'asc')
 								->lists('username', 'id');
+		}
+		else {
+		$data->students = Group::find(Session::get('current_course'))
+								->users()
+								->where('active', '=', 1)
+								->order_by('username', 'asc')
+								->lists('username', 'id');
+		
+		}
 		foreach($data->quest->skills()->lists('name', 'id') as $key => $skill) {
 			$data->skills[] = array('id' => $key,
 								  'name' => $skill,
@@ -440,7 +630,8 @@ class Quest_Controller extends Base_Controller {
 												  'created_at' => DB::raw('NOW()'),
 												  'updated_at' => DB::raw('NOW()')
 												)
-											);							
+											);
+
 			}
 			
 			$notice = new Notice;
@@ -498,12 +689,9 @@ class Quest_Controller extends Base_Controller {
 				//loop through and check requirements
 				foreach($level_required as $lock) {
 					//student amount is less than the threshold for the skill
-					if(array_key_exists($lock->skill_id, $student_skill_levels)) {
-
-						if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
-							//close lock
-							$allowed = false;
-						}
+					if ($student_skill_levels[$lock->skill_id] < $lock->requirement) {
+						//close lock
+						$allowed = false;
 					}
 				}
 				//still open, add it to the list
@@ -741,7 +929,10 @@ class Quest_Controller extends Base_Controller {
 											->where('user_id', '=', Session::get('uid'))
 											->order_by("created_at", "DESC")
 											->first();
-				break;
+					break;
+				case 3:
+					$submission = FALSE;
+					break;
 			}
 			$data->quests[] = array('name' => $quest->name,
 								  'quest_id' => $quest->quest_id,
@@ -749,6 +940,7 @@ class Quest_Controller extends Base_Controller {
 								  'category' => $quest->category,
 								  'color' => $quest->color,
 								  'note' => $quest->note,
+								  'allow_revisions' => $quest->allow_revisions,
 								  'submission' => $submission,
 								  'type' => $quest->type,
 								  'skills' => DB::table('skill_user')
@@ -796,11 +988,106 @@ class Quest_Controller extends Base_Controller {
 			->with('quest', Quest::find($id));
 	
 	}
+
+	public function get_watch($id) {
+		$quest = Quest::find($id);
+		$skills = array();
+
+		foreach($quest->skills()->lists('name', 'id') as $key => $skill) {
+			$skills[] = array('id' => $key,
+								  'name' => $skill,
+								  'rewards' => DB::table('quest_skill')
+								  				->where('quest_id', '=', $id)
+								  				->where('skill_id', '=', $key)
+								  				->order_by('amount', 'asc')
+								  				->lists('amount', 'label'));
+		}
+		$data = new stdClass();
+
+		$data->quest = $quest;
+		$data->skills = $skills;
+		return View::make('quests.watch')->with('data', $data);	
+	}
+
+	public function post_watch() {
+		$user_id = Session::get('uid');
+		$quest = User::find($user_id)->quests()->where('quest_id', '=', Input::get('quest_id'))->first();
+			if ($quest) {
+				//update quest
+				DB::table('quest_user')
+					->where('quest_id', '=', Input::get('quest_id'))
+					->where('user_id', '=', $user_id)
+					->update(array('note' => "Watched!",
+								   'updated_at' => DB::raw('NOW()')));
+			}
+			else {
+			//insert new quest
+				DB::table('quest_user')->insert(
+										array('quest_id' => Input::get('quest_id'),
+											  'user_id' => $user_id,
+											  'note' => "Watched!",
+											  'created_at' => DB::raw('NOW()'),
+											  'updated_at' => DB::raw('NOW()')
+											  ));
+
+			}
+			
+			//add to skill_user
+			DB::table('skill_user')
+					->where('user_id', '=', $user_id)
+					->where('quest_id', '=', Input::get('quest_id'))
+					->delete();					
+						
+			foreach (Input::get('skill') as $skill_id => $grade) {
+				DB::table('skill_user')->insert(
+											array('user_id' => $user_id,
+												  'quest_id' => Input::get('quest_id'),
+												  'group_id' => Session::get('current_course'),
+												  'skill_id' => $skill_id,
+												  'amount' => $grade,
+												  'created_at' => DB::raw('NOW()'),
+												  'updated_at' => DB::raw('NOW()')
+												)
+											);							
+			}
+			
+			$notice = new Notice;
+			$notice->user_id = $user_id;
+			$notice->group_id = Session::get('current_course');
+			//$notice->notification = "<p>".Input::get('note')."</p>";
+			$quest = Quest::find(Input::get('quest_id'));
+			$notice->title = "Watched " . $quest->name;
+			$notice->url = "quests/completed#".Input::get('quest_id');
+			$notice->save();
+			$message = "For more information, visit <a href='".URL::to($notice->url)."'>the class website</a>";
+			Info::notify($user_id, $notice->title, $message);
+
+			return Redirect::to('quests')
+				->with_message("You have received full credit for " . $quest->name . "!", 'success');
+
+	}
+
+	public function get_admin_attempt($id) {
+		$users = Group::find(Session::get('current_course'))
+				->users()
+				->where('active', '=', 1)
+				->where('instructor', '!=', 1)
+				->lists('username', 'id');
+		$quest = Quest::find($id);
+		return View::make('quests.attempt_admin')
+			->with('data', array('quest' => $quest, 'users' => $users));		
+	}
 	
 	public function post_attempt() {
+		if (Input::has('student')) {
+			$user_id = Input::get('student');
+		}
+		else {
+			$user_id = Session::get('uid');
+		}
 		if(Input::has('revision')) {
 			$revision = Input::get('revision');
-			$previous_attempts = Submission::where('user_id', '=', Session::get('uid'))
+			$previous_attempts = Submission::where('user_id', '=', $user_id)
 								->where('quest_id', '=', Input::get('quest_id'));
 			$previous_attempts->update(array('graded' => TRUE));
 
@@ -808,14 +1095,14 @@ class Quest_Controller extends Base_Controller {
 		else {
 			DB::table('quest_user')->insert(
 									array('quest_id' => Input::get('quest_id'),
-										  'user_id' => Session::get('uid'),
+										  'user_id' => $user_id,
 										  'created_at' => DB::raw('NOW()'),
 										  'updated_at' => DB::raw('NOW()')
 										  ));
 			$revision = 0;		
 		}
 		$quest = Quest::find(Input::get('quest_id'));
-		$user = User::find(Session::get('uid'));
+		$user = User::find($user_id);
 		//find instructors
 		$instructors = DB::table('users_groups')
 						->where('group_id', '=', Input::get('group_id'))
@@ -827,7 +1114,7 @@ class Quest_Controller extends Base_Controller {
 			$attempt = Submission::create(
 				array('submission' => Input::get('body'),
 					  'filename' => Input::get('files'),					
-					  'user_id' => Session::get('uid'),
+					  'user_id' => $user_id,
 					  'quest_id' => Input::get('quest_id'),
 					  'group_id' => Input::get('group_id'),
 					  'visible' => Input::has('visible'),
@@ -867,7 +1154,13 @@ class Quest_Controller extends Base_Controller {
 			->with('quest', Quest::find($id));
 	
 	}
-	
+	public function get_update_revision($id, $revision) {
+		$quest = Quest::find($id);
+		$quest->allow_revisions = $revision;
+		$quest->save();
+		return Redirect::to('admin/quests');
+
+	}
 	public function get_completed_by($id) {
 		$quest = Quest::find($id);
 		$users = $quest->users()
@@ -947,12 +1240,16 @@ class Quest_Controller extends Base_Controller {
 		if (empty($ids)) {
 		$data->available_users = Group::find(Session::get('current_course'))
 				->users()->where('user_id', '!=', Session::get('uid'))
+				->where('active', '=', 1)
+				->where('instructor', '!=', 1)
 				->get();
 		}
 		else {
 		$data->available_users = Group::find(Session::get('current_course'))
 				->users()
 				->where_not_in('user_id', $ids)
+				->where('active', '=', 1)
+				->where('instructor', '!=', 1)
 				->get();
 		}
 		
