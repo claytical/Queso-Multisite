@@ -9,6 +9,7 @@
 		<p>A redemption code can be used a student to gain points for a quest. They will receive the maximum number of points available upon redemption. If a student tries to redeem multiple codes for the same quest, they will not receive any extra points.</p>
 
 		@if($quest->redemptions)
+		<a href="{{URL::to('admin/quest/385/codes/print')}}" target="_blank" class="pull-right btn btn-default">Print QR Code Sheet</a>
 		<h4>Existing Codes</h4>
 		<ul class="list-unstyled">
 	

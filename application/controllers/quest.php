@@ -51,6 +51,12 @@ class Quest_Controller extends Base_Controller {
 
 	}
 
+	public function get_print_codes($id) {
+		$quest = Quest::find($id);
+		return View::make('quests.print')->with('quest', $quest);
+
+	}
+
 	public function get_enable_instant($id) {
 		$quest = Quest::find($id);
 		$quest->allow_instant = true;

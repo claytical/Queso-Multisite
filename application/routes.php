@@ -196,6 +196,7 @@ Route::get('admin/quests', array('uses' => 'quest@admin'));
 Route::get('admin/quests/available/student/(:any)', array('uses' => 'quest@index'));
 Route::get('admin/quest/attempt/(:any)', array('uses' => 'quest@admin_attempt'));
 Route::get('admin/quest/(:num)/codes', array('uses' => 'quest@generate_codes'));
+Route::get('admin/quest/(:num)/codes/print', array('uses' => 'quest@print_codes'));
 Route::get('admin/quest/(:num)/enable_codes', array('uses' => 'quest@enable_instant'));
 Route::get('admin/quest/(:num)/disable_codes', array('uses' => 'quest@disable_instant'));
 Route::post('admin/quest/codes', array('uses' => 'quest@generate_codes'));
