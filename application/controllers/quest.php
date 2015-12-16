@@ -484,7 +484,7 @@ class Quest_Controller extends Base_Controller {
 				->where_not_in('id',$ids)
 				->where('visible', '=', 1)
 				->where(function ($query) {
-					$query->where('expires', '>', new DateTime('today'))
+					$query->where('expires', '>=', new DateTime('today'))
 							->or_where('expires', 'IS', DB::raw('null'));
 				});
 //				->where('expires', '>', new DateTime('today'));
@@ -494,7 +494,7 @@ class Quest_Controller extends Base_Controller {
 			->quests()
 			->where('visible','=', 1)
 				->where(function ($query) {
-					$query->where('expires', '>', new DateTime('today'))
+					$query->where('expires', '>=', new DateTime('today'))
 							->or_where('expires', 'IS', DB::raw('null'));
 				});
 		
@@ -882,7 +882,102 @@ class Quest_Controller extends Base_Controller {
 	*/ 
 
 
+public function get_completed_by_student_debug($uid, $gid) {
+			$data = new stdClass();
+		//list of quests completed
+		
+		
+		$completed_quests = User::find($uid)
+							  ->quests()
+							  ->where('group_id', '=', $gid);
+		
+		//quest categories for completed quests
 
+		$data->categories = array_unique($completed_quests->lists('category'));
+        array_unshift($data->categories, "All Categories");
+
+        if(($key = array_search("", $data->categories)) !== false) {
+			   unset($data->categories[$key]);
+		}
+		//course skills
+		
+		$skills = Group::find($gid)
+							->skills()
+							->order_by('name', 'asc')
+							->get();
+
+
+		//student total skills
+		foreach($skills as $skill) {
+			$data->skills[] = array('label' => $skill->name,
+									'amount' => 
+										DB::table('skill_user')
+										->where('user_id', '=', $uid)
+										->where('group_id', '=', $gid)
+										->where('skill_id', '=', $skill->id)
+										->sum('amount'));
+		
+		}
+
+		//student quests with skills acquired
+		if ($completed_quests->count() == 0) {
+			$data->quests = array();
+		}
+		foreach ($completed_quests->get() as $quest) {
+			switch ($quest->type) {
+				case 1:
+					$submission = FALSE;
+				break;
+
+				case 2:
+					$submission = Submission::where('quest_id', '=', $quest->quest_id)
+											->where('user_id', '=', $uid)
+											->order_by("created_at", "DESC")
+											->first();
+					break;
+				case 3:
+					$submission = FALSE;
+					break;
+			}
+			$data->quests[] = array('name' => $quest->name,
+								  'quest_id' => $quest->quest_id,
+								  'completed' => $quest->created_at,
+								  'category' => $quest->category,
+								  'color' => $quest->color,
+								  'note' => $quest->note,
+								  'allow_revisions' => $quest->allow_revisions,
+								  'submission' => $submission,
+								  'type' => $quest->type,
+								  'skills' => DB::table('skill_user')
+										->join('skills', 'skill_user.skill_id', '=', 'skills.id')
+										->where('user_id', '=', $uid)
+										->where('skills.group_id', '=', $gid)
+										->where('quest_id', '=', $quest->quest_id)
+										->get());
+		}
+		
+		//loop through quests, questid = key
+		//order by amount, get first
+		//$completed_quests->has_many('Skill')->get();
+		
+		foreach ($completed_quests->get() as $quest) {
+				$quest_skills = DB::table('quest_skill')
+								->join('skills', 'quest_skill.skill_id', '=', 'skills.id')
+								->where('quest_id', '=', $quest->quest_id)
+								->lists('skill_id','amount');
+				$skill_list = array_unique($quest_skills);
+				foreach ($skill_list as $skill) {
+					$data->questMaxPoints[$quest->quest_id][$skill] = DB::table('quest_skill')
+								->where('quest_id', '=', $quest->quest_id)
+								->where('skill_id', '=', $skill)
+								->max('amount');
+				}
+			}
+		
+		return View::make('quests.completed')
+					->with('data', $data);
+
+}
 	public function get_completed_by_student() {
 		$data = new stdClass();
 		//list of quests completed

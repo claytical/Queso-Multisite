@@ -207,7 +207,7 @@ class Course_Controller extends Base_Controller {
 				$course_id = Sentry::group()->create($course_data);
 			}
 			catch (Exception $e) {
-				return Redirect::to('admin/course/new')
+				return Redirect::to('course/new')
 					->with_message("That course already exists, perhaps you should try something else.", 'error');
 					
 			}
@@ -225,7 +225,8 @@ class Course_Controller extends Base_Controller {
 	    }
 	    
 	    $course->save();
-		$user = Sentry::user(Session::get('uid'));
+	    $user_id = intval(Session::get('uid'));
+		$user = Sentry::user($user_id);
 	    if ($user->add_to_group($course_id)) {
 	        // Group assigned successfully
 	    		DB::table('users_groups')

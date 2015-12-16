@@ -28,6 +28,9 @@ class Submission_Controller extends Base_Controller {
 									->where('user_id', '=', $data->submission->user_id)
 									->get();
 		$data->quest = Quest::find($data->submission->quest_id);
+		$data->comments = Comment::where('quest_id', '=', $data->submission->quest_id)
+									->where('user_id', '=', $data->submission->user_id)
+									->get();
 		
 		return View::make('submission.view')
 		->with('data',$data);

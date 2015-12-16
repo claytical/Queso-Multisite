@@ -164,6 +164,8 @@ Route::get('quests/available', array('uses' => 'quest@available'));
 Route::get('quests/online', array('uses' => 'quest@available_online'));
 Route::get('quests/in-class', array('uses' => 'quest@available_in_class'));
 Route::get('quests/completed', array('uses' => 'quest@completed_by_student'));
+Route::get('quests/completed/(:num)/(:num)', array('uses' => 'quest@completed_by_student_debug'));
+
 Route::get('quest/attempt/(:any)', array('uses' => 'quest@attempt'));
 Route::post('quest/attempt', array('uses' => 'quest@attempt'));
 Route::get('quest/(:num)/redeem', array('uses' => 'quest@redeem'));
@@ -326,6 +328,8 @@ Event::listen('500', function()
 */
 
 Route::filter('pattern: admin/*', 'admin');
+Route::filter('pattern: course/*', 'course');
+
 /* add routine for checking post group_id vs. current course id*/
 Route::filter('pattern: post/*', 'student');
 Route::filter('pattern: posts/*', 'student');
@@ -361,6 +365,12 @@ Route::filter('student', function() {
 		return View::make('user.notincourse');
 	}
 
+});
+
+Route::filter('course', function() {
+	if(!Sentry::check()) {
+		return View::make('user.notinstructor');
+	}
 });
 
 Route::filter('admin', function()
