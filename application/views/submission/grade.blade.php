@@ -52,7 +52,7 @@
 		@if($data['submission']->filename)
 		<ul class="list-inline">
 		@foreach(explode(",", $data['submission']->filename) as$file)
-			<li><a class="btn btn-info" href="{{$file}}">{{Filepicker::metadata($file)->filename}}</a></li>
+			<li><a class="btn btn-info" href="{{$file}}" target="_blank">{{Filepicker::metadata($file)->filename}}</a></li>
 		@endforeach
 		</ul>
 		@endif
